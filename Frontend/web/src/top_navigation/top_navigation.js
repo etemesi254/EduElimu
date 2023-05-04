@@ -1,25 +1,29 @@
 import React from 'react';
-import {AiOutlineHeart,AiOutlineCloudDownload,AiOutlineSetting,AiOutlineLike} from 'react-icons/ai';
-import {MdOutlineBrowseGallery} from 'react-icons/md';
-import {BsBrowserEdge} from 'react-icons/bs';
-import {TbLogout} from 'react-icons/tb';
+import {BiMessageRoundedDots,BiBell} from 'react-icons/bi';
+import './top_navigation.css';
 
 function TopNavigation(){
-    return <>
-    <h2>EduElimu</h2>
-    <ul className='Main'>
-        <li><BsBrowserEdge/><a href=''>Browse</a></li>
-        <li> <AiOutlineHeart/> <a href=''>WatchList</a></li>
-        <li> <MdOutlineBrowseGallery/> <a href=''>Coming Soon</a>   </li>
-    </ul>
-    <ul className='Social'>
-        <li><AiOutlineCloudDownload/><a href=''>Downloads</a> </li>
-        <li><AiOutlineLike/><a href=''>Liked Videos</a> </li>
-    </ul>
-    <ul className='General'>
-        <li><AiOutlineSetting/><a href=''>Settings</a> </li>
-        <li><TbLogout/><a href=''>Logout</a> </li>
-    </ul>
-    </>
+    return <div className='top-nav'>
+        <div>
+            <input id='search'
+                type="text"
+                placeholder="&#x1F50D; Search..."
+            />
+        </div>
+        <div id='right'>
+            <BiBell className='top-icons'/>
+            <BiMessageRoundedDots  className='top-icons'/>
+
+            <div className='profile-container'>
+                <div className='img'>
+                    <img src="https://res.cloudinary.com/diqqf3eq2/image/upload/v1595959131/person-2_ipcjws.jpg" alt='name' />
+                </div>
+                <div className='profile-info'>
+                    <h5>Venessa N.</h5>
+                    <p>Nairobi,Kenya</p>
+                </div>
+            </div>
+        </div>
+    </div>
 }
 export default TopNavigation;
