@@ -6,16 +6,6 @@
   height: 40vmin;
   pointer-events: none;
 }
-#home{
-  display: flex;
-}
-#main-sec{
-  width: 76%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 0 30px;
-}
 
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
