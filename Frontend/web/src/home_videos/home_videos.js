@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import './videos.css';
+import './home_videos.css';
 
 const Video = ({video}) => {
   let title = "Whatever you fucking desire";

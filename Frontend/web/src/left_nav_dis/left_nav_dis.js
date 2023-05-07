@@ -4,7 +4,7 @@ import {MdOutlineBrowseGallery} from 'react-icons/md';
 import {BsBrowserEdge} from 'react-icons/bs';
 import {TbLogout} from 'react-icons/tb';
 import {SlGameController} from 'react-icons/sl';
-import './left_nav_disapearing.css'
+import './left_nav_dis.css'
 
 function LeftNavDis({toggleLeftNav}){
     return <div className='left-nav'>
