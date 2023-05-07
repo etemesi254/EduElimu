@@ -1,4 +1,5 @@
 import React from "react";
+import { useRef, useState } from "react";
 
 import "./main_video.css";
 
@@ -41,7 +42,7 @@ function VideoPlayer() {
           id="video1"
           ref={videoRef}
           className="video"
-          src="https://res.cloudinary.com/dssvrf9oz/video/upload/v1635662987/pexels-pavel-danilyuk-5359634_1_gmixla.mp4"
+          src={src}
         ></video>
   
         <div className="controlsContainer">
@@ -50,28 +51,28 @@ function VideoPlayer() {
               onClick={revert}
               className="controlsIcon"
               alt=""
-              src="/backward-5.svg"
+              src={`${process.env.PUBLIC_URL}/assets/backward-5.svg`}
             />
             {playing ? (
               <img
                 onClick={() => videoHandler("pause")}
                 className="controlsIcon--small"
                 alt=""
-                src="/pause.svg"
+                src={`${process.env.PUBLIC_URL}/assets/pause.svg`}
               />
             ) : (
               <img
                 onClick={() => videoHandler("play")}
                 className="controlsIcon--small"
                 alt=""
-                src="/play.svg"
+                src={`${process.env.PUBLIC_URL}/assets/play.svg`}
               />
             )}
             <img
               className="controlsIcon"
               onClick={fastForward}
               alt=""
-              src="/forward-5.svg"
+              src={`${process.env.PUBLIC_URL}/assets/forward-5.svg`}
             />
           </div>
         </div>

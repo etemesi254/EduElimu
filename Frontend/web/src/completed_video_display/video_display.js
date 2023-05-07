@@ -3,7 +3,7 @@ import "./video_display.css";
 import {BiMenuAltLeft} from "react-icons/bi";
 import {HiMenuAlt1} from "react-icons/hi";
 import VideoPlayer from '../video_player_display/main_video';
-import LeftNavDis from '../left_navigation/left_nav_disapearing';
+import LeftNavDis from '../left_nav_dis/left_nav_dis';
 import RightNavigation from "../right_navigation/right_navigation";
 import TopNavigation from "../top_navigation/top_navigation";
 

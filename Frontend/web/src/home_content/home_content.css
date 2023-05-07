@@ -1,27 +1,24 @@
 .home-image{
     /* position: relative; */
     width: 100%;
-    height: 400px;
+    height: calc(100vh - 80px);
+    overflow-y: scroll;
+    scrollbar-width: thin;
+    scrollbar-color: red #f5f5f5; /* set the color of the thumb and track */
 }
-.creator-name{
-    /* position: absolute;
-    top: 30px;
-    left: 30px; */
-    background-color: rgba(0, 0, 0, 0.3);
-    border-radius: 10px;
+
+.home-image::-webkit-scrollbar {
+    width: 6px; /* width of the scrollbar */
 }
-.creator-name p{
-    color: white;
-    font-size: 13px;
-    padding: 5px 8px;
+
+.home-image::-webkit-scrollbar-thumb {
+    background-color: red; /* color of the thumb */
 }
-.home-image h2{
-    font-size: 35px;
-    font-weight: 700;
+
+.home-image::-webkit-scrollbar-track {
+    background-color: #f5f5f5; /* color of the track */
 }
-#main-img{
-    background-color: rgba(0, 0, 0, 0.1);
-    height: 100%;
-    width: 100%;
-    border-radius: 20px;
+.home_videos{
+    display: flex;
+    flex-wrap: wrap;
 }
