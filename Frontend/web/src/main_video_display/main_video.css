@@ -1,83 +1,88 @@
 
 .app {
-    display: flex;
-    flex-direction: column;
-    width: 50vw;
-    height: 60vh;
-    overflow: hidden;
-  }
-  
-  /* Video */
-  
-  .video {
-    width: 100vw;
-    height: 100vh;
-  }
-  
-  /* Controls */
-  
-  .controlsContainer {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 20vw;
-    background-color: transparent;
-    margin-top: -60vw;
-    padding: 0 20px;
-    z-index: 20;
-  }
-  
-  .controls {
-    display: flex;
-    align-items: center;
-    justify-content: space-evenly;
-    padding-top: 18rem;
-    margin: auto;
-  }
-  
-  .controlsIcon {
-    width: 40px;
-    height: 40px;
-    cursor: pointer;
-    margin-left: 2rem;
-    margin-right: 2rem;
-  }
-  
-  .controlsIcon--small {
-    width: 32px;
-    height: 32px;
-    cursor: pointer;
-    margin-left: 10rem;
-    margin-right: 10rem;
-  }
-  
-  /* The time controls section */
-  
-  .timecontrols {
-    display: flex;
-    align-items: center;
-    justify-content: space-evenly;
-    position: absolute;
-    bottom: 20rem;
-    margin-left: 10vw;
-  }
-  
-  .time_progressbarContainer {
-    background-color: gray;
-    border-radius: 15px;
-    width: 25vw;
-    height: 5px;
-    z-index: 30;
-    position: relative;
-    margin: 0 20px;
-  }
-  
-  .time_progressBar {
-    border-radius: 15px;
-    background-color: indigo;
-    height: 100%;
-  }
-  
-  .controlsTime {
-    color: white;
-  }
+  display: flex;
+  flex-direction: column;
+  width: 50vw;
+  height: 60vh;
+  overflow: hidden;
+}
+
+/* Video */
+
+.main-video {
+  width: 100vw;
+  height: 100vh;
+}
+
+/* Controls */
+
+.controlsContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 20vw;
+  background-color: transparent;
+  margin-top: -60vw;
+  padding: 0 20px;
+  z-index: 20;
+}
+
+.controls-video {
+  width: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  padding-top: 18rem;
+  margin-left: 120px;
+}
+
+.controlsIcon {
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  margin-left: 2rem;
+  margin-right: 2rem;
+}
+
+.controlsIcon--small {
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+  margin-left: 20px;
+  margin-right: 20px;
+}
+
+/* The time controls section */
+
+.timecontrols {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  position: absolute;
+  bottom: 20rem;
+  margin-left: 10vw;
+}
+#full-screen{
+  font-size: 30px;
+  color: white;
+}
+
+.time_progressbarContainer {
+  background-color: gray;
+  border-radius: 15px;
+  width: 25vw;
+  height: 5px;
+  z-index: 30;
+  position: relative;
+  margin: 0 20px;
+}
+
+.time_progressBar {
+  border-radius: 15px;
+  background-color: indigo;
+  height: 100%;
+}
+
+.controlsTime {
+  color: white;
+}
