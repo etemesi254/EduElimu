@@ -1,6 +1,5 @@
 import React from "react";
 import { useRef, useState } from "react";
-import {AiOutlineFullscreen} from "react-icons/ai"
 
 import "./main_video.css";
 
@@ -11,7 +10,6 @@ function VideoPlayer() {
     const [currentTime, setCurrentTime] = useState(0);
     const [videoTime, setVideoTime] = useState(0);
     const [progress, setProgress] = useState(0);
-    const [isFullscreen, setIsFullscreen] = useState(false);
   
     const videoHandler = (control) => {
       if (control === "play") {
@@ -32,16 +30,6 @@ function VideoPlayer() {
     const revert = () => {
       videoRef.current.currentTime -= 5;
     };
-
-    const toggleFullscreen = () => {
-      if (!isFullscreen) {
-        videoRef.current.requestFullscreen();
-      } else {
-        document.exitFullscreen();
-      }
-      setIsFullscreen(!isFullscreen);
-    };
-  
   
     window.setInterval(function () {
       setCurrentTime(videoRef.current?.currentTime);
@@ -49,17 +37,15 @@ function VideoPlayer() {
     }, 1000);
   
     return (
-      <div className=''>
+      <div className="app">
         <video
           id="video1"
           ref={videoRef}
-          className="main-video"
+          className="video"
           src={src}
-          controls
         ></video>
-{/*   
+  
         <div className="controlsContainer">
-        <AiOutlineFullscreen onClick={toggleFullscreen} id="full-screen"/>
           <div className="controls">
             <img
               onClick={revert}
@@ -81,7 +67,6 @@ function VideoPlayer() {
                 alt=""
                 src={`${process.env.PUBLIC_URL}/assets/play.svg`}
               />
-              
             )}
             <img
               className="controlsIcon"
@@ -109,7 +94,7 @@ function VideoPlayer() {
               ":" +
               ("0" + Math.floor(videoTime % 60)).slice(-2)}
           </p>
-        </div> */}
+        </div>
       </div>
   );
 }
