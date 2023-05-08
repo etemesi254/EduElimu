@@ -27,7 +27,7 @@ function LeftNavDis({toggleLeftNav}){
     </ul>
 
     <div id='games'>
-        <div className='games'>
+        <div className='games-dis'>
             <div id='flexbox'>
                 <div id='sl-icon'>
                     <SlGameController id='game-icon'/>
