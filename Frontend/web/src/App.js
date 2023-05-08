@@ -11,7 +11,7 @@ import VideoPlayer from './main_video_display/main_video';
 
 function App() {
   return (
-    <VideoPlayer/>
+    <HomePage/>
    
   );
 }

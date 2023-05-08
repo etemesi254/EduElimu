@@ -21,7 +21,7 @@ function MainVideoDisplay() {
             <LeftNavDis toggleLeftNav={toggleLeftNav}/>
         </div>
         
-        <section id='main-sec'>
+        <section id='main-sect'>
         <div id='top-nav'>
             <div className='logo'>
                 <h2><HiMenuAlt1 id='close' onClick={toggleLeftNav}/>EduElimu.</h2>

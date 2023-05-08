@@ -9,7 +9,7 @@
   
   /* Video */
   
-  .video {
+  .main-video {
     width: 100vw;
     height: 100vh;
   }
@@ -27,12 +27,13 @@
     z-index: 20;
   }
   
-  .controls {
+  .controls-video {
+    width: 200px;
     display: flex;
     align-items: center;
     justify-content: space-evenly;
     padding-top: 18rem;
-    margin: auto;
+    margin-left: 120px;
   }
   
   .controlsIcon {
@@ -47,8 +48,8 @@
     width: 32px;
     height: 32px;
     cursor: pointer;
-    margin-left: 10rem;
-    margin-right: 10rem;
+    margin-left: 20px;
+    margin-right: 20px;
   }
   
   /* The time controls section */
@@ -60,6 +61,10 @@
     position: absolute;
     bottom: 20rem;
     margin-left: 10vw;
+  }
+  #full-screen{
+    font-size: 30px;
+    color: white;
   }
   
   .time_progressbarContainer {
