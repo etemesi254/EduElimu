@@ -11,10 +11,11 @@ import VideoPlayer from './main_video_display/main_video';
 import YourComponent from './user_auth/register';
 import SlidingForm from './user_auth/register';
 import RegisterUser from './user_auth/register';
+import Loginuser from './user_auth/login';
 
 function App() {
   return (
-    <RegisterUser/>
+    <Loginuser/>
    
   );
 }
