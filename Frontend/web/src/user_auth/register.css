@@ -1,0 +1,125 @@
+.section{
+    height: 100vh;
+    width: 100vw;
+}
+.register_background {
+    position: relative;
+    height: 100vh;
+    background-size: cover;
+    background-position: center;
+    /* transition: background-image 0.5s ease-in-out; */
+  }
+  #back_icon{
+    font-size: 40px;
+    color: white;
+    position: absolute;
+    top: 0px;
+    padding-top: 20px;
+    left: 0px;
+    padding-left: 40px;
+  }
+  .register_background::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+  }
+  .form_container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+  }
+  .form_container h2{
+    font-size: 40px;
+    color: white;
+  }
+  .form_container h2 b{
+    color: red;
+  }
+  .form {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+  }
+  .form>*{
+    margin: 10px;
+  }
+  .form input{
+    height: 45px;
+    width: 35vw;
+    padding-left: 10px;
+    padding-right: 10px;
+    background-color: rgba(255, 255, 255, 0.2);
+    border:none;
+    border-radius: 20px;
+  }
+  .big_tech{
+    height: 40px;
+    width: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+    background-color: rgba(255, 255, 255, 0.2);
+  }
+  .big_tech:hover{
+    background-color: rgba(255, 255, 255, 0.4);
+    cursor: pointer;
+  }
+  .big_tech img{
+    height: 20px;
+    width: 20px;
+  }
+  .form input::placeholder{
+    color: black;
+  }
+  .form button{
+    height: 45px;
+    width: 36vw;
+    background-color: red;
+    color: white;
+    border: none;
+    border-radius: 20px;
+  }
+  .signwith{
+    display: flex;
+  }
+  .signwith >*{
+    margin: 5px;
+  }
+  #p_tags1,#p_tags2,#p_tags3{
+    color: white;
+    display: flex;
+    justify-content: center;
+    margin: 0;
+    padding: 0;
+    font-size: 16px;
+    margin-bottom: 20px;
+  }
+  #p_tags2,#p_tags3{
+    margin-top: 20px;
+  }
+  .have_account a{
+    color: red;
+    text-decoration: none;
+  }
+  @media screen and (max-width: 700px){
+    .form input{
+        height: 45px;
+        width: 60vw;
+    }
+    .form button{
+        height: 45px;
+        width: 61vw;
+    }
+  }
