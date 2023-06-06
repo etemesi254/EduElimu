@@ -1,0 +1,52 @@
+.watchlist{
+    display: flex;
+    align-items: center;
+    margin: 5px;
+}
+.watchlist_info{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    margin-left: 20px;
+    width: 150px;
+}
+.watchlist_info>*{
+    margin: 5px;
+}
+.watchlist .watchlist_videodiv{
+    height: 200px;
+    width: 170px;
+}
+.watchlist .watchlist_videodiv video{
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+}
+.watchlist_info #title{
+    color: gray;
+}
+.watchlist_view #view{
+    font-size: 30px;
+    color: gray;
+}
+.watchlist_view #view:hover{
+    cursor: pointer;
+    color: red;
+}
+
+/* .watchlist .watchlist_videodiv:first-child {
+    width: 100%;
+    height: 175px;
+    
+    position: relative;
+  }
+  
+  .watchlist .watchlist_videodiv:first-child video {
+    width: 100%;
+    height: 100%;
+    
+    position: absolute;
+    top: 0;
+    left: 0;
+    object-fit: cover;
+  } */

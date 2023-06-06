@@ -12,10 +12,11 @@ import YourComponent from './user_auth/register';
 import SlidingForm from './user_auth/register';
 import RegisterUser from './user_auth/register';
 import Loginuser from './user_auth/login';
+import Watchlist from './watchlist/watchlist';
 
 function App() {
   return (
-    <HomePage/>
+    <Watchlist/>
    
   );
 }
