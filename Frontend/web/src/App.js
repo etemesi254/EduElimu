@@ -15,7 +15,7 @@ import Loginuser from './user_auth/login';
 
 function App() {
   return (
-    <Loginuser/>
+    <HomePage/>
    
   );
 }

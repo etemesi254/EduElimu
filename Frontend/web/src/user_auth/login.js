@@ -1,7 +1,7 @@
 import './register.css';
 import {IoChevronBackCircle} from "react-icons/io5";
 function Loginuser (){
-    return <section className='section'>
+    return <section className='section_register'>
         <div className="register_background" style={{
         backgroundImage: `url("./assets/home (1).jpg")`,
         backgroundSize: 'cover',
