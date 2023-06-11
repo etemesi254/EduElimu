@@ -13,7 +13,7 @@ function LeftNavigation(){
         <p>Main</p>
         <li id='active'><BsBrowserEdge className='left-icons'/><a href=''>Browse</a></li>
         <li> <AiOutlineHeart className='left-icons'/> <a href=''>WatchList</a></li>
-        <li> <MdOutlineBrowseGallery className='left-icons'/> <a href=''>Coming Soon</a>   </li>
+        <li> <MdOutlineBrowseGallery className='left-icons'/> <a href=''>My Courses</a>   </li>
     </ul>
     <ul className='section'>
         <p>Social</p>
