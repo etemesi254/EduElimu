@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 class EduTheme {
   static ThemeData themeData(BuildContext context) {
     return ThemeData(
-      primarySwatch: Colors.red,
+      primarySwatch: Colors.orange,
       primaryColor: EduColors.appColor,
     );
   }
