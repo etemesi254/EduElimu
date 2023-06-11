@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "289499981898",
+    "project_id": "eduelimu",
+    "storage_bucket": "eduelimu.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:289499981898:android:8878663a3952b7bfb0deb3",
+        "android_client_info": {
+          "package_name": "com.example.edu_elimu"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "289499981898-5l78k9ah4frr8bvds115bhnib0l3lh37.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.edu_elimu",
+            "certificate_hash": "0653bcff81bfbf1f4733a948f16b594a3ca0b6f8"
+          }
+        },
+        {
+          "client_id": "289499981898-dafp8p2jbrcs3fhv6gagaf10df4b5l0v.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA0ByWBTmj42CLU9upmXAdcjnOjOvXBeUE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "289499981898-dafp8p2jbrcs3fhv6gagaf10df4b5l0v.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "289499981898-091v9onq82meu6is0u17a35f1mvr1cbg.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.eduElimu"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
