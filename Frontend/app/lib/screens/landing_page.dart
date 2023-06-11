@@ -1,6 +1,7 @@
 import 'package:edu_elimu/components/bottom_tab.dart';
 import 'package:edu_elimu/screens/default_screen.dart';
 import 'package:edu_elimu/screens/home_screen.dart';
+import 'package:edu_elimu/screens/login_and_signup.dart';
 import 'package:edu_elimu/themes/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -33,12 +34,13 @@ class _LandingPageState extends State<LandingPage>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: Padding(
         padding: const EdgeInsets.symmetric(vertical:8.0,horizontal: 20),
         child: TabBarView(controller: controller, children: [
           HomeScreen(),
           PlaceholderComponent(),
-          PlaceholderComponent(),
+           LoginAndSignupBanner()
         ]),
       ),
       bottomNavigationBar: SizedBox(
