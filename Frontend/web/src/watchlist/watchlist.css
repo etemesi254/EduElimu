@@ -1,0 +1,13 @@
+#home{
+    display: flex;
+  }
+  #left-navigation{
+    width: 15%;
+  }
+  #main-sec{
+    width: 76%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0 30px;
+  }

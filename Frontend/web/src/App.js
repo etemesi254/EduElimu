@@ -8,10 +8,15 @@ import CarouselImage from './carousell/carousell';
 import HomePage from './completed_homepage/homepage';
 import MainVideoDisplay from './completed_video_display/video_display';
 import VideoPlayer from './main_video_display/main_video';
+import YourComponent from './user_auth/register';
+import SlidingForm from './user_auth/register';
+import RegisterUser from './user_auth/register';
+import Loginuser from './user_auth/login';
+import Watchlist from './watchlist/watchlist';
 
 function App() {
   return (
-    <HomePage/>
+    <Watchlist/>
    
   );
 }

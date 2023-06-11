@@ -1,0 +1,24 @@
+#watchlist_content{
+    display: flex;
+    flex-wrap: wrap;
+}
+#watchlist_content{
+    /* position: relative; */
+    width: 100%;
+    height: calc(100vh - 80px);
+    overflow-y: scroll;
+    scrollbar-width: thin;
+    scrollbar-color: red #f5f5f5; /* set the color of the thumb and track */
+}
+
+#watchlist_content::-webkit-scrollbar {
+    width: 6px; /* width of the scrollbar */
+}
+
+#watchlist_content::-webkit-scrollbar-thumb {
+    background-color: red; /* color of the thumb */
+}
+
+#watchlist_content::-webkit-scrollbar-track {
+    background-color: #f5f5f5; /* color of the track */
+}
