@@ -9,6 +9,10 @@
     background-position: center;
     /* transition: background-image 0.5s ease-in-out; */
   }
+  .alt-1{
+    margin-left: 20px;
+    font-size: 23px;
+  }
   #back_icon{
     font-size: 40px;
     color: white;
@@ -80,12 +84,16 @@
   }
   .big_tech{
     height: 40px;
-    width: 40px;
+    width: 14vw;
     display: flex;
     justify-content: center;
     align-items: center;
     border-radius: 5px;
-    background-color: rgba(255, 255, 255, 0.2);
+    border: 2px solid;
+  }
+  .big_tech p{
+    font-size: 12px;
+    font-weight: 600;
   }
   .big_tech:hover{
     background-color: rgba(255, 255, 255, 0.4);
@@ -94,6 +102,7 @@
   .big_tech img{
     height: 20px;
     width: 20px;
+    margin-right: 10px;
   }
   .form input::placeholder{
     color: black;
@@ -114,17 +123,27 @@
   }
   .signwith{
     display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
   }
   .signwith >*{
-    margin: 5px;
+    margin: 15px;
   }
-  #p_tags1,#p_tags2,#p_tags3{
+  #phone{
+    background-color: black;
+    
+  }
+  #phone{
     color: white;
+  }
+  #p_tags3{
+    color: black;
+    font-size: 14px;
+    font-weight: 600;
     display: flex;
     justify-content: center;
     margin: 0;
     padding: 0;
-    font-size: 16px;
     margin-bottom: 20px;
   }
   #p_tags2,#p_tags3{
@@ -142,6 +161,10 @@
     }
     .form input{
         height: 45px;
+        width: 60vw;
+    }
+    .big_tech{
+      height: 45px;
         width: 60vw;
     }
     .form button{

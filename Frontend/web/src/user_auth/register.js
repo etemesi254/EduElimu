@@ -25,26 +25,25 @@ function RegisterUser (){
         <div className="form_container">
             <div className="whiite-bk">
                 <div className="lottie_container" ref={container}></div>
+                <h3 className='alt-1'>Sign Up</h3>
                 <form className="form">
                     <input type="Email" placeholder="Email"/>
                     <input type="password" placeholder="Password"/>
                     <input type="password" placeholder="Confirm Password"/>
                     <button type="submit" className="login">REGISTER</button>
                 </form>
-                <h3 className='alt'>OR</h3>
+                <h4 className='alt'>OR</h4>
                 <div className='signwith'>
                     <div className='big_tech'>
                         <img src='./assets/google.png'/>
+                        <p>Sign up with Google</p>
                     </div>
-                    <div className='big_tech'>
-                        <img src='./assets/microsoft.png'/>
-                    </div>
-                    <div className='big_tech'>
-                        <img src='./assets/facebook.png'/>
+                    <div className='big_tech' id='phone'>
+                        <p>Sign up with Phone Number</p>
                     </div>
                 </div>
                 <div className='have_account'>
-                    <p id='p_tags3'>Already have an account? <a href="">Sign in here</a></p></div>
+                    <p id='p_tags3'>New to EduElimu? <a href="">Sign in here</a></p></div>
             </div>
         </div>
     </section>
