@@ -16,7 +16,7 @@ import Watchlist from './watchlist/watchlist';
 
 function App() {
   return (
-    <RegisterUser/>
+    <Loginuser/>
    
   );
 }

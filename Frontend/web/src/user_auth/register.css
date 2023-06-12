@@ -13,6 +13,7 @@
     margin-left: 20px;
     font-size: 23px;
   }
+
   #back_icon{
     font-size: 40px;
     color: white;
@@ -152,6 +153,13 @@
   .have_account a{
     color: #FFC700;
     text-decoration: none;
+  }
+  #fp{
+    font-size: 14px;
+    font-weight: 600;
+    display: flex;
+    justify-content: right;
+    align-self: flex-end;
   }
   @media screen and (max-width: 700px){
     .whiite-bk{
