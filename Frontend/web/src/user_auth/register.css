@@ -27,6 +27,9 @@
     height: 100%;
     background-color: rgba(0, 0, 0, 0.7);
   }
+  .lottie_container{
+    height: 200px;
+  }
   .form_container {
     position: absolute;
     top: 0;
@@ -38,12 +41,17 @@
     flex-direction: column;
     align-items: center;
   }
+  .whiite-bk{
+    background-color: white;
+    margin-top: 20px;
+    padding: 30px;
+  }
   .form_container h2{
     font-size: 40px;
     color: white;
   }
   .form_container h2 b{
-    color: red;
+    color: #FFC700;
   }
   .form {
     display: flex;
@@ -55,13 +63,20 @@
     margin: 10px;
   }
   .form input{
-    height: 45px;
-    width: 35vw;
+    height: 42px;
+    width: 30vw;
     padding-left: 10px;
     padding-right: 10px;
     background-color: rgba(255, 255, 255, 0.2);
-    border:none;
-    border-radius: 20px;
+    border: none;
+    border-bottom:1px solid;
+    outline: none;
+  }
+  .form input:focus {
+    border-bottom: 2px solid #FFC700;
+  }
+  .form input:focus::placeholder {
+    color: #FFC700;
   }
   .big_tech{
     height: 40px;
@@ -85,11 +100,17 @@
   }
   .form button{
     height: 45px;
-    width: 36vw;
-    background-color: red;
-    color: white;
+    width: 31.5vw;
+    background-color: #FFC700;
+    color: black;
     border: none;
-    border-radius: 20px;
+    font-size: 15px;
+    font-weight: 600;
+    border-radius: 5px;
+  }
+  .alt{
+    display: flex;
+    justify-content: center;
   }
   .signwith{
     display: flex;
@@ -110,16 +131,21 @@
     margin-top: 20px;
   }
   .have_account a{
-    color: red;
+    color: #FFC700;
     text-decoration: none;
   }
   @media screen and (max-width: 700px){
+    .whiite-bk{
+      background-color: white;
+      margin-top: 20px;
+      padding: 20px;
+    }
     .form input{
         height: 45px;
         width: 60vw;
     }
     .form button{
         height: 45px;
-        width: 61vw;
+        width: 63vw;
     }
   }
