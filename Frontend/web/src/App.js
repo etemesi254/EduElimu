@@ -13,10 +13,14 @@ import SlidingForm from './user_auth/register';
 import RegisterUser from './user_auth/register';
 import Loginuser from './user_auth/login';
 import Watchlist from './watchlist/watchlist';
+import { AuthProvider } from './context/AuthContext';
 
 function App() {
   return (
-    <Loginuser/>
+    <AuthProvider>
+      <RegisterUser/>
+    </AuthProvider>
+    
    
   );
 }

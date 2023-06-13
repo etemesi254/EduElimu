@@ -1,9 +1,41 @@
 import './register.css';
 import lottie from 'lottie-web';
-import { useEffect, useRef } from 'react';
-import {IoChevronBackCircle} from "react-icons/io5";
+import { useEffect, useRef,useState } from 'react';
+import { useAuth } from '../context/AuthContext';
+
 function RegisterUser (){
     const container = useRef(null);
+    const {signup} = useAuth();
+    const [email,setEmail] = useState('');
+    const [password,setPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
+    const [error,setError] = useState('');
+    const [loading,setLoading] = useState(false);
+
+    const handleEmailInput = (e) => setEmail(e.target.value);
+    const handlePasswordInput = (e) => setPassword(e.target.value);
+    const handleConfirmPasswordInput = (e) => setConfirmPassword(e.target.value);
+
+    async function handleSubmit(e){
+        e.preventDefault();
+        if(password!= confirmPassword){
+            setError('Your passwords do not match')
+            setTimeout(() => {
+                setError('');
+            }, 3000);
+        }else{
+            try{
+                setLoading(true);
+                await signup(email,password)
+            }catch(error){
+                setError(`${error.message}`);
+            }
+            setLoading(false);
+            setTimeout(() => {
+                setError('');
+            }, 3000);
+        }
+    }
 
     useEffect(()=>{
         const instance = lottie.loadAnimation({
@@ -25,12 +57,26 @@ function RegisterUser (){
         <div className="form_container">
             <div className="whiite-bk">
                 <div className="lottie_container" ref={container}></div>
+                {error?<div className='error'>
+                    <p>{error}</p>
+                </div>:''}
                 <h3 className='alt-1'>Sign Up</h3>
-                <form className="form">
-                    <input type="Email" placeholder="Email"/>
-                    <input type="password" placeholder="Password"/>
-                    <input type="password" placeholder="Confirm Password"/>
-                    <button type="submit" className="login">REGISTER</button>
+                <form className="form" onSubmit={handleSubmit}>
+                    <input 
+                        type="Email" 
+                        placeholder="Email" 
+                        onChange={handleEmailInput} 
+                        value={email}/>
+                    <input type="password" 
+                        placeholder="Password" 
+                        onChange={handlePasswordInput} 
+                        value={password}/>
+                    <input 
+                        type="password" 
+                        placeholder="Confirm Password" 
+                        onChange={handleConfirmPasswordInput} 
+                        value={confirmPassword}/>
+                    <button type="submit" className="login" disabled={loading}>REGISTER</button>
                 </form>
                 <h4 className='alt'>OR</h4>
                 <div className='signwith'>

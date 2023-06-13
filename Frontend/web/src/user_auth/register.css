@@ -161,6 +161,13 @@
     justify-content: right;
     align-self: flex-end;
   }
+  .error{
+    padding: 10px 5px;
+    background-color: rgb(255, 243, 243);
+    color: red;
+    font-size: 12px;
+    font-weight: 600;
+  }
   @media screen and (max-width: 700px){
     .whiite-bk{
       background-color: white;
