@@ -7,7 +7,7 @@ import Mycourses from "../my_courses/mycourses";
 
 function HomePage(){
     return (
-        <section id='home'>
+        <section id='home'>  
             <div id="left-navigation">
                 <LeftNavigation id="left-nav"/>
             </div>
