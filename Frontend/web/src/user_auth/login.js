@@ -1,9 +1,13 @@
 import './register.css';
 import lottie from 'lottie-web';
-import { useEffect, useRef } from 'react';
-import {IoChevronBackCircle} from "react-icons/io5";
+import { useEffect, useRef, useState } from 'react';
+import { auth,provider } from './config';
+import {signInWithPopup} from "firebase/auth";
+import HomePage from '../completed_homepage/homepage';
+
 function Loginuser (){
     const container = useRef(null);
+    const [value,setValue] = useState('');
 
     useEffect(()=>{
         const instance = lottie.loadAnimation({
@@ -15,7 +19,21 @@ function Loginuser (){
         });
         return () => instance.destroy();
     },[]);
-    return <section className='section_register'>
+
+    const handleSignInWithGoogle= ()=>{
+        signInWithPopup(auth,provider).then((data)=>{
+            setValue(data.user.email);
+            localStorage.setItem("email",data.user.email);
+        })
+    }
+
+    useEffect(()=>{
+        setValue(localStorage.getItem('email'))
+    })
+    return <>
+    {value?<HomePage/>:
+    <section className='section_register'>
+        
         <div className="register_background" style={{
         backgroundImage: `url("./assets/home (1).jpg")`,
         backgroundSize: 'cover',
@@ -34,10 +52,12 @@ function Loginuser (){
                 </form>
                 <h4 className='alt'>OR</h4>
                 <div className='signwith'>
-                    <div className='big_tech'>
+                
+                    <div className='big_tech' onClick={handleSignInWithGoogle}>
                         <img src='./assets/google.png'/>
                         <p>Sign in with Google</p>
                     </div>
+               
                     <div className='big_tech' id='phone'>
                         <p>Sign in with Phone Number</p>
                     </div>
@@ -46,7 +66,10 @@ function Loginuser (){
                     <p id='p_tags3'>New to EduElimu? <a href="">Sign in here</a></p></div>
             </div>
         </div>
+      
     </section>
+     }
+    </>
 }
 
 export default Loginuser;

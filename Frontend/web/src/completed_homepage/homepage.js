@@ -13,7 +13,7 @@ function HomePage(){
             </div>
             <section id='main-sec'>
               <TopNavigation/>
-              <Mycourses/>
+              <HomeContent/>
             </section>
             <RightNavigation/>
         </section>
