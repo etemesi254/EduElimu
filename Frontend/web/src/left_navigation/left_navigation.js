@@ -1,15 +1,25 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {AiOutlineHeart,AiOutlineCloudDownload,AiOutlineSetting,AiOutlineLike} from 'react-icons/ai';
 import {MdOutlineBrowseGallery} from 'react-icons/md';
 import {BsBrowserEdge} from 'react-icons/bs';
 import {TbLogout} from 'react-icons/tb';
 import {SlGameController} from 'react-icons/sl';
+import { useAuth } from '../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
 import './left_navigation.css'
 
 function LeftNavigation(){
+    const {logout} = useAuth();
+    const [error, setError ] = useState();
+    const navigate = useNavigate();
 
-    function handleLogout(){
-        
+    async function handleLogout(){
+        try {
+            await logout();
+            navigate("/login");
+        } catch (error) {
+            setError(error.message);
+        }
     }
     return <div className='left-nav'>
     <h2>EduElimu.</h2>
@@ -27,7 +37,7 @@ function LeftNavigation(){
     <ul className='section'>
     <p>General</p>
         <li><AiOutlineSetting className='left-icons'/><a href=''>Settings</a> </li>
-        <li><TbLogout className='left-icons'/><a href=''>Logout</a> </li>
+        <li id='logout'><TbLogout className='left-icons'/><p  onClick={handleLogout}>Logout</p> </li>
     </ul>
 
     <div id='games'>

@@ -35,6 +35,17 @@
     color: grey;
     text-decoration: none;
 }
+.section #logout{
+    display: flex;
+    align-items: center;
+}
+.section #logout p{
+    font-size: 16px;
+    margin-left: 0;
+}
+.section #logout p:hover{
+    cursor: pointer;
+}
 #games{
     display: flex;
     flex-direction: column;

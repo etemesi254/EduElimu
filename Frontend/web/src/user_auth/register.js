@@ -2,7 +2,7 @@ import './register.css';
 import lottie from 'lottie-web';
 import { useEffect, useRef,useState } from 'react';
 import { useAuth } from '../context/AuthContext';
-import { Link } from 'react-router-dom';
+import { Link , useNavigate} from 'react-router-dom';
 
 function RegisterUser (){
     const container = useRef(null);
@@ -12,6 +12,7 @@ function RegisterUser (){
     const [confirmPassword, setConfirmPassword] = useState('');
     const [error,setError] = useState('');
     const [loading,setLoading] = useState(false);
+    const navigate = useNavigate();
 
     const handleEmailInput = (e) => setEmail(e.target.value);
     const handlePasswordInput = (e) => setPassword(e.target.value);
@@ -27,7 +28,8 @@ function RegisterUser (){
         }else{
             try{
                 setLoading(true);
-                await signup(email,password)
+                await signup(email,password);
+                navigate("/");
             }catch(error){
                 setError(`${error.message}`);
             }

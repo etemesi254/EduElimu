@@ -161,10 +161,23 @@
     justify-content: right;
     align-self: flex-end;
   }
+  #fp .fp{
+    color: black;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+  }
   .error{
     padding: 10px 5px;
     background-color: rgb(255, 243, 243);
     color: red;
+    font-size: 12px;
+    font-weight: 600;
+  }
+  .message{
+    padding: 10px 5px;
+    background-color: rgb(240, 254, 240);
+    color: green;
     font-size: 12px;
     font-weight: 600;
   }
