@@ -40,6 +40,10 @@ function RegisterUser (){
         }
     }
 
+    function navigateToPhonePage(){
+        navigate('/signupwithphone')
+    }
+
     useEffect(()=>{
         const instance = lottie.loadAnimation({
             container:container.current,
@@ -87,8 +91,8 @@ function RegisterUser (){
                         <img src='./assets/google.png'/>
                         <p>Sign up with Google</p>
                     </div>
-                    <div className='big_tech' id='phone'>
-                        <p>Sign up with Phone Number</p>
+                    <div className='big_tech' id='phone' onClick={navigateToPhonePage}>
+                        <p>Sign in with Phone Number</p>
                     </div>
                 </div>
                 <div className='have_account'>

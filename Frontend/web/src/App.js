@@ -17,6 +17,8 @@ import { AuthProvider } from './context/AuthContext';
 import {BrowserRouter as Router, Routes, Route} from "react-router-dom";
 import PrivateRoute from './context/privateRoute';
 import ForgotPassword from './user_auth/forgot_password';
+import SignInWithPhone from './user_auth/signinwithno';
+
 
 function App() {
   return (
@@ -27,6 +29,7 @@ function App() {
           <Route path='/register' Component={RegisterUser}/>
           <Route path='/login' Component={Loginuser}/>
           <Route path='/forgotPassword' Component={ForgotPassword}/>
+          <Route path='/signupwithphone' Component={SignInWithPhone}/>
         </Routes>
       </AuthProvider>
     </Router>

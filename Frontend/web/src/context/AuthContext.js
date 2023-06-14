@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { authFB } from '../user_auth/firebase';
-import { auth } from '../user_auth/config';
+import { RecaptchaVerifier } from 'firebase/auth';
 
 
 const AuthContext = React.createContext();
@@ -30,6 +30,13 @@ export function AuthProvider({children}) {
         return authFB.sendPasswordResetEmail(email);
     }
 
+    function setUpRecaptcha(number){
+        const recaptchaVerifier = new RecaptchaVerifier('recaptcha-container', {}, authFB);
+
+        recaptchaVerifier.render();
+        return authFB.signInWithPhoneNumber(number,recaptchaVerifier);
+    }
+
     useEffect(()=>{
         const unsubscribe = authFB.onAuthStateChanged(user=>{
             setCurrentUser(user);
@@ -43,7 +50,8 @@ export function AuthProvider({children}) {
         signup,
         login,
         logout,
-        resetPassword
+        resetPassword,
+        setUpRecaptcha
     }
   return (
     <AuthContext.Provider value={value}>

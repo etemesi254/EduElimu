@@ -55,6 +55,10 @@ function Loginuser (){
         }, 3000);
     }
 
+    function navigateToPhonePage(){
+        navigate('/signupwithphone')
+    }
+
     useEffect(()=>{
         setValue(localStorage.getItem('email'))
     })
@@ -89,7 +93,7 @@ function Loginuser (){
                         <p>Sign in with Google</p>
                     </div>
                
-                    <div className='big_tech' id='phone'>
+                    <div className='big_tech' id='phone' onClick={navigateToPhonePage}>
                         <p>Sign in with Phone Number</p>
                     </div>
                 </div>

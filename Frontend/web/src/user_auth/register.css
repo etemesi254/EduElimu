@@ -181,6 +181,9 @@
     font-size: 12px;
     font-weight: 600;
   }
+  #phoneNo{
+    width: 27vw;
+  }
   @media screen and (max-width: 700px){
     .whiite-bk{
       background-color: white;
@@ -190,6 +193,9 @@
     .form input{
         height: 45px;
         width: 60vw;
+    }
+    #phoneNo{
+      width: 50vw;
     }
     .big_tech{
       height: 45px;
