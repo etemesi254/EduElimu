@@ -7,6 +7,10 @@ import {SlGameController} from 'react-icons/sl';
 import './left_navigation.css'
 
 function LeftNavigation(){
+
+    function handleLogout(){
+        
+    }
     return <div className='left-nav'>
     <h2>EduElimu.</h2>
     <ul className='section'>
