@@ -15,15 +15,18 @@ import Loginuser from './user_auth/login';
 import Watchlist from './watchlist/watchlist';
 import { AuthProvider } from './context/AuthContext';
 import {BrowserRouter as Router, Routes, Route} from "react-router-dom";
+import PrivateRoute from './context/privateRoute';
+import ForgotPassword from './user_auth/forgot_password';
 
 function App() {
   return (
     <Router>
       <AuthProvider>
         <Routes>
-          <Route exact path='/' Component={HomePage}/>
+          <Route exact path="/" Component={HomePage} />
           <Route path='/register' Component={RegisterUser}/>
           <Route path='/login' Component={Loginuser}/>
+          <Route path='/forgotPassword' Component={ForgotPassword}/>
         </Routes>
       </AuthProvider>
     </Router>
