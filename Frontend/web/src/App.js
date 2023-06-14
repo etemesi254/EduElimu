@@ -14,13 +14,19 @@ import RegisterUser from './user_auth/register';
 import Loginuser from './user_auth/login';
 import Watchlist from './watchlist/watchlist';
 import { AuthProvider } from './context/AuthContext';
+import {BrowserRouter as Router, Routes, Route} from "react-router-dom";
 
 function App() {
   return (
-    <AuthProvider>
-      <RegisterUser/>
-    </AuthProvider>
-    
+    <Router>
+      <AuthProvider>
+        <Routes>
+          <Route exact path='/' Component={HomePage}/>
+          <Route path='/register' Component={RegisterUser}/>
+          <Route path='/login' Component={Loginuser}/>
+        </Routes>
+      </AuthProvider>
+    </Router>
    
   );
 }

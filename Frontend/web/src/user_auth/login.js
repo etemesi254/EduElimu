@@ -4,10 +4,21 @@ import { useEffect, useRef, useState } from 'react';
 import { auth,provider } from './config';
 import {signInWithPopup} from "firebase/auth";
 import HomePage from '../completed_homepage/homepage';
+import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 
 function Loginuser (){
     const container = useRef(null);
     const [value,setValue] = useState('');
+    const [email,setEmail] = useState('');
+    const [password,setPassword] = useState('');
+    const {login} = useAuth();
+    const [error,setError] = useState('');
+    const [loading,setLoading] = useState(false);
+    const navigate = useNavigate();
+
+    const handleEmailInput = (e)=> setEmail(e.target.value);
+    const handlePasswordInput = (e)=> setPassword(e.target.value);
 
     useEffect(()=>{
         const instance = lottie.loadAnimation({
@@ -27,11 +38,26 @@ function Loginuser (){
         })
     }
 
+    async function handleSubmit(e){
+        e.preventDefault();
+        try{
+            setLoading(true);
+            await login(email,password);
+            navigate("/");
+        }catch(error){
+            setError(`${error.message}`);
+        }
+        setLoading(false);
+        setTimeout(() => {
+            setError('');
+        }, 3000);
+    }
+
     useEffect(()=>{
         setValue(localStorage.getItem('email'))
     })
     return <>
-    {value?<HomePage/>:
+    {/* {value?<HomePage/>:} */}
     <section className='section_register'>
         
         <div className="register_background" style={{
@@ -43,12 +69,15 @@ function Loginuser (){
         <div className="form_container">
             <div className="whiite-bk">
                 <div className="lottie_container" ref={container}></div>
+                {error?<div className='error'>
+                    <p>{error}</p>
+                </div>:''}
                 <h3 className='alt-1'>Login</h3>
-                <form className="form">
-                    <input type="Email" placeholder="Email"/>
-                    <input type="password" placeholder="Password"/>
+                <form className="form" onSubmit={handleSubmit}>
+                    <input type="Email" placeholder="Email" value={email} onChange={handleEmailInput}/>
+                    <input type="password" placeholder="Password" value={password} onChange={handlePasswordInput}/>
                     <p id='fp'>Forgot password?</p>
-                    <button type="submit" className="login">LOGIN</button>
+                    <button type="submit" className="login" disabled={loading}>LOGIN</button>
                 </form>
                 <h4 className='alt'>OR</h4>
                 <div className='signwith'>
@@ -63,12 +92,11 @@ function Loginuser (){
                     </div>
                 </div>
                 <div className='have_account'>
-                    <p id='p_tags3'>New to EduElimu? <a href="">Sign in here</a></p></div>
+                    <p id='p_tags3'>New to EduElimu? <Link to="/register" className='a'>Sign up here</Link></p></div>
             </div>
         </div>
       
     </section>
-     }
     </>
 }
 

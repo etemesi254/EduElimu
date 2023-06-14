@@ -2,6 +2,7 @@ import './register.css';
 import lottie from 'lottie-web';
 import { useEffect, useRef,useState } from 'react';
 import { useAuth } from '../context/AuthContext';
+import { Link } from 'react-router-dom';
 
 function RegisterUser (){
     const container = useRef(null);
@@ -89,7 +90,7 @@ function RegisterUser (){
                     </div>
                 </div>
                 <div className='have_account'>
-                    <p id='p_tags3'>New to EduElimu? <a href="">Sign in here</a></p></div>
+                    <p id='p_tags3'>Already have an account? <Link to="/login" className='a'>Sign in here</Link></p></div>
             </div>
         </div>
     </section>
