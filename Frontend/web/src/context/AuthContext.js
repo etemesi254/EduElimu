@@ -27,7 +27,13 @@ export function AuthProvider({children}) {
     }
 
     function resetPassword(email){
-        return authFB.sendPasswordResetEmail(email);
+        return authFB.sendPasswordResetEmail(email, {
+            url: "http://localhost:3000/login",
+          });
+    }
+
+    function customResetPassword(oobCode, newPassword){ 
+        return authFB.confirmPasswordReset(oobCode,newPassword);
     }
 
     function setUpRecaptcha(number){
@@ -51,7 +57,8 @@ export function AuthProvider({children}) {
         login,
         logout,
         resetPassword,
-        setUpRecaptcha
+        setUpRecaptcha,
+        customResetPassword
     }
   return (
     <AuthContext.Provider value={value}>

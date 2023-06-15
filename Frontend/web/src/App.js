@@ -18,6 +18,7 @@ import {BrowserRouter as Router, Routes, Route} from "react-router-dom";
 import PrivateRoute from './context/privateRoute';
 import ForgotPassword from './user_auth/forgot_password';
 import SignInWithPhone from './user_auth/signinwithno';
+import CustomReset from './user_auth/customResetPass';
 
 
 function App() {
@@ -30,6 +31,7 @@ function App() {
           <Route path='/login' Component={Loginuser}/>
           <Route path='/forgotPassword' Component={ForgotPassword}/>
           <Route path='/signupwithphone' Component={SignInWithPhone}/>
+          <Route path='/resetPassword' Component={CustomReset}/>
         </Routes>
       </AuthProvider>
     </Router>
