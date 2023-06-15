@@ -36,7 +36,7 @@ class _LoginAndSignupBannerState extends State<LoginAndSignupBanner> {
                         fontWeight: FontWeight.w600))
               ])),
           Lottie.asset("assets/lottie/learning-concept.json",
-              height: MediaQuery.of(context).size.height * 0.5),
+              height: MediaQuery.of(context).size.height * 0.45),
           //const Spacer(),
           Padding(
             padding: const EdgeInsets.all(10.0),

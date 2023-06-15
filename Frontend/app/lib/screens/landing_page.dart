@@ -35,12 +35,17 @@ class _LandingPageState extends State<LandingPage>
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        elevation: 0.1,
+        title: Text("EduElimu"),
+      ),
       body: Padding(
-        padding: const EdgeInsets.symmetric(vertical:8.0,horizontal: 20),
+        padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 20),
         child: TabBarView(controller: controller, children: [
           HomeScreen(),
           PlaceholderComponent(),
-           LoginAndSignupBanner()
+          LoginAndSignupBanner()
         ]),
       ),
       bottomNavigationBar: SizedBox(

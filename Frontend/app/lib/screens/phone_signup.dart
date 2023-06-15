@@ -46,7 +46,7 @@ class _PhoneLoginScreenState extends State<PhoneLoginScreen> {
           padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
           child: ListView(children: [
             // createBanner(),
-            Lottie.asset("assets/lottie/login.json",
+            Lottie.asset("assets/lottie/phone-and-email-communication.json",
                 height: MediaQuery.of(context).size.height * 0.25),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 4),
@@ -242,7 +242,6 @@ class _PhoneLoginScreenState extends State<PhoneLoginScreen> {
               // Sign the user in (or link) with the credential
               await auth.signInWithCredential(credential);
               showOverlayMessage("Successful sign up");
-
             },
             codeAutoRetrievalTimeout: (String verificationId) {},
           );
@@ -348,7 +347,7 @@ class _PhoneLoginScreenState extends State<PhoneLoginScreen> {
             borderRadius: BorderRadius.circular(0)),
         child: const Center(
             child: Text(
-          "Login with Phone Email",
+          "Login with  Email",
           textAlign: TextAlign.center,
           style: TextStyle(
               color: EduColors.whiteColor,

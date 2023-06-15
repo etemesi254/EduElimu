@@ -30,7 +30,7 @@ class _PhoneOtpScreenState extends State<PhoneOtpScreen> {
           padding: const EdgeInsets.all(8.0),
           child: ListView(
             children: [
-              Lottie.asset("assets/lottie/phone-and-email-communication.json", height: 200),
+              Lottie.asset("assets/lottie/message.json", height: 200),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 10),
                 child: Text(

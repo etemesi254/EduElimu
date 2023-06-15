@@ -47,7 +47,7 @@ class _LoginScreenState extends State<LoginScreen> {
           child: ListView(children: [
             // createBanner(),
             Lottie.asset("assets/lottie/login.json",
-                height: MediaQuery.of(context).size.height * 0.25),
+                height: MediaQuery.of(context).size.height * 0.23),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 4),
               child: Text(
@@ -64,7 +64,7 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
             createPasswordBox(),
             const Padding(
-              padding: EdgeInsets.symmetric(vertical: 10),
+              padding: EdgeInsets.only(top: 10),
               child: Text(
                   "Password must be greater than 8 characters and at least one special symbol"),
             ),
