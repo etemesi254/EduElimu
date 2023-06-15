@@ -1,35 +1,35 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:edu_elimu/screens/forgot_password.dart';
-import 'package:edu_elimu/screens/phone_signup.dart';
 import 'package:edu_elimu/screens/signup_screen.dart';
 import 'package:edu_elimu/themes/colors.dart';
 import 'package:edu_elimu/utils.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:lottie/lottie.dart';
 
 RegExp specialChar = RegExp(r"[$&+,:;=?@#|'<>.^*()%!-]");
+RegExp phoneNumberConfirm = RegExp(r"^[\+254][0-9]{12}");
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+class PhoneLoginScreen extends StatefulWidget {
+  const PhoneLoginScreen({super.key});
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<PhoneLoginScreen> createState() => _PhoneLoginScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _PhoneLoginScreenState extends State<PhoneLoginScreen> {
   bool showPassword = false;
   TextEditingController passwordController = TextEditingController();
-  TextEditingController emailController = TextEditingController();
+  TextEditingController phoneController = TextEditingController();
   final GoogleSignIn googleSignIn = GoogleSignIn();
   FirebaseAuth auth = FirebaseAuth.instance;
   final LocalAuthentication localAuth = LocalAuthentication();
+  PhoneAuthCredential? pCredential;
+  bool sendOTP = false;
 
   User? user;
 
@@ -37,7 +37,7 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Login"),
+        title: const Text("Phone Login"),
         elevation: 0.1,
         backgroundColor: Colors.white,
       ),
@@ -51,25 +51,27 @@ class _LoginScreenState extends State<LoginScreen> {
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 4),
               child: Text(
-                "Login",
+                "Create Account",
                 style: GoogleFonts.poppins(
                   fontWeight: FontWeight.w600,
                   fontSize: 28,
                 ),
               ),
             ),
-            createEmailBox(),
+            createPhoneBox(),
+
             const SizedBox(
               height: 40,
             ),
-            createPasswordBox(),
-            const Padding(
-              padding: EdgeInsets.symmetric(vertical: 10),
-              child: Text(
-                  "Password must be greater than 8 characters and at least one special symbol"),
-            ),
+            if (sendOTP) createPasswordBox(),
+            if (sendOTP)
+              const Padding(
+                padding: EdgeInsets.symmetric(vertical: 10),
+                child: Text(
+                    "Password must be greater than 8 characters and at least one special symbol"),
+              ),
             //const SizedBox(height: 50),
-            createForgotPasswordType(),
+            //createForgotPasswordType(),
             createLoginButton(),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 20),
@@ -137,7 +139,7 @@ class _LoginScreenState extends State<LoginScreen> {
             Navigator.of(context).push(MaterialPageRoute(
                 builder: (context) => const ForgotPasswordPage()));
           } else {
-            showOverlayError("User authentication failed try again");
+            showOverlayError("User didn't authenticate correctly");
           }
         } on PlatformException catch (e) {
           // ...
@@ -159,16 +161,16 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  Widget createEmailBox() {
+  Widget createPhoneBox() {
     return TextField(
-      controller: emailController,
-      keyboardType: TextInputType.emailAddress,
+      controller: phoneController,
+      keyboardType: TextInputType.phone,
       decoration: InputDecoration(
-        prefixIcon: const Icon(Icons.alternate_email),
+        prefixIcon: const Icon(Icons.phone_android),
         isDense: false,
         focusedBorder: const UnderlineInputBorder(
             borderSide: BorderSide(color: EduColors.appColor)),
-        label: Text("Email Address",
+        label: Text("Phone Number",
             style:
                 TextStyle(fontSize: 15, color: Colors.black.withOpacity(0.7))),
       ),
@@ -195,7 +197,7 @@ class _LoginScreenState extends State<LoginScreen> {
         isDense: false,
         focusedBorder: const UnderlineInputBorder(
             borderSide: BorderSide(color: EduColors.appColor)),
-        label: Text("Password",
+        label: Text("OTP",
             style:
                 TextStyle(fontSize: 15, color: Colors.black.withOpacity(0.7))),
       ),
@@ -206,24 +208,45 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget createLoginButton() {
     return InkWell(
       onTap: () async {
-        if (emailController.text.isEmpty) {
+        if (phoneController.text.isEmpty) {
           showOverlayError("Email field is empty");
           return;
         }
-        if (passwordController.text.length < 8) {
-          showOverlayError("Password is not long enough");
+        if (!phoneRegexp.hasMatch(phoneController.text)) {
+          showOverlayError("Phone Number is invalid");
           return;
         }
-        if (!specialChar.hasMatch(passwordController.text)) {
-          showOverlayError("Password does not have a special character");
-          return;
-        }
+        if (!sendOTP) {
+          await FirebaseAuth.instance.verifyPhoneNumber(
+            phoneNumber: phoneController.text,
+            verificationCompleted: (PhoneAuthCredential credential) async {
+              await auth.signInWithCredential(credential);
+              showOverlayMessage("Successful sign up");
+            },
+            verificationFailed: (FirebaseAuthException e) {
+              if (e.code == 'invalid-phone-number') {
+                showOverlayError('The provided phone number is not valid.');
+              }
+              showOverlayError(e.toString());
+            },
+            codeSent: (String verificationId, int? resendToken) async {
+              debugPrint("Verification ID $verificationId");
+              sendOTP = true;
+              setState(() {});
 
-        try {
-          UserCredential resp = await auth.signInWithEmailAndPassword(
-              email: emailController.text, password: passwordController.text);
-        } on Exception catch (e) {
-          showOverlayError(e.toString());
+              // Create a PhoneAuthCredential with the code
+              PhoneAuthCredential credential = PhoneAuthProvider.credential(
+                  verificationId: verificationId,
+                  smsCode: passwordController.text);
+
+              // Sign the user in (or link) with the credential
+              await auth.signInWithCredential(credential);
+              showOverlayMessage("Successful sign up");
+
+            },
+            codeAutoRetrievalTimeout: (String verificationId) {},
+          );
+          return;
         }
       },
       child: Container(
@@ -231,11 +254,11 @@ class _LoginScreenState extends State<LoginScreen> {
         width: double.infinity,
         decoration: BoxDecoration(
             color: EduColors.appColor, borderRadius: BorderRadius.circular(3)),
-        child: const Center(
+        child: Center(
             child: Text(
-          "LOGIN",
+          sendOTP ? "LOGIN" : "SEND OTP",
           textAlign: TextAlign.center,
-          style: TextStyle(
+          style: const TextStyle(
               color: EduColors.blackColor,
               fontSize: 17,
               fontWeight: FontWeight.w500),
@@ -317,10 +340,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   Widget loginWithPhoneButton() {
     return InkWell(
-      onTap: (){
-        Navigator.of(context).push(MaterialPageRoute(
-            builder: (context) => const PhoneLoginScreen()));
-      },
+      onTap: () {},
       child: Container(
         height: 45,
         decoration: BoxDecoration(
@@ -328,7 +348,7 @@ class _LoginScreenState extends State<LoginScreen> {
             borderRadius: BorderRadius.circular(0)),
         child: const Center(
             child: Text(
-          "Login with Phone Number",
+          "Login with Phone Email",
           textAlign: TextAlign.center,
           style: TextStyle(
               color: EduColors.whiteColor,

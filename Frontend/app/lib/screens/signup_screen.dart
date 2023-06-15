@@ -1,5 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:edu_elimu/screens/after_signup_screen.dart';
 import 'package:edu_elimu/screens/login_screen.dart';
+import 'package:edu_elimu/screens/phone_signup.dart';
 import 'package:edu_elimu/themes/colors.dart';
 import 'package:edu_elimu/utils.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -10,6 +12,12 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:lottie/lottie.dart';
 
+RegExp emailRegex = RegExp(
+    r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$");
+
+RegExp phoneRegexp = RegExp(r"^[\+254|07|01][0-9]{9,12}");
+RegExp specialChar = RegExp(r"[$&+,:;=?@#|'<>.^*()%!-]");
+
 class SignupScreen extends StatefulWidget {
   const SignupScreen({super.key});
 
@@ -19,8 +27,11 @@ class SignupScreen extends StatefulWidget {
 
 class _SignupScreenState extends State<SignupScreen> {
   bool showPassword = false;
+
   TextEditingController passwordController = TextEditingController();
   TextEditingController emailController = TextEditingController();
+  TextEditingController nameController = TextEditingController();
+
   final GoogleSignIn googleSignIn = GoogleSignIn();
   FirebaseAuth auth = FirebaseAuth.instance;
   User? user;
@@ -28,13 +39,18 @@ class _SignupScreenState extends State<SignupScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text("Sign Up"),
+        elevation: 0.1,
+        backgroundColor: Colors.white,
+      ),
       body: SafeArea(
         child: Container(
           padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
           child: ListView(children: [
             // createBanner(),
             Lottie.asset("assets/lottie/sign-up.json",
-                height: MediaQuery.of(context).size.height * 0.3),
+                height: MediaQuery.of(context).size.height * 0.25),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 4),
               child: Text(
@@ -45,14 +61,48 @@ class _SignupScreenState extends State<SignupScreen> {
                 ),
               ),
             ),
-            createEmailBox(),
-            const SizedBox(
-              height: 40,
+
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 10),
+              child: createEmailBox(),
             ),
-            createPasswordBox(),
-            //const SizedBox(height: 50),
-            createForgotPasswordType(),
+
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 10.0),
+              child: createPasswordBox(),
+            ),
+            const Padding(
+              padding: EdgeInsets.symmetric(vertical: 10),
+              child: Text(
+                  "Password length must be greater than 8 characters and at least one special symbol"),
+            ),
+            const SizedBox(height: 10),
             createSignUpButton(),
+            const SizedBox(
+              height: 15,
+            ),
+            const Text(
+              "OR",
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(
+              height: 15,
+            ),
+
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
+                  flex: 7,
+                  child: loginWithGoogleButton(),
+                ),
+                const Spacer(),
+                Expanded(
+                  flex: 7,
+                  child: loginWithPhoneButton(),
+                ),
+              ],
+            ),
             const SizedBox(
               height: 30,
             ),
@@ -103,15 +153,18 @@ class _SignupScreenState extends State<SignupScreen> {
   }
 
   Widget createEmailBox() {
-    return TextField(
+    return TextFormField(
       controller: emailController,
       keyboardType: TextInputType.emailAddress,
       decoration: InputDecoration(
         prefixIcon: const Icon(Icons.alternate_email),
         isDense: false,
+        errorBorder: const UnderlineInputBorder(
+          borderSide: BorderSide(color: Colors.red),
+        ),
         focusedBorder: const UnderlineInputBorder(
             borderSide: BorderSide(color: EduColors.appColor)),
-        label: Text("Email Address",
+        label: Text("Email Address or phone",
             style:
                 TextStyle(fontSize: 15, color: Colors.black.withOpacity(0.7))),
       ),
@@ -124,6 +177,17 @@ class _SignupScreenState extends State<SignupScreen> {
       onChanged: (newValue) {},
       controller: passwordController,
       obscureText: showPassword,
+      autocorrect: false,
+      enableSuggestions: false,
+      // contextMenuBuilder: (context,textState){
+      //
+      // },
+      // toolbarOptions: ToolbarOptions(
+      //   copy: false,
+      //   paste: false,
+      //   cut: false,
+      //   selectAll: false,
+      // ),
       decoration: InputDecoration(
         prefixIcon: const Icon(Icons.lock),
         suffixIcon: IconButton(
@@ -150,9 +214,21 @@ class _SignupScreenState extends State<SignupScreen> {
     return InkWell(
       onTap: () async {
         try {
+          if (emailController.text.isEmpty) {
+            showOverlayError("Email field is empty");
+            return;
+          }
+          if (passwordController.text.length < 8) {
+            showOverlayError("Password is not long enough");
+            return;
+          }
+          if (!specialChar.hasMatch(passwordController.text)) {
+            showOverlayError("Password does not have a special character");
+            return;
+          }
+
           UserCredential user = await auth.createUserWithEmailAndPassword(
               email: emailController.text, password: passwordController.text);
-
 
           showOverlayMessage("Successfully created user");
         } on Exception catch (e) {
@@ -172,7 +248,7 @@ class _SignupScreenState extends State<SignupScreen> {
             color: EduColors.appColor, borderRadius: BorderRadius.circular(3)),
         child: const Center(
             child: Text(
-          "SIGNUP",
+          "CONTINUE",
           textAlign: TextAlign.center,
           style: TextStyle(
               color: EduColors.blackColor,
@@ -183,15 +259,15 @@ class _SignupScreenState extends State<SignupScreen> {
     );
   }
 
-  Widget signUpWithGoogleButton() {
+  Widget loginWithGoogleButton() {
     return InkWell(
       onTap: () async {
         try {
           final GoogleSignInAccount? googleSignInAccount =
-              await googleSignIn.signIn();
+          await googleSignIn.signIn();
           if (googleSignInAccount != null) {
             final GoogleSignInAuthentication googleSignInAuthentication =
-                await googleSignInAccount.authentication;
+            await googleSignInAccount.authentication;
 
             final AuthCredential credential = GoogleAuthProvider.credential(
               accessToken: googleSignInAuthentication.accessToken,
@@ -200,7 +276,7 @@ class _SignupScreenState extends State<SignupScreen> {
 
             try {
               final UserCredential userCredential =
-                  await auth.signInWithCredential(credential);
+              await auth.signInWithCredential(credential);
 
               user = userCredential.user;
               showOverlayMessage("Sign In successful");
@@ -217,11 +293,12 @@ class _SignupScreenState extends State<SignupScreen> {
               showOverlayError(e.toString());
             }
           } else {
-            showOverlayError("Could not sign in to Google");
+            showOverlayError("Could not sign in to Google :(");
           }
         } on Exception catch (e) {
-          print(e);
+          print(e.toString());
           showOverlayError("Could not sign up via Google");
+          rethrow;
         }
       },
       child: Container(
@@ -236,17 +313,17 @@ class _SignupScreenState extends State<SignupScreen> {
               padding: const EdgeInsets.all(10.0),
               child: CachedNetworkImage(
                   imageUrl:
-                      "https://img.icons8.com/fluency/48/google-logo.png"),
+                  "https://img.icons8.com/fluency/48/google-logo.png"),
             ),
             Center(
                 child: Text(
-              "Login with Google",
-              textAlign: TextAlign.center,
-              style: GoogleFonts.poppins(
-                  color: EduColors.blackColor,
-                  fontSize: 14,
-                  fontWeight: FontWeight.w500),
-            )),
+                  "Login with Google",
+                  textAlign: TextAlign.center,
+                  style: GoogleFonts.poppins(
+                      color: EduColors.blackColor,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500),
+                )),
           ],
         ),
       ),
@@ -255,6 +332,10 @@ class _SignupScreenState extends State<SignupScreen> {
 
   Widget loginWithPhoneButton() {
     return InkWell(
+      onTap: (){
+        Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) => const PhoneLoginScreen()));
+      },
       child: Container(
         height: 45,
         decoration: BoxDecoration(
@@ -262,13 +343,13 @@ class _SignupScreenState extends State<SignupScreen> {
             borderRadius: BorderRadius.circular(0)),
         child: const Center(
             child: Text(
-          "Login with Phone Number",
-          textAlign: TextAlign.center,
-          style: TextStyle(
-              color: EduColors.whiteColor,
-              fontSize: 14,
-              fontWeight: FontWeight.w500),
-        )),
+              "Login with Phone Number",
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                  color: EduColors.whiteColor,
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500),
+            )),
       ),
     );
   }
