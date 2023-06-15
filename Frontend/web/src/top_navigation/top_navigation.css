@@ -19,6 +19,19 @@
     align-items: center;
     /* width: 40%; */
 }
+#right button{
+    height: 40px;
+    width: 120px;
+    background-color: transparent;
+    border: 2px solid #FFC700 ;
+    color: #FFC700;
+    font-weight: 700;
+}
+#right button:hover{
+    cursor: pointer;
+    background-color: #FFC700;
+    color: white;
+}
 .top-icons{
     color: grey;
     font-size: 30px;
