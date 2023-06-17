@@ -34,7 +34,11 @@ function ForgotPassword (){
             await resetPassword(email);
             setMessage('Check your email for password reset instructions.');
         }catch(error){
-            setError(`${error.message}`);
+            const errorMessage = error.message.startsWith("Firebase: ")
+            ? error.message.substring("Firebase: ".length) // Remove the "Firebase: " prefix
+            : error.message;
+
+            setError(errorMessage);
         }
         setLoading(false);
         setTimeout(() => {

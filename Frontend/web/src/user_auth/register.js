@@ -18,8 +18,16 @@ function RegisterUser (){
     const handlePasswordInput = (e) => setPassword(e.target.value);
     const handleConfirmPasswordInput = (e) => setConfirmPassword(e.target.value);
 
+    function hasSpecialCharacters(password) {
+        const specialCharactersRegex = '/[!@#$%^&*(),.?":{}|<>]/';
+        return specialCharactersRegex.test(password);
+      }
+
     async function handleSubmit(e){
         e.preventDefault();
+        if(!hasSpecialCharacters(password)){
+            setError('Your passwords should contain special characters');
+        }
         if(password!= confirmPassword){
             setError('Your passwords do not match')
             setTimeout(() => {
@@ -31,7 +39,11 @@ function RegisterUser (){
                 await signup(email,password);
                 navigate("/");
             }catch(error){
-                setError(`${error.message}`);
+                const errorMessage = error.message.startsWith("Firebase: ")
+                ? error.message.substring("Firebase: ".length) // Remove the "Firebase: " prefix
+                : error.message;
+
+                setError(errorMessage);
             }
             setLoading(false);
             setTimeout(() => {

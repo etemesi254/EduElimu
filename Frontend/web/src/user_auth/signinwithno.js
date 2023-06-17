@@ -6,6 +6,8 @@ import { useAuth } from '../context/AuthContext';
 import "react-phone-number-input/style.css";
 import PhoneInput from 'react-phone-number-input';
 import OtpInput from 'react-otp-input';
+import { isValidNumber, parsePhoneNumberFromString } from 'libphonenumber-js';
+
 
 function SignInWithPhone (){
     const container = useRef(null);
@@ -31,12 +33,20 @@ function SignInWithPhone (){
         return () => instance.destroy();
     },[]);
 
-    
+    function validatePhoneNumber() {
+        try {
+          const parsedNumber = parsePhoneNumberFromString(phoneNumber);
+          return parsedNumber ? isValidNumber(parsedNumber) : false;
+        } catch (error) {
+          console.error('Phone number validation error:', error);
+          return false;
+        }
+      }
 
     async function handleSubmit(e){
         e.preventDefault();
         setError("");
-        if(phoneNumber === "" || phoneNumber === undefined) return setError("Please enter a valid phone number");
+        if(phoneNumber === "" || phoneNumber === undefined || !validatePhoneNumber) return setError("Please enter a valid phone number");
 
         try {
             const response = await setUpRecaptcha(phoneNumber);
@@ -44,7 +54,11 @@ function SignInWithPhone (){
             setConfirmObj(response);
             setFlag(true);
         } catch (error) {
-            setError(error.message);
+            const errorMessage = error.message.startsWith("Firebase: ")
+            ? error.message.substring("Firebase: ".length) // Remove the "Firebase: " prefix
+            : error.message;
+
+            setError(errorMessage);
         }
     }
 
