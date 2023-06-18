@@ -8,20 +8,15 @@ import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import './left_navigation.css'
 
-function LeftNavigation(){
+function LeftNavigation({showLogout,setShowLogout}){
     const {logout} = useAuth();
     const [error, setError ] = useState();
     const navigate = useNavigate();
 
     async function handleLogout(){
-        try {
-            await logout();
-            navigate("/login");
-        } catch (error) {
-            setError(error.message);
-        }
+        setShowLogout(true);
     }
-    return <div className='left-nav'>
+    return  <div className='left-nav'>
     <h2>EduElimu.</h2>
     <ul className='section'>
         <p>Main</p>

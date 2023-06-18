@@ -19,14 +19,18 @@ import PrivateRoute from './context/privateRoute';
 import ForgotPassword from './user_auth/forgot_password';
 import SignInWithPhone from './user_auth/signinwithno';
 import CustomReset from './user_auth/customResetPass';
+import { useState } from 'react';
 
 
 function App() {
+  const [showLogout, setShowLogout] = useState(false);
+  
   return (
     <Router>
       <AuthProvider>
-        <Routes>
-          <Route exact path="/" Component={HomePage} />
+        <Routes showLogout={showLogout}
+            setShowLogout={setShowLogout}>
+          <Route exact path="/" element={<HomePage showLogout={showLogout} setShowLogout={setShowLogout} />} />
           <Route path='/register' Component={RegisterUser}/>
           <Route path='/login' Component={Loginuser}/>
           <Route path='/forgotPassword' Component={ForgotPassword}/>
