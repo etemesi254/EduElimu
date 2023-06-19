@@ -1,18 +1,26 @@
 import './register.css';
 import lottie from 'lottie-web';
 import { useEffect, useRef, useState } from 'react';
-import { Link} from 'react-router-dom';
+import { useNavigate} from 'react-router-dom';
+import { toast } from 'react-toastify';
 import { useAuth } from '../context/AuthContext';
 
 function CompleteProfileEmail (){
     const container = useRef(null);
-    const [email,setEmail] = useState('');
-    const {resetPassword} = useAuth();
+    const [name,setName] = useState('');
+    const [phone_number,setPhone] = useState('');
+    const [profile_image,setProfileImage] = useState('');
+    const [DOB,setDOB] = useState('');
     const [error,setError] = useState('');
     const [loading,setLoading] = useState(false);
     const [message,setMessage] = useState('');
+    const navigate = useNavigate();
+    const {currentUser} = useAuth();
 
-    const handleEmailInput = (e)=> setEmail(e.target.value);
+    const handlePhoneInput = (e)=> setPhone(e.target.value);
+    const handleNameInput = (e)=> setName(e.target.value);
+    const handleProfileInput = (e)=> setProfileImage(e.target.value);
+    const handleDOBInput = (e)=> setDOB(e.target.value);
 
     useEffect(()=>{
         const instance = lottie.loadAnimation({
@@ -20,7 +28,7 @@ function CompleteProfileEmail (){
             renderer:'svg',
             loop: true,
             autoplay:true,
-            animationData: require('./forgot-password.json'),
+            animationData: require('./completeprof.json'),
         });
         return () => instance.destroy();
     },[]);
@@ -31,8 +39,22 @@ function CompleteProfileEmail (){
         e.preventDefault();
         try{
             setLoading(true);
-            await resetPassword(email);
-            setMessage('Check your email for password reset instructions.');
+            const response = await fetch('http://127.0.0.1:8000/api/updateUserWithEmail/'+ currentUser.email, {
+              method: 'PUT',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({name,phone_number,profile_image,DOB}),
+            });
+
+            console.log(response);
+            console.log(currentUser);
+
+            if(response.status === 201){
+                return toast.success('Profile completed successfully!', {
+                    onClose: () => navigate('/'),
+            });
+            }
         }catch(error){
             const errorMessage = error.message.startsWith("Firebase: ")
             ? error.message.substring("Firebase: ".length) // Remove the "Firebase: " prefix
@@ -66,12 +88,12 @@ function CompleteProfileEmail (){
                     <p>{error}</p>
                 </div>:''}
                 <h3 className='alt-1'>Complete Your Profile</h3>
-                <p>Just a few more details and your account will be set!</p>
+                <p id='info'>Just a few more details and your account will be set!</p>
                 <form className="form" onSubmit={handleSubmit}>
-                    <input type="text" placeholder="Email" value={email} onChange={handleEmailInput}/>
-                    <input type="number" placeholder="Phone Number" value={email} onChange={handleEmailInput}/>
-                    <input type="file" placeholder="Email" value={email} onChange={handleEmailInput}/>
-                    <input type="date" placeholder="Date of Birth" value={email} onChange={handleEmailInput}/>
+                    <input type="text" placeholder="Name" value={name} onChange={handleNameInput}/>
+                    <input type="number" placeholder="Phone Number" value={phone_number} onChange={handlePhoneInput}/>
+                    <input type="file" placeholder="" value={profile_image} onChange={handleProfileInput}/>
+                    <input type="date" placeholder="Date of Birth" value={DOB} onChange={handleDOBInput}/>
                     <button type="submit" className="login" disabled={loading}>Submit</button>
                 </form>
             </div>

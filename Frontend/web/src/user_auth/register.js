@@ -4,7 +4,7 @@ import { useEffect, useRef,useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { Link , useNavigate} from 'react-router-dom';
 
-function RegisterUser (){
+function RegisterUser ({setCompleteProfile}){
     const container = useRef(null);
     const {signup} = useAuth();
     const [email,setEmail] = useState('');
@@ -49,6 +49,10 @@ function RegisterUser (){
                     setLoading(true);
                     await signup(email,password);
                     navigate("/");
+
+                    setTimeout(() => {
+                        setCompleteProfile(true);
+                      }, 10000); 
                 }catch(error){
                     const errorMessage = error.message.startsWith("Firebase: ")
                     ? error.message.substring("Firebase: ".length) // Remove the "Firebase: " prefix

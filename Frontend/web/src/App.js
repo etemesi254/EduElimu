@@ -30,6 +30,8 @@ function App() {
 
   const [hideSidebar,setHideSidebar] = useState(false);
 
+  const [showDeclinePrompt,setShowDeclinePrompt] = useState(false);
+
   const hideSideBar = ()=>{
       return setHideSidebar(!hideSidebar);
   }
@@ -47,8 +49,11 @@ function App() {
               setShowLogout={setShowLogout}
               completeProfile={completeProfile}
               setCompleteProfile={setCompleteProfile}
+              showDeclinePrompt={showDeclinePrompt}
+              setShowDeclinePrompt={setShowDeclinePrompt}
               />} />
-          <Route path='/register' Component={RegisterUser}/>
+          <Route path='/register' element={<RegisterUser  completeProfile={completeProfile}
+              setCompleteProfile={setCompleteProfile}/>}/>
           <Route path='/login' Component={Loginuser}/>
           <Route path='/forgotPassword' Component={ForgotPassword}/>
           <Route path='/signupwithphone' Component={SignInWithPhone}/>

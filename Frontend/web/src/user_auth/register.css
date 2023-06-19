@@ -13,6 +13,13 @@
     margin-left: 20px;
     font-size: 23px;
   }
+  .whiite-bk #info{
+    margin-left: 20px;
+    margin-right: 20px;
+    font-weight: 600;
+    font-size: 15px;
+    color: #FFC700;
+  }
 
   #back_icon{
     font-size: 40px;

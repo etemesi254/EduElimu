@@ -42,6 +42,18 @@
     background-color: red;
   }
 
+  .logout-dialog-buttons #complete{
+    background-color: transparent;
+    border: 2px solid green;
+    color: green;
+    font-weight: 600;
+  }
+  .logout-dialog-buttons #complete:hover{
+    color: white;
+    cursor: pointer;
+    background-color: green;
+  }
+
   .logout-dialog-buttons #cancel{
     background-color: transparent;
     border: 2px solid #FFC700;

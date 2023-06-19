@@ -11,6 +11,7 @@ function LogoutConfirmationDialog ({setShowLogout}){
     async function onConfirm(){
         try {
             await logout();
+            setShowLogout(false);
             navigate("/login");
         } catch (error) {
             setError(error.message);
