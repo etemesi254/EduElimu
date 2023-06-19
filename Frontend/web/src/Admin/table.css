@@ -1,0 +1,55 @@
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #f8f8f8;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    margin-bottom: 20px;
+  }
+  
+  thead tr th {
+    text-align: left;
+    background-color: #3C91E6;
+    color: #fff;
+    padding: 10px;
+  }
+  
+  tbody tr td {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  tbody tr:hover {
+    background-color: #f2f2f2;
+  }
+  
+  tbody tr td:last-child button {
+    background-color: #3C91E6;
+    color: #fff;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  tbody tr td:last-child button:hover {
+    background-color: #23538A;
+  }
+  td .delete-btn:hover{
+    cursor: pointer;
+  }
+  td .delete-btn{
+    height: 30px;
+    width: 100px;
+    background-color: red;
+    color: white;
+  }
+
+  td .edit-btn{
+    height: 30px;
+    width: 100px;
+    background-color: #3C91E6;
+    color: white;
+  }
+  

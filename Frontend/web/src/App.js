@@ -20,10 +20,19 @@ import ForgotPassword from './user_auth/forgot_password';
 import SignInWithPhone from './user_auth/signinwithno';
 import CustomReset from './user_auth/customResetPass';
 import { useState } from 'react';
+import AdminLayout from './Admin/AdminLayout';
+import MainDash from './Admin/mainDash';
 
 
 function App() {
   const [showLogout, setShowLogout] = useState(false);
+
+  const [hideSidebar,setHideSidebar] = useState(false);
+
+  const hideSideBar = ()=>{
+      return setHideSidebar(!hideSidebar);
+  }
+
   
   return (
     <Router>
@@ -36,6 +45,9 @@ function App() {
           <Route path='/forgotPassword' Component={ForgotPassword}/>
           <Route path='/signupwithphone' Component={SignInWithPhone}/>
           <Route path='/resetPassword' Component={CustomReset}/>
+          <Route path='/admin' Component={AdminLayout}>
+            <Route path='dash' Component={MainDash}/>
+          </Route>
         </Routes>
       </AuthProvider>
     </Router>
