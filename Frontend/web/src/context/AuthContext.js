@@ -18,6 +18,30 @@ export function AuthProvider({children}) {
         return authFB.createUserWithEmailAndPassword(email, password);
     }
 
+    async function registerUser(user) {
+        try {
+          const response = await fetch('your_api_endpoint/register', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(user),
+          });
+      
+          if (!response.ok) {
+            throw new Error('Registration failed');
+          }
+      
+          const data = await response.json();
+          console.log('User registered successfully:', data);
+          return data;
+        } catch (error) {
+          console.error('Error registering user:', error);
+          throw error;
+        }
+      }
+      
+
     function login(email, password) {
         return authFB.signInWithEmailAndPassword(email, password);
     }
