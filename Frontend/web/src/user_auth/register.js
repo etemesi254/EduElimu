@@ -19,37 +19,51 @@ function RegisterUser (){
     const handleConfirmPasswordInput = (e) => setConfirmPassword(e.target.value);
 
     function hasSpecialCharacters(password) {
-        const specialCharactersRegex = '/[!@#$%^&*(),.?":{}|<>]/';
+        const specialCharactersRegex = /[!@#$%^&*(),.?":{}|<>]/;
         return specialCharactersRegex.test(password);
       }
 
     async function handleSubmit(e){
         e.preventDefault();
         if(!hasSpecialCharacters(password)){
-            setError('Your passwords should contain special characters');
+            return setError('Your passwords should contain special characters');
         }
         if(password!= confirmPassword){
-            setError('Your passwords do not match')
-            setTimeout(() => {
-                setError('');
-            }, 3000);
-        }else{
-            try{
-                setLoading(true);
-                await signup(email,password);
-                navigate("/");
-            }catch(error){
-                const errorMessage = error.message.startsWith("Firebase: ")
-                ? error.message.substring("Firebase: ".length) // Remove the "Firebase: " prefix
-                : error.message;
-
-                setError(errorMessage);
-            }
-            setLoading(false);
-            setTimeout(() => {
-                setError('');
-            }, 3000);
+            return setError('Your passwords do not match')
         }
+
+
+
+        try {
+            const response = await fetch('http://127.0.0.1:8000/api/registerUser', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({email}),
+            });
+            console.log(response)
+        
+            if (response.status === 200) {
+                try{
+                    setLoading(true);
+                    await signup(email,password);
+                    navigate("/");
+                }catch(error){
+                    const errorMessage = error.message.startsWith("Firebase: ")
+                    ? error.message.substring("Firebase: ".length) // Remove the "Firebase: " prefix
+                    : error.message;
+        
+                    return setError(errorMessage);
+                }
+            }
+        
+            const data = await response.json();
+            console.log('User registered successfully:', data);
+            return data;
+          } catch (error) {
+            return console.error('Error registering user:', error);
+          }
     }
 
     function navigateToPhonePage(){

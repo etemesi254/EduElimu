@@ -22,6 +22,7 @@ import CustomReset from './user_auth/customResetPass';
 import { useState } from 'react';
 import AdminLayout from './Admin/AdminLayout';
 import MainDash from './Admin/mainDash';
+import CompleteProfileEmail from './user_auth/completeProfile';
 
 
 function App() {
@@ -33,13 +34,20 @@ function App() {
       return setHideSidebar(!hideSidebar);
   }
 
+  const [completeProfile,setCompleteProfile] = useState(false);
+
   
   return (
     <Router>
       <AuthProvider>
         <Routes showLogout={showLogout}
             setShowLogout={setShowLogout}>
-          <Route exact path="/" element={<HomePage showLogout={showLogout} setShowLogout={setShowLogout} />} />
+          <Route exact path="/" element={<HomePage 
+              showLogout={showLogout} 
+              setShowLogout={setShowLogout}
+              completeProfile={completeProfile}
+              setCompleteProfile={setCompleteProfile}
+              />} />
           <Route path='/register' Component={RegisterUser}/>
           <Route path='/login' Component={Loginuser}/>
           <Route path='/forgotPassword' Component={ForgotPassword}/>
@@ -48,6 +56,7 @@ function App() {
           <Route path='/admin' Component={AdminLayout}>
             <Route path='dash' Component={MainDash}/>
           </Route>
+          <Route path='/completeProfile' Component={CompleteProfileEmail}/>
         </Routes>
       </AuthProvider>
     </Router>
