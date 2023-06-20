@@ -46,10 +46,11 @@ function App() {
       <AuthProvider>
         <Routes showLogout={showLogout}
             setShowLogout={setShowLogout}>
-          <Route path="/" Component={UserLayout}>
+          <Route path="/" element={<UserLayout  showLogout={showLogout} 
+              setShowLogout={setShowLogout}/>}>
             <Route exact path='/' element={<HomePage 
-              showLogout={showLogout} 
-              setShowLogout={setShowLogout}
+             showLogout={showLogout} 
+             setShowLogout={setShowLogout}
               completeProfile={completeProfile}
               setCompleteProfile={setCompleteProfile}
               showDeclinePrompt={showDeclinePrompt}

@@ -9,9 +9,6 @@ import { useNavigate } from 'react-router-dom';
 import './left_navigation.css'
 
 function LeftNavigation({showLogout,setShowLogout}){
-    const {logout} = useAuth();
-    const [error, setError ] = useState();
-    const navigate = useNavigate();
 
     function handleLogout(){
         setShowLogout(true);

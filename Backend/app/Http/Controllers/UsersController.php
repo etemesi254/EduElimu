@@ -51,13 +51,23 @@ class UsersController extends Controller
     }
 
     public function updateUserWithEmail($email){
+        $updated_user = [];
+        if(request()->phone_number){
+            $updated_user['phone_number'] = request()->phone_number;
+        }
+        if(request()->name){
+            $updated_user['name'] = request()->name;
+        }
+
+        if(request()->profile_image){
+            $updated_user['profile_image'] = request()->profile_image;
+        }
+
+        if(request()->DOB){
+            $updated_user['DOB'] = request()->DOB;
+        }
         try {
-            $updated_user = User::where('email', $email)->update([
-                'name' => request()->name,
-                'phone_number' => request()->phone_number,
-                'profile_image' => request()->profile_image,
-                'DOB' => request()->DOB,
-            ]);
+            User::where('email', $email)->update($updated_user);
             return response()->json([
                 'status'=>201,
                 'message'=>'User updated successfully',
