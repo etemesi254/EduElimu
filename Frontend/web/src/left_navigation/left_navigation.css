@@ -22,11 +22,11 @@
     margin-left: 30px;
 }
 .section #active{
-    color: red;
-    border-left: solid 2.5px red;
+    color: #FFC700;
+    border-left: solid 2.5px #FFC700;
 }
 .section #active .left-icons{
-    color: red;
+    color: #FFC700;
 }
 .section li{
     margin: 20px 0;
@@ -34,6 +34,17 @@
 .section li a{
     color: grey;
     text-decoration: none;
+}
+.section #logout{
+    display: flex;
+    align-items: center;
+}
+.section #logout p{
+    font-size: 16px;
+    margin-left: 0;
+}
+.section #logout p:hover{
+    cursor: pointer;
 }
 #games{
     display: flex;

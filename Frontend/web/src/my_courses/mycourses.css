@@ -1,0 +1,104 @@
+.courses-section h2{
+    display: flex;
+    justify-content: start;
+}
+.courses_div{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.courses_div>*{
+    margin: 30px;
+}
+.course_img{
+    height: 130px;
+    width: 320px;
+}
+.course_img img{
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 0px;
+    border-bottom-left-radius: 0px;
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+}
+.course_info{
+    padding: 20px 20px;
+    width: 280px;
+    background-color: #fff;
+}
+.course_info p{
+    font-size: 14px;
+    color: gray;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+.course_attendants{
+    display: flex;
+    justify-content: space-between;
+}.att {
+    position: relative;
+    display: inline-block;
+  }
+  
+  /* Styles for the attendants */
+  .attendants {
+    width: 30px;
+    height: 30px;
+    border: 2px solid #fff;
+    border-radius: 50%;
+    overflow: hidden;
+    position: absolute;
+  }
+  
+  /* Styles for the profile pictures */
+  .attendants img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .attendants:nth-child(1) {
+    top: 0;
+    left: 0;
+  }
+  
+  .attendants:nth-child(2) {
+    top: 0px;
+    left: 20px;
+  }
+  
+  .attendants:nth-child(3) {
+    top: 00px;
+    left: 40px;
+  }
+  
+  .attendants:nth-child(4) {
+    top: 00px;
+    left: 60px;
+  }
+  .progress_div{
+    margin-top: 15px;
+    display: flex;
+    align-items: center;
+    background-color: #fff;
+    padding-right: 20px;
+  }
+  .progress_div p{
+    font-size: 14px;
+    color: gray;
+  }
+  .progress-bar {
+    width: 250px;
+    height: 10px;
+    background-color: #f2f2f2;
+    border-radius: 10px;
+    margin: 20px auto;
+  }
+
+  .progress-bar-inner {
+    height: 100%;
+    width: 78%;
+    background-color: #4caf50;
+    border-radius: 10px;
+  }

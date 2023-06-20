@@ -13,10 +13,64 @@ import SlidingForm from './user_auth/register';
 import RegisterUser from './user_auth/register';
 import Loginuser from './user_auth/login';
 import Watchlist from './watchlist/watchlist';
+import { AuthProvider } from './context/AuthContext';
+import {BrowserRouter as Router, Routes, Route} from "react-router-dom";
+import PrivateRoute from './context/privateRoute';
+import ForgotPassword from './user_auth/forgot_password';
+import SignInWithPhone from './user_auth/signinwithno';
+import CustomReset from './user_auth/customResetPass';
+import { useState } from 'react';
+import AdminLayout from './Admin/AdminLayout';
+import MainDash from './Admin/mainDash';
+import CompleteProfileEmail from './user_auth/completeProfile';
+import UserSettings from './settings/user_settings';
+import UserLayout from './completed_homepage/userLayout';
+
 
 function App() {
+  const [showLogout, setShowLogout] = useState(false);
+
+  const [hideSidebar,setHideSidebar] = useState(false);
+
+  const [showDeclinePrompt,setShowDeclinePrompt] = useState(false);
+
+  const hideSideBar = ()=>{
+      return setHideSidebar(!hideSidebar);
+  }
+
+  const [completeProfile,setCompleteProfile] = useState(false);
+
+  
   return (
-    <Watchlist/>
+    <Router>
+      <AuthProvider>
+        <Routes showLogout={showLogout}
+            setShowLogout={setShowLogout}>
+          <Route path="/" element={<UserLayout  showLogout={showLogout} 
+              setShowLogout={setShowLogout}/>}>
+            <Route exact path='/' element={<HomePage 
+             showLogout={showLogout} 
+             setShowLogout={setShowLogout}
+              completeProfile={completeProfile}
+              setCompleteProfile={setCompleteProfile}
+              showDeclinePrompt={showDeclinePrompt}
+              setShowDeclinePrompt={setShowDeclinePrompt}
+              />}/>
+              <Route path="/settings" Component={UserSettings}/>
+          </Route>
+          <Route path='/register' element={<RegisterUser  completeProfile={completeProfile}
+              setCompleteProfile={setCompleteProfile}/>}/>
+          <Route path='/login' Component={Loginuser}/>
+          <Route path='/forgotPassword' Component={ForgotPassword}/>
+          <Route path='/signupwithphone' Component={SignInWithPhone}/>
+          <Route path='/resetPassword' Component={CustomReset}/>
+          <Route path='/admin' Component={AdminLayout}>
+            <Route path='dash' Component={MainDash}/>
+          </Route>
+          <Route path='/completeProfile' Component={CompleteProfileEmail}/>
+        </Routes>
+      </AuthProvider>
+    </Router>
    
   );
 }

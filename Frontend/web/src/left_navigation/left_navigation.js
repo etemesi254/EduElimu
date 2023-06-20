@@ -1,19 +1,25 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {AiOutlineHeart,AiOutlineCloudDownload,AiOutlineSetting,AiOutlineLike} from 'react-icons/ai';
 import {MdOutlineBrowseGallery} from 'react-icons/md';
 import {BsBrowserEdge} from 'react-icons/bs';
 import {TbLogout} from 'react-icons/tb';
 import {SlGameController} from 'react-icons/sl';
+import { useAuth } from '../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
 import './left_navigation.css'
 
-function LeftNavigation(){
-    return <div className='left-nav'>
+function LeftNavigation({showLogout,setShowLogout}){
+
+    function handleLogout(){
+        setShowLogout(true);
+    }
+    return  <div className='left-nav'>
     <h2>EduElimu.</h2>
     <ul className='section'>
         <p>Main</p>
         <li id='active'><BsBrowserEdge className='left-icons'/><a href=''>Browse</a></li>
         <li> <AiOutlineHeart className='left-icons'/> <a href=''>WatchList</a></li>
-        <li> <MdOutlineBrowseGallery className='left-icons'/> <a href=''>Coming Soon</a>   </li>
+        <li> <MdOutlineBrowseGallery className='left-icons'/> <a href=''>My Courses</a>   </li>
     </ul>
     <ul className='section'>
         <p>Social</p>
@@ -23,7 +29,7 @@ function LeftNavigation(){
     <ul className='section'>
     <p>General</p>
         <li><AiOutlineSetting className='left-icons'/><a href=''>Settings</a> </li>
-        <li><TbLogout className='left-icons'/><a href=''>Logout</a> </li>
+        <li id='logout'><TbLogout className='left-icons'/><p  onClick={handleLogout}>Logout</p> </li>
     </ul>
 
     <div id='games'>

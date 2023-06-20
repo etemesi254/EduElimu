@@ -11,7 +11,7 @@ function CarouselImage() {
     const creatorNames = [
         "Megan Dette",
         "John Smith",
-        "Wayne Asava"
+        "Alvin Muchangi"
     ]
 
     const headings = [

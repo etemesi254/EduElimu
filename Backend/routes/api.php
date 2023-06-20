@@ -3,6 +3,7 @@
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\UsersController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,9 +17,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
 
 Route::post("/signup", function (Request $request) {
     $request_data = json_decode($request->getContent(), true);
@@ -92,3 +93,9 @@ Route::fallback(function () {
     return response(["status" => 404, "description" => "not found", "data" => []], 404);
 
 });
+
+
+Route::put("/updateUserWithEmail/{email}", [UsersController::class, 'updateUserWithEmail']);
+Route::post('/registerUser', [UsersController::class, 'register']);
+Route::put("/updateUserWithNo/{number}", [UsersController::class, 'updateUserWithPhone']);
+Route::get("/getCurrentUser", [UsersController::class, 'getCurrentUser']);

@@ -1,24 +1,18 @@
 import './register.css';
 import lottie from 'lottie-web';
 import { useEffect, useRef, useState } from 'react';
-import { auth,provider } from './config';
-import {signInWithPopup} from "firebase/auth";
-import HomePage from '../completed_homepage/homepage';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link} from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
-function Loginuser (){
+function ForgotPassword (){
     const container = useRef(null);
-    const [value,setValue] = useState('');
     const [email,setEmail] = useState('');
-    const [password,setPassword] = useState('');
-    const {login} = useAuth();
+    const {resetPassword} = useAuth();
     const [error,setError] = useState('');
     const [loading,setLoading] = useState(false);
-    const navigate = useNavigate();
+    const [message,setMessage] = useState('');
 
     const handleEmailInput = (e)=> setEmail(e.target.value);
-    const handlePasswordInput = (e)=> setPassword(e.target.value);
 
     useEffect(()=>{
         const instance = lottie.loadAnimation({
@@ -26,26 +20,19 @@ function Loginuser (){
             renderer:'svg',
             loop: true,
             autoplay:true,
-            animationData: require('./login.json'),
+            animationData: require('./forgot-password.json'),
         });
         return () => instance.destroy();
     },[]);
 
-    async function handleSignInWithGoogle (){
-        await signInWithPopup(auth,provider).then((data)=>{
-            setValue(data.user.email);
-            localStorage.setItem("email",data.user.email);
-        });
-        navigate('/');
-        
-    }
+    
 
     async function handleSubmit(e){
         e.preventDefault();
         try{
             setLoading(true);
-            await login(email,password);
-            navigate("/");
+            await resetPassword(email);
+            setMessage('Check your email for password reset instructions.');
         }catch(error){
             const errorMessage = error.message.startsWith("Firebase: ")
             ? error.message.substring("Firebase: ".length) // Remove the "Firebase: " prefix
@@ -56,16 +43,10 @@ function Loginuser (){
         setLoading(false);
         setTimeout(() => {
             setError('');
+            setMessage('');
         }, 3000);
     }
 
-    function navigateToPhonePage(){
-        navigate('/signupwithphone')
-    }
-
-    useEffect(()=>{
-        setValue(localStorage.getItem('email'))
-    })
     return <>
     {/* {value?<HomePage/>:} */}
     <section className='section_register'>
@@ -75,34 +56,24 @@ function Loginuser (){
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         }}></div>
-        {/* <IoChevronBackCircle id='back_icon'/> */}
         <div className="form_container">
             <div className="whiite-bk">
                 <div className="lottie_container" ref={container}></div>
+                {message?<div className='message'>
+                    <p>{message}</p>
+                </div>:''}
                 {error?<div className='error'>
                     <p>{error}</p>
                 </div>:''}
-                <h3 className='alt-1'>Login</h3>
+                <h3 className='alt-1'>Forgot Password?</h3>
                 <form className="form" onSubmit={handleSubmit}>
                     <input type="Email" placeholder="Email" value={email} onChange={handleEmailInput}/>
-                    <input type="password" placeholder="Password" value={password} onChange={handlePasswordInput}/>
-                    <p id='fp'><Link to="/forgotPassword" className='fp'>Forgot Password?</Link></p>
-                    <button type="submit" className="login" disabled={loading}>LOGIN</button>
+                    <button type="submit" className="login" disabled={loading}>Reset Password</button>
                 </form>
-                <h4 className='alt'>OR</h4>
-                <div className='signwith'>
-                
-                    <div className='big_tech' onClick={handleSignInWithGoogle}>
-                        <img src='./assets/google.png'/>
-                        <p>Sign in with Google</p>
-                    </div>
-               
-                    <div className='big_tech' id='phone' onClick={navigateToPhonePage}>
-                        <p>Sign in with Phone Number</p>
-                    </div>
-                </div>
                 <div className='have_account'>
                     <p id='p_tags3'>New to EduElimu? <Link to="/register" className='a'>Sign up here</Link></p></div>
+                <div className='have_account'>
+                <p id='p_tags3'>Already have an account? <Link to="/login" className='a'>Sign in here</Link></p></div>
             </div>
         </div>
       
@@ -110,4 +81,4 @@ function Loginuser (){
     </>
 }
 
-export default Loginuser;
+export default ForgotPassword;

@@ -13,7 +13,7 @@
     margin-bottom: 20px;
 }
 .left-nav #close{
-    color: red;
+    color: #FFC700;
 }
 .section p{
     color: grey;
@@ -28,11 +28,11 @@
     margin-left: 30px;
 }
 .section #active{
-    color: red;
-    border-left: solid 2.5px red;
+    color: #FFC700;
+    border-left: solid 2.5px #FFC700;
 }
 .section #active .left-icons{
-    color: red;
+    color: #FFC700;
 }
 .section li{
     margin: 20px 0;
