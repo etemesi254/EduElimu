@@ -11,11 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('channels', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->string('status');
-            $table->timestamps();
+        Schema::table('channels', function (Blueprint $table) {
+            $table->bigInteger("user_id")->unsigned();
+
+           $table->foreign("user_id")->references("id")->on("users");
         });
     }
 
@@ -24,6 +23,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('channels');
+        Schema::table('channels', function (Blueprint $table) {
+            //
+        });
     }
 };
