@@ -40,7 +40,7 @@ function CompleteProfilePrompt ({setCompleteProfile,setShowDeclinePrompt}){
         <h2>Do you want to complete your profile?</h2>
         <div className="logout-dialog-buttons">
           <button onClick={onConfirm} id='complete'>Complete</button>
-          <button onClick={onCancel} id='cancel'>Cancel</button>
+          <button onClick={onCancel} id='cancel'>Later</button>
         </div>
       </div>
     </div>

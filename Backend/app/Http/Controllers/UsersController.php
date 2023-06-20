@@ -70,4 +70,42 @@ class UsersController extends Controller
             ],500); 
         }
     }
+
+    public function getCurrentUser() {
+        try {
+            if (request()->has('email')) {
+                $user = User::where('email', request()->email)->first();
+        
+                if ($user) {
+                    return  response()->json([
+                        'status'=>201,
+                        'data'=>$user
+                    ],201); 
+                } else {
+                    // Handle the case when the user is not found
+                    return response()->json(['message' => 'User not found'], 404);
+                }
+            } 
+    
+            if (request()->has('phone_number')) {
+                $user = User::where('phone_number', request()->phone_number)->first();
+        
+                if ($user) {
+                    return  response()->json([
+                        'status'=>201,
+                        'data'=>$user
+                    ],201); 
+                } else {
+                    // Handle the case when the user is not found
+                    return response()->json(['message' => 'User not found'], 404);
+                }
+            } 
+        } catch (\Throwable $th) {
+            return response()->json([
+                'status'=>500,
+                'message'=>$th->getMessage(),
+            ],500); 
+        }
+    }
+    
 }

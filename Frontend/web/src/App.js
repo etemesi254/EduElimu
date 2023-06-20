@@ -23,6 +23,8 @@ import { useState } from 'react';
 import AdminLayout from './Admin/AdminLayout';
 import MainDash from './Admin/mainDash';
 import CompleteProfileEmail from './user_auth/completeProfile';
+import UserSettings from './settings/user_settings';
+import UserLayout from './completed_homepage/userLayout';
 
 
 function App() {
@@ -44,14 +46,17 @@ function App() {
       <AuthProvider>
         <Routes showLogout={showLogout}
             setShowLogout={setShowLogout}>
-          <Route exact path="/" element={<HomePage 
+          <Route path="/" Component={UserLayout}>
+            <Route exact path='/' element={<HomePage 
               showLogout={showLogout} 
               setShowLogout={setShowLogout}
               completeProfile={completeProfile}
               setCompleteProfile={setCompleteProfile}
               showDeclinePrompt={showDeclinePrompt}
               setShowDeclinePrompt={setShowDeclinePrompt}
-              />} />
+              />}/>
+              <Route path="/settings" Component={UserSettings}/>
+          </Route>
           <Route path='/register' element={<RegisterUser  completeProfile={completeProfile}
               setCompleteProfile={setCompleteProfile}/>}/>
           <Route path='/login' Component={Loginuser}/>

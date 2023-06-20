@@ -98,3 +98,4 @@ Route::fallback(function () {
 Route::put("/updateUserWithEmail/{email}", [UsersController::class, 'updateUserWithEmail']);
 Route::post('/registerUser', [UsersController::class, 'register']);
 Route::put("/updateUserWithNo/{number}", [UsersController::class, 'updateUserWithPhone']);
+Route::get("/getCurrentUser", [UsersController::class, 'getCurrentUser']);

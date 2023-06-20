@@ -20,8 +20,7 @@ function TopNavigation(){
             />
         </div>
         <div id='right'>
-            {currentUser? <> <BiBell className='top-icons'/>
-            <BiMessageRoundedDots  className='top-icons'/>
+            {currentUser? <> 
 
             <div className='profile-container'>
                 <div className='img'>

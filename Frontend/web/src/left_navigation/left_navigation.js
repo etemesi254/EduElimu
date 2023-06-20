@@ -13,7 +13,7 @@ function LeftNavigation({showLogout,setShowLogout}){
     const [error, setError ] = useState();
     const navigate = useNavigate();
 
-    async function handleLogout(){
+    function handleLogout(){
         setShowLogout(true);
     }
     return  <div className='left-nav'>

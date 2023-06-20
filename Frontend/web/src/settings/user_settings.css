@@ -1,0 +1,72 @@
+.settings .img-divv{
+    height: 170px;
+    width: 170px;
+}
+.settings .img-divv img{
+    height: 100%;
+    width: 100%;
+    border-radius: 100%;
+    object-fit: cover;
+}
+.settings{
+    display: flex;
+    align-items: center;
+    justify-content: start;
+}
+.settings >*{
+    margin: 10px;
+}
+.settings .user_info p{
+    color: gray;
+}
+.user_settings_form{
+    margin-top: 20px;
+}
+.user_settings_form form {
+    display: flex;
+    justify-content: center;
+}
+.user_settings_form .form-group{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+.user_settings_form form .settings_input{
+    display: flex;
+    flex-direction: column;
+}
+.user_settings_form form .settings_input input{
+    height: 40px;
+    width: 350px;
+    margin: 20px;
+    border: none;
+    background-color: #f9f8f2;
+    padding: 10px;
+}
+.user_settings_form form .settings_input label{
+    margin:0 20px;
+    font-size: 14px;
+    font-weight: 600;
+    margin-top: 20px;
+}
+
+.user_settings_form form button{
+    height: 40px;
+    width: 360px;
+    background-color: #FFC700;
+    color: black;
+    font-weight: 600;
+    border: none;
+}
+.user_settings_form .button-div{
+    display: flex;
+    justify-content: center;
+}
+@media screen and (max-width: 700px){
+    .user_settings_form form button{
+        width: 300px;
+    }
+    .user_settings_form form input{
+        width: 310px;
+    }
+}

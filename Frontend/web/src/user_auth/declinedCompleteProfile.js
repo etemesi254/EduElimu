@@ -27,7 +27,7 @@ function DeclineCompleteProfile ({setShowDeclinePrompt}){
       <div className="lottie_container" ref={container}></div>
         <p>No worries, you can always complete your profile on the settings tab😊</p>
         <div className="logout-dialog-buttons">
-          <button onClick={onCancel} id='cancel'>OKAY</button>
+          <button onClick={onCancel} id='complete'>OKAY</button>
         </div>
       </div>
     </div>
