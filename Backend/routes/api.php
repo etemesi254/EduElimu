@@ -1,6 +1,8 @@
 <?php
 
-use App\Http\Controllers\ChannelController;
+use App\Models\User;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\UsersController;
 use Illuminate\Support\Facades\Route;
 
@@ -20,6 +22,7 @@ use Illuminate\Support\Facades\Route;
 // });
 Route::fallback(function () {
     return response(["status" => 404, "description" => "not found", "data" => []], 404);
+
 });
 
 Route::any("/channels/create", [ChannelController::class, "addChannel"]);
