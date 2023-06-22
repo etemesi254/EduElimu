@@ -12,7 +12,6 @@ return new class extends Migration {
     {
         Schema::table('users', function (Blueprint $table) {
             $table->string("firebase_id")->unique();
-            $table->dropColumn("password");
         });
     }
 

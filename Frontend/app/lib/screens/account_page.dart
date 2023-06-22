@@ -1,3 +1,4 @@
+import 'package:edu_elimu/screens/after_signup_screen.dart';
 import 'package:edu_elimu/themes/colors.dart';
 import 'package:edu_elimu/utils.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -73,9 +74,19 @@ class _AccountPageState extends State<AccountPage> {
             createPhoneField(),
 
             const SizedBox(height: 40),
-            createLogoutButton(context),
+            createUpdateDetailsButton(context),
             const SizedBox(height: 40),
-            createDeleteAccountButton(context),
+
+            Row(
+              children: [
+                Expanded(child: createLogoutButton(context)),
+                const SizedBox(
+                  width: 20,
+                ),
+                Expanded(child: createDeleteAccountButton(context)),
+              ],
+            ),
+            const SizedBox(height: 40),
           ],
         ),
       ),
@@ -128,9 +139,7 @@ class _AccountPageState extends State<AccountPage> {
     return TextFormField(
       keyboardType: TextInputType.emailAddress,
       initialValue: widget.user.phoneNumber ?? "  ",
-      onEditingComplete: (){
-
-      },
+      onEditingComplete: () {},
       enabled: true,
       decoration: InputDecoration(
         prefixIcon: const Icon(Icons.phone_android),
@@ -165,8 +174,7 @@ class _AccountPageState extends State<AccountPage> {
                   child: Column(
                     children: [
                       Lottie.asset("assets/lottie/login.json", height: 200),
-                      const Text(
-                          "Don't fret, you can always log in"),
+                      const Text("Don't fret, you can always log in"),
                       const SizedBox(height: 50),
                       InkWell(
                         onTap: () {
@@ -195,7 +203,7 @@ class _AccountPageState extends State<AccountPage> {
       },
       child: Container(
         height: 45,
-        width: double.infinity,
+        //width: double.infinity,
         decoration: BoxDecoration(
             color: EduColors.appColor, borderRadius: BorderRadius.circular(3)),
         child: const Center(
@@ -204,6 +212,32 @@ class _AccountPageState extends State<AccountPage> {
           textAlign: TextAlign.center,
           style: TextStyle(
               color: EduColors.blackColor,
+              fontSize: 17,
+              fontWeight: FontWeight.w500),
+        )),
+      ),
+    );
+  }
+
+  Widget createUpdateDetailsButton(BuildContext context) {
+    return InkWell(
+      onTap: () async {
+        Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) => AfterSignUpScreen(user: widget.user)));
+
+        //        widget.user.unlink(providerId)
+      },
+      child: Container(
+        height: 45,
+        width: double.infinity,
+        decoration: BoxDecoration(
+            color: EduColors.blackColor, borderRadius: BorderRadius.circular(3)),
+        child: const Center(
+            child: Text(
+          "Update Details",
+          textAlign: TextAlign.center,
+          style: TextStyle(
+              color: EduColors.whiteColor,
               fontSize: 17,
               fontWeight: FontWeight.w500),
         )),

@@ -1,8 +1,13 @@
+import 'package:edu_elimu/api/users.dart';
 import 'package:edu_elimu/models/user_account.dart';
 import 'package:edu_elimu/screens/account_page.dart';
+import 'package:edu_elimu/screens/settings_page.dart';
+import 'package:edu_elimu/utils.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 import 'package:lottie/lottie.dart';
 
 import '../themes/colors.dart';
@@ -21,6 +26,7 @@ class _AfterSignUpScreenState extends State<AfterSignUpScreen> {
   TextEditingController phoneController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController dateController = TextEditingController();
+  DateTime? dob;
 
   bool emailEditable = true;
   bool phoneEditable = true;
@@ -86,6 +92,30 @@ class _AfterSignUpScreenState extends State<AfterSignUpScreen> {
               ],
             ),
             const SizedBox(height: 20),
+            InkWell(
+              onTap: (){
+                Navigator.of(context)
+                    .push(MaterialPageRoute(builder: (context) => const SettingsPage()));
+              },
+              child: SizedBox(
+                height: 50,
+                child: Center(
+                  child: RichText(
+                    text: TextSpan(
+                        text: "Custom Domain? ",
+                        style: GoogleFonts.poppins(
+                            color: EduColors.blackColor,
+                            fontWeight: FontWeight.normal,
+                            fontSize: 11),
+                        children: const [
+                          TextSpan(
+                              text: "Configure domain and proxy settings",
+                              style: TextStyle(color: EduColors.appColor))
+                        ]),
+                  ),
+                ),
+              ),
+            )
           ]),
         ),
       ),
@@ -98,10 +128,19 @@ class _AfterSignUpScreenState extends State<AfterSignUpScreen> {
         onTap: () async {
           var userModel = UserAccountModel(
               phoneNumber: phoneController.text,
-              dob: "",
+              dob: dob != null ? DateFormat("y-M-d").format(dob!) : "",
               firebaseUID: widget.user.uid,
               fullName: nameController.text,
-              email: emailController.text);
+              email: emailController.text,
+              password: "TEMP");
+          EasyLoading.show(status: "Loading..");
+          try {
+            await registerUser(userModel);
+          } on Exception catch (e) {
+            showOverlayError(e.toString());
+          } finally {
+            EasyLoading.dismiss();
+          }
         },
         child: Container(
           height: 45,
@@ -222,7 +261,9 @@ class _AfterSignUpScreenState extends State<AfterSignUpScreen> {
             initialDate: DateTime.now(),
             firstDate: DateTime.fromMillisecondsSinceEpoch(0),
             lastDate: DateTime.now());
-        dateController.text = selectedDate!.toString();
+        dateController.text = DateFormat("y-M-d").format(selectedDate!);
+
+        dob = selectedDate;
         setState(() {});
       },
       child: Padding(
