@@ -49,6 +49,7 @@ dependencies:
   flutter_easyloading: ^3.0.5
   intl: ^0.18.1
   http: ^0.13.6
+  country_picker: ^2.0.20
 
 
 dev_dependencies:

@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:country_picker/country_picker.dart';
 import 'package:edu_elimu/screens/forgot_password.dart';
 import 'package:edu_elimu/screens/signup_screen.dart';
 import 'package:edu_elimu/themes/colors.dart';
@@ -30,9 +31,29 @@ class _PhoneLoginScreenState extends State<PhoneLoginScreen> {
   FirebaseAuth auth = FirebaseAuth.instance;
   final LocalAuthentication localAuth = LocalAuthentication();
   PhoneAuthCredential? pCredential;
+
+  // Default is Kenya
+  Country country = Country.from(json: {
+    "e164_cc": "254",
+    "iso2_cc": "KE",
+    "e164_sc": 0,
+    "geographic": true,
+    "level": 1,
+    "name": "Kenya",
+    "example": "712123456",
+    "display_name": "Kenya (KE) [+254]",
+    "full_example_with_plus_sign": "+254712123456",
+    "display_name_no_e164_cc": "Kenya (KE)",
+    "e164_key": "254-KE-0"
+  });
   bool sendOTP = false;
 
   User? user;
+
+  @override
+  void initState() {
+    phoneController.text = "+${country.phoneCode}";
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -59,7 +80,7 @@ class _PhoneLoginScreenState extends State<PhoneLoginScreen> {
                 ),
               ),
             ),
-            createPhoneBox(),
+            createPhoneBox(context),
 
             const SizedBox(
               height: 40,
@@ -162,20 +183,79 @@ class _PhoneLoginScreenState extends State<PhoneLoginScreen> {
     );
   }
 
-  Widget createPhoneBox() {
-    return TextField(
-      controller: phoneController,
-      keyboardType: TextInputType.phone,
-      decoration: InputDecoration(
-        prefixIcon: const Icon(Icons.phone_android),
-        isDense: false,
-        focusedBorder: const UnderlineInputBorder(
-            borderSide: BorderSide(color: EduColors.appColor)),
-        label: Text("Phone Number",
-            style:
-                TextStyle(fontSize: 15, color: Colors.black.withOpacity(0.7))),
+  Widget createPhoneBox(BuildContext context) {
+    return Row(
+      children: [
+        Expanded(child: createCountryPicker(context)),
+        Expanded(
+          flex: 3,
+          child: TextFormField(
+            controller: phoneController,
+            keyboardType: TextInputType.phone,
+            decoration: InputDecoration(
+              prefixIcon: const Icon(Icons.phone_android),
+              isDense: false,
+              hintText: country.fullExampleWithPlusSign,
+              focusedBorder: const UnderlineInputBorder(
+                  borderSide: BorderSide(color: EduColors.appColor)),
+              label: Text("Phone Number",
+                  style: TextStyle(
+                      fontSize: 15, color: Colors.black.withOpacity(0.7))),
+            ),
+            textAlign: TextAlign.start,
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget createCountryPicker(BuildContext context) {
+    return InkWell(
+      onTap: () {
+        showCountryPicker(
+          context: context,
+          showPhoneCode: true,
+          countryListTheme: CountryListThemeData(
+            flagSize: 25,
+            backgroundColor: Colors.white,
+            textStyle: const TextStyle(fontSize: 16, color: Colors.blueGrey),
+            bottomSheetHeight: 500,
+            // Optional. Country list modal height
+            //Optional. Sets the border radius for the bottomsheet.
+            borderRadius: BorderRadius.zero,
+            //Optional. Styles the search field.
+            inputDecoration: InputDecoration(
+              labelText: 'Search',
+              hintText: 'Start typing to search',
+              prefixIcon: const Icon(Icons.search),
+              border: OutlineInputBorder(
+                borderSide: BorderSide(
+                  color: const Color(0xFF8C98A8).withOpacity(0.2),
+                ),
+              ),
+            ),
+          ),
+          // optional. Shows phone code before the country name.
+          onSelect: (Country chosenCountry) {
+            String initialText =
+                phoneController.text.replaceAll("+${country.phoneCode}", "");
+            country = chosenCountry;
+
+            phoneController.text = "+${country.phoneCode}$initialText";
+
+            setState(() {});
+          },
+        );
+      },
+      child: Row(
+        children: [
+          Text(country.flagEmoji),
+          SizedBox(
+            width: 5,
+          ),
+          Expanded(child: Text(country.name))
+        ],
       ),
-      textAlign: TextAlign.start,
     );
   }
 
