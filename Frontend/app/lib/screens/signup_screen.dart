@@ -8,6 +8,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:lottie/lottie.dart';
@@ -50,7 +51,10 @@ class _SignupScreenState extends State<SignupScreen> {
           child: ListView(children: [
             // createBanner(),
             Lottie.asset("assets/lottie/sign-up.json",
-                height: MediaQuery.of(context).size.height * 0.25),
+                height: MediaQuery
+                    .of(context)
+                    .size
+                    .height * 0.25),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 4),
               child: Text(
@@ -166,7 +170,7 @@ class _SignupScreenState extends State<SignupScreen> {
             borderSide: BorderSide(color: EduColors.appColor)),
         label: Text("Email Address or phone",
             style:
-                TextStyle(fontSize: 15, color: Colors.black.withOpacity(0.7))),
+            TextStyle(fontSize: 15, color: Colors.black.withOpacity(0.7))),
       ),
       textAlign: TextAlign.start,
     );
@@ -204,7 +208,7 @@ class _SignupScreenState extends State<SignupScreen> {
             borderSide: BorderSide(color: EduColors.appColor)),
         label: Text("Password",
             style:
-                TextStyle(fontSize: 15, color: Colors.black.withOpacity(0.7))),
+            TextStyle(fontSize: 15, color: Colors.black.withOpacity(0.7))),
       ),
       textAlign: TextAlign.start,
     );
@@ -248,13 +252,13 @@ class _SignupScreenState extends State<SignupScreen> {
             color: EduColors.appColor, borderRadius: BorderRadius.circular(3)),
         child: const Center(
             child: Text(
-          "CONTINUE",
-          textAlign: TextAlign.center,
-          style: TextStyle(
-              color: EduColors.blackColor,
-              fontSize: 17,
-              fontWeight: FontWeight.w500),
-        )),
+              "CONTINUE",
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                  color: EduColors.blackColor,
+                  fontSize: 17,
+                  fontWeight: FontWeight.w500),
+            )),
       ),
     );
   }
@@ -263,6 +267,7 @@ class _SignupScreenState extends State<SignupScreen> {
     return InkWell(
       onTap: () async {
         try {
+          EasyLoading.show(status: "Loading...");
           final GoogleSignInAccount? googleSignInAccount =
           await googleSignIn.signIn();
           if (googleSignInAccount != null) {
@@ -275,29 +280,38 @@ class _SignupScreenState extends State<SignupScreen> {
             );
 
             try {
+
               final UserCredential userCredential =
               await auth.signInWithCredential(credential);
 
               user = userCredential.user;
               showOverlayMessage("Sign In successful");
+              EasyLoading.dismiss();
+
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (BuildContext ctx) =>
+                      AfterSignUpScreen(user: user!)));
+
             } on FirebaseAuthException catch (e) {
               if (e.code == 'account-exists-with-different-credential') {
                 // handle the error here
-                showOverlayError(e.toString());
+                showOverlayError(e.message!);
               } else if (e.code == 'invalid-credential') {
                 // handle the error here
-                showOverlayError(e.toString());
+                showOverlayError(e.message!);
               }
             } catch (e) {
+              EasyLoading.dismiss();
               // handle the error here
               showOverlayError(e.toString());
             }
           } else {
+            EasyLoading.dismiss();
             showOverlayError("Could not sign in to Google :(");
           }
-        } on Exception catch (e) {
-          print(e.toString());
-          showOverlayError("Could not sign up via Google");
+        } on FirebaseAuthException catch (e) {
+          EasyLoading.dismiss();
+          showOverlayError("Could not sign up via Google ${e.message}");
           rethrow;
         }
       },
@@ -332,9 +346,9 @@ class _SignupScreenState extends State<SignupScreen> {
 
   Widget loginWithPhoneButton() {
     return InkWell(
-      onTap: (){
-        Navigator.of(context).push(MaterialPageRoute(
-            builder: (context) => const PhoneLoginScreen()));
+      onTap: () {
+        Navigator.of(context).push(
+            MaterialPageRoute(builder: (context) => const PhoneLoginScreen()));
       },
       child: Container(
         height: 45,

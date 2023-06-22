@@ -19,6 +19,8 @@ class _AfterSignUpScreenState extends State<AfterSignUpScreen> {
   TextEditingController nameController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
   TextEditingController emailController = TextEditingController();
+  TextEditingController dateController = TextEditingController();
+
   bool emailEditable = true;
   bool phoneEditable = true;
 
@@ -42,7 +44,7 @@ class _AfterSignUpScreenState extends State<AfterSignUpScreen> {
           child: ListView(children: [
             SizedBox(
               child:
-                  Lottie.asset("assets/lottie/almost_there.json", height: 300),
+                  Lottie.asset("assets/lottie/almost_there.json", height: 250),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 4),
@@ -68,39 +70,79 @@ class _AfterSignUpScreenState extends State<AfterSignUpScreen> {
             const SizedBox(height: 20),
             createEmailField(),
             const SizedBox(height: 20),
-            createPhoneField(),
+            Row(
+              children: [
+                Expanded(child: createPhoneField()),
+                Expanded(child: createDateField()),
+              ],
+            ),
+            const SizedBox(height: 40),
+            Row(
+              children: [
+                createFinishButton(),
+                const SizedBox(width: 30),
+                createSkipProjectButton(),
+              ],
+            ),
             const SizedBox(height: 20),
-            createSignUpButton(),
           ]),
         ),
       ),
     );
   }
 
-  Widget createSignUpButton() {
-    return InkWell(
-      onTap: () async {
-        var userModel = UserAccountModel(
-            phoneNumber: phoneController.text,
-            dob: "",
-            firebaseUID: widget.user.uid,
-            fullName: nameController.text,
-            email: emailController.text);
-      },
-      child: Container(
-        height: 45,
-        width: double.infinity,
-        decoration: BoxDecoration(
-            color: EduColors.appColor, borderRadius: BorderRadius.circular(3)),
-        child: Center(
-            child: Text(
-          "FINISH",
-          textAlign: TextAlign.center,
-          style: GoogleFonts.poppins(
+  Widget createFinishButton() {
+    return Expanded(
+      child: InkWell(
+        onTap: () async {
+          var userModel = UserAccountModel(
+              phoneNumber: phoneController.text,
+              dob: "",
+              firebaseUID: widget.user.uid,
+              fullName: nameController.text,
+              email: emailController.text);
+        },
+        child: Container(
+          height: 45,
+          decoration: BoxDecoration(
+              color: EduColors.appColor,
+              borderRadius: BorderRadius.circular(3)),
+          child: Center(
+              child: Text(
+            "FINISH",
+            textAlign: TextAlign.center,
+            style: GoogleFonts.poppins(
+                color: EduColors.blackColor,
+                fontSize: 17,
+                fontWeight: FontWeight.w500),
+          )),
+        ),
+      ),
+    );
+  }
+
+  Widget createSkipProjectButton() {
+    return Expanded(
+      child: InkWell(
+        onTap: () async {
+          //Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context)=>Accoun))
+        },
+        child: Container(
+          height: 45,
+          //width: double.infinity,
+          decoration: BoxDecoration(
               color: EduColors.blackColor,
-              fontSize: 17,
-              fontWeight: FontWeight.w500),
-        )),
+              borderRadius: BorderRadius.circular(3)),
+          child: Center(
+              child: Text(
+            "SKIP",
+            textAlign: TextAlign.center,
+            style: GoogleFonts.poppins(
+                color: EduColors.whiteColor,
+                fontSize: 17,
+                fontWeight: FontWeight.w500),
+          )),
+        ),
       ),
     );
   }
@@ -166,6 +208,39 @@ class _AfterSignUpScreenState extends State<AfterSignUpScreen> {
                     fontSize: 15, color: Colors.black.withOpacity(0.7))),
           ),
           textAlign: TextAlign.start),
+    );
+  }
+
+  Widget createDateField() {
+    return InkWell(
+      onTap: () async{
+        var selectedDate = await showDatePicker(
+            context: context,
+            initialDate: DateTime.now(),
+            firstDate: DateTime.fromMillisecondsSinceEpoch(0),
+            lastDate: DateTime.now());
+        dateController.text = selectedDate!.toString();
+        setState(() {});
+      },
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 6),
+        child: TextField(
+            controller: dateController,
+            keyboardType: TextInputType.phone,
+            enabled: false,
+            style: GoogleFonts.poppins(
+                color: phoneEditable ? Colors.black : Colors.grey),
+            decoration: InputDecoration(
+              prefixIcon: const Icon(Icons.date_range),
+              isDense: false,
+              focusedBorder: const UnderlineInputBorder(
+                  borderSide: BorderSide(color: EduColors.appColor)),
+              label: Text("Date of birth",
+                  style: TextStyle(
+                      fontSize: 15, color: Colors.black.withOpacity(0.7))),
+            ),
+            textAlign: TextAlign.start),
+      ),
     );
   }
 }

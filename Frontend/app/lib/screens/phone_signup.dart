@@ -6,6 +6,7 @@ import 'package:edu_elimu/utils.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:local_auth/local_auth.dart';
@@ -217,13 +218,17 @@ class _PhoneLoginScreenState extends State<PhoneLoginScreen> {
           return;
         }
         if (!sendOTP) {
+          EasyLoading.show(status: "loading");
+
           await FirebaseAuth.instance.verifyPhoneNumber(
             phoneNumber: phoneController.text,
             verificationCompleted: (PhoneAuthCredential credential) async {
               await auth.signInWithCredential(credential);
               showOverlayMessage("Successful sign up");
+              EasyLoading.dismiss();
             },
             verificationFailed: (FirebaseAuthException e) {
+              EasyLoading.dismiss();
               if (e.code == 'invalid-phone-number') {
                 showOverlayError('The provided phone number is not valid.');
               }
@@ -242,6 +247,7 @@ class _PhoneLoginScreenState extends State<PhoneLoginScreen> {
               // Sign the user in (or link) with the credential
               await auth.signInWithCredential(credential);
               showOverlayMessage("Successful sign up");
+              EasyLoading.dismiss();
             },
             codeAutoRetrievalTimeout: (String verificationId) {},
           );
@@ -270,6 +276,8 @@ class _PhoneLoginScreenState extends State<PhoneLoginScreen> {
     return InkWell(
       onTap: () async {
         try {
+          EasyLoading.show(status: "Loading");
+
           final GoogleSignInAccount? googleSignInAccount =
               await googleSignIn.signIn();
           if (googleSignInAccount != null) {
@@ -283,11 +291,16 @@ class _PhoneLoginScreenState extends State<PhoneLoginScreen> {
 
             try {
               final UserCredential userCredential =
-                  await auth.signInWithCredential(credential);
+                  await auth.signInWithCredential(credential).then((value) {
+                EasyLoading.dismiss();
+                return value;
+              });
 
               user = userCredential.user;
               showOverlayMessage("Sign In successful");
             } on FirebaseAuthException catch (e) {
+              EasyLoading.dismiss();
+
               if (e.code == 'account-exists-with-different-credential') {
                 // handle the error here
                 showOverlayError(e.toString());
@@ -296,15 +309,21 @@ class _PhoneLoginScreenState extends State<PhoneLoginScreen> {
                 showOverlayError(e.toString());
               }
             } catch (e) {
+              EasyLoading.dismiss();
+
               // handle the error here
               showOverlayError(e.toString());
             }
           } else {
+            EasyLoading.dismiss();
             showOverlayError("Could not sign in to Google :(");
           }
-        } on Exception catch (e) {
-          print(e.toString());
-          showOverlayError("Could not sign up via Google");
+        } on FirebaseAuthException catch (e) {
+          EasyLoading.dismiss();
+          // print(e.toString());
+          showOverlayError(
+              "Could not sign up via Google reason : ${e.message}");
+
           rethrow;
         }
       },
