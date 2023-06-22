@@ -4,9 +4,30 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class UsersController extends Controller
 {
+
+    public function login(Request $request)
+    {
+        $user= User::where('email', $request->email)->first();
+            if (!$user || !Hash::check($request->password, $user->password)) {
+                return response([
+                    'message' => ['These credentials do not match our records.']
+                ], 404);
+            }
+        
+            $token = $user->createToken('my-app-token')->plainTextToken;
+        
+            $response = [
+                'user' => $user,
+                'token' => $token
+            ];
+        
+            return response($response, 201);
+    }
+
     public function updateUserWithPhone($phone_number){
         try {
             $updated_user = User::where('phone_number', $phone_number)->update([
@@ -36,10 +57,11 @@ class UsersController extends Controller
             'profile_image' => request()->profile_image,
             'DOB' => request()->DOB,
             'email' => request()->email,
+            'password'=>Hash::make(request()->password),
         ]);
         return response()->json([
             'status'=>200,
-            'message'=>'User updated successfully',
+            'message'=>'User created successfully',
             'data'=>$user
         ],200); 
        } catch (\Throwable $th) {
