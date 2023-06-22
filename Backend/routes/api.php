@@ -99,3 +99,4 @@ Route::put("/updateUserWithEmail/{email}", [UsersController::class, 'updateUserW
 Route::post('/registerUser', [UsersController::class, 'register']);
 Route::put("/updateUserWithNo/{number}", [UsersController::class, 'updateUserWithPhone']);
 Route::get("/getCurrentUser", [UsersController::class, 'getCurrentUser']);
+Route::post('/loginUser', [UsersController::class, 'login']);
