@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:edu_elimu/screens/account_page.dart';
 import 'package:edu_elimu/screens/forgot_password.dart';
 import 'package:edu_elimu/screens/phone_signup.dart';
 import 'package:edu_elimu/screens/signup_screen.dart';
@@ -222,8 +223,12 @@ class _LoginScreenState extends State<LoginScreen> {
         try {
           UserCredential resp = await auth.signInWithEmailAndPassword(
               email: emailController.text, password: passwordController.text);
-        } on Exception catch (e) {
-          showOverlayError(e.toString());
+
+          Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) => AccountPage(user: resp.user!)));
+
+        } on FirebaseAuthException catch (e) {
+          showOverlayError(e.message!);
         }
       },
       child: Container(
@@ -265,6 +270,8 @@ class _LoginScreenState extends State<LoginScreen> {
 
               user = userCredential.user;
               showOverlayMessage("Sign In successful");
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => AccountPage(user: user!)));
             } on FirebaseAuthException catch (e) {
               if (e.code == 'account-exists-with-different-credential') {
                 // handle the error here
@@ -317,9 +324,9 @@ class _LoginScreenState extends State<LoginScreen> {
 
   Widget loginWithPhoneButton() {
     return InkWell(
-      onTap: (){
-        Navigator.of(context).push(MaterialPageRoute(
-            builder: (context) => const PhoneLoginScreen()));
+      onTap: () {
+        Navigator.of(context).push(
+            MaterialPageRoute(builder: (context) => const PhoneLoginScreen()));
       },
       child: Container(
         height: 45,

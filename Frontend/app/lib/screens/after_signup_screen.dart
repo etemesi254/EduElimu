@@ -1,4 +1,5 @@
 import 'package:edu_elimu/models/user_account.dart';
+import 'package:edu_elimu/screens/account_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -125,7 +126,9 @@ class _AfterSignUpScreenState extends State<AfterSignUpScreen> {
     return Expanded(
       child: InkWell(
         onTap: () async {
-          //Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context)=>Accoun))
+          Navigator.of(context).push(MaterialPageRoute(
+              builder: (BuildContext context) =>
+                  AccountPage(user: widget.user)));
         },
         child: Container(
           height: 45,
@@ -213,7 +216,7 @@ class _AfterSignUpScreenState extends State<AfterSignUpScreen> {
 
   Widget createDateField() {
     return InkWell(
-      onTap: () async{
+      onTap: () async {
         var selectedDate = await showDatePicker(
             context: context,
             initialDate: DateTime.now(),

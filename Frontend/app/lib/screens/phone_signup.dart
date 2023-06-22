@@ -69,7 +69,7 @@ class _PhoneLoginScreenState extends State<PhoneLoginScreen> {
               const Padding(
                 padding: EdgeInsets.symmetric(vertical: 10),
                 child: Text(
-                    "Password must be greater than 8 characters and at least one special symbol"),
+                    "OTP is a 6 digit code sent to your inbox, check your messages"),
               ),
             //const SizedBox(height: 50),
             //createForgotPasswordType(),
@@ -237,6 +237,7 @@ class _PhoneLoginScreenState extends State<PhoneLoginScreen> {
             codeSent: (String verificationId, int? resendToken) async {
               debugPrint("Verification ID $verificationId");
               sendOTP = true;
+              EasyLoading.dismiss();
               setState(() {});
 
               // Create a PhoneAuthCredential with the code
