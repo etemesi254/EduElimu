@@ -84,6 +84,9 @@ function CustomReset (){
                     <p>{error}</p>
                 </div>:''}
                 <h3 className='alt-1'>Reset Password</h3>
+                <div className='message'>
+                    <p>Password should have 6 or more characters including a special character</p>
+                </div>
                 <form className="form" onSubmit={handleSubmit}>
                     <input type="password" placeholder="New Password" value={password} onChange={handlePasswordInput}/>
                     <input type="password" placeholder="Confirm Password" value={confirmPassword} onChange={handleConfirmPassInput}/>

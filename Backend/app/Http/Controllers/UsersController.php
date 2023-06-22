@@ -22,10 +22,11 @@ class UsersController extends Controller
         
             $response = [
                 'user' => $user,
-                'token' => $token
+                'token' => $token,
+            'status' => 201
             ];
         
-            return response($response, 201);
+            return response()->json($response);
     }
 
     public function updateUserWithPhone($phone_number){

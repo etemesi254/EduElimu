@@ -12,7 +12,7 @@ function Loginuser (){
     const [value,setValue] = useState('');
     const [email,setEmail] = useState('');
     const [password,setPassword] = useState('');
-    const {login} = useAuth();
+    const {login, loginLaravel} = useAuth();
     const [error,setError] = useState('');
     const [loading,setLoading] = useState(false);
     const navigate = useNavigate();
@@ -44,8 +44,22 @@ function Loginuser (){
         e.preventDefault();
         try{
             setLoading(true);
-            await login(email,password);
-            navigate("/");
+            const response = await fetch('http://127.0.0.1:8000/api/loginUser', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({email: email, password: password})
+                });
+            console.log(response);
+            if(response.status === 200){
+                await login(email,password);
+                return navigate("/");
+            }
+
+            return setError('Login unsuccessful. Try again later');
+            
+            
         }catch(error){
             const errorMessage = error.message.startsWith("Firebase: ")
             ? error.message.substring("Firebase: ".length) // Remove the "Firebase: " prefix
@@ -83,10 +97,17 @@ function Loginuser (){
                     <p>{error}</p>
                 </div>:''}
                 <h3 className='alt-1'>Login</h3>
+                {/* <div className='message'>
+                    <p>Password should have 6 or more characters including a special character</p>
+                </div> */}
                 <form className="form" onSubmit={handleSubmit}>
                     <input type="Email" placeholder="Email" value={email} onChange={handleEmailInput}/>
                     <input type="password" placeholder="Password" value={password} onChange={handlePasswordInput}/>
                     <p id='fp'><Link to="/forgotPassword" className='fp'>Forgot Password?</Link></p>
+                    <div className='remember'>
+                        <input type="checkbox" name="remember"/>
+                        <p>Remember me?</p>
+                    </div>
                     <button type="submit" className="login" disabled={loading}>LOGIN</button>
                 </form>
                 <h4 className='alt'>OR</h4>

@@ -6,13 +6,15 @@ import { Link , useNavigate} from 'react-router-dom';
 
 function RegisterUser ({setCompleteProfile}){
     const container = useRef(null);
-    const {signup} = useAuth();
+    const {signup,loginLaravel} = useAuth();
     const [email,setEmail] = useState('');
     const [password,setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [error,setError] = useState('');
     const [loading,setLoading] = useState(false);
     const navigate = useNavigate();
+    const csrfToken = window.CSRF_TOKEN;
+
 
     const handleEmailInput = (e) => setEmail(e.target.value);
     const handlePasswordInput = (e) => setPassword(e.target.value);
@@ -36,11 +38,15 @@ function RegisterUser ({setCompleteProfile}){
 
         try {
             const response = await fetch('http://127.0.0.1:8000/api/registerUser', {
+                // mode: 'no-cors',
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': csrfToken,
               },
-              body: JSON.stringify({email}),
+              body: JSON.stringify({
+                "email":email, "password":password
+            }),
             });
             console.log(response)
         
@@ -48,6 +54,7 @@ function RegisterUser ({setCompleteProfile}){
                 try{
                     setLoading(true);
                     await signup(email,password);
+                    await loginLaravel(email,password);
                     navigate("/");
 
                     setTimeout(() => {
@@ -66,7 +73,7 @@ function RegisterUser ({setCompleteProfile}){
             console.log('User registered successfully:', data);
             return data;
           } catch (error) {
-            return console.error('Error registering user:', error);
+            return console.error(error.message);
           }
     }
 
@@ -97,7 +104,11 @@ function RegisterUser ({setCompleteProfile}){
                 {error?<div className='error'>
                     <p>{error}</p>
                 </div>:''}
+                
                 <h3 className='alt-1'>Sign Up</h3>
+                <div className='message'>
+                    <p>Password should have 6 or more characters including a special character</p>
+                </div>
                 <form className="form" onSubmit={handleSubmit}>
                     <input 
                         type="Email" 

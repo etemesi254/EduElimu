@@ -1,0 +1,225 @@
+.section_register{
+    height: 100vh;
+    width: 100vw;
+}
+.register_background {
+    position: relative;
+    height: 100vh;
+    background-size: cover;
+    background-position: center;
+    /* transition: background-image 0.5s ease-in-out; */
+  }
+  .alt-1{
+    margin-left: 20px;
+    font-size: 23px;
+  }
+  .whiite-bk #info{
+    margin-left: 20px;
+    margin-right: 20px;
+    font-weight: 600;
+    font-size: 15px;
+    color: #FFC700;
+  }
+
+  #back_icon{
+    font-size: 40px;
+    color: white;
+    position: absolute;
+    top: 0px;
+    padding-top: 20px;
+    left: 0px;
+    padding-left: 40px;
+  }
+  .register_background::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+  }
+  .lottie_container{
+    height: 200px;
+  }
+  .form_container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+  }
+  .whiite-bk{
+    background-color: white;
+    margin-top: 20px;
+    padding: 30px;
+  }
+  .form_container h2{
+    font-size: 40px;
+    color: white;
+  }
+  .form_container h2 b{
+    color: #FFC700;
+  }
+  .form {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+  }
+  .form>*{
+    margin: 10px;
+  }
+  .form input{
+    height: 42px;
+    width: 30vw;
+    padding-left: 10px;
+    padding-right: 10px;
+    background-color: rgba(255, 255, 255, 0.2);
+    border: none;
+    border-bottom:1px solid;
+    outline: none;
+  }
+  .form input:focus {
+    border-bottom: 2px solid #FFC700;
+  }
+  .form input:focus::placeholder {
+    color: #FFC700;
+  }
+  .big_tech{
+    height: 40px;
+    width: 14vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+    border: 2px solid;
+  }
+  .big_tech p{
+    font-size: 12px;
+    font-weight: 600;
+  }
+  .big_tech:hover{
+    background-color: rgba(255, 255, 255, 0.4);
+    cursor: pointer;
+  }
+  .big_tech img{
+    height: 20px;
+    width: 20px;
+    margin-right: 10px;
+  }
+  .form input::placeholder{
+    color: black;
+  }
+  .form button{
+    height: 45px;
+    width: 31.5vw;
+    background-color: #FFC700;
+    color: black;
+    border: none;
+    font-size: 15px;
+    font-weight: 600;
+    border-radius: 5px;
+  }
+  .alt{
+    display: flex;
+    justify-content: center;
+  }
+  .signwith{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .signwith >*{
+    margin: 15px;
+  }
+  #phone{
+    background-color: black;
+    
+  }
+  #phone{
+    color: white;
+  }
+  #p_tags3{
+    color: black;
+    font-size: 14px;
+    font-weight: 600;
+    display: flex;
+    justify-content: center;
+    margin: 0;
+    padding: 0;
+    margin-bottom: 20px;
+  }
+  #p_tags2,#p_tags3{
+    margin-top: 20px;
+  }
+  .have_account .a{
+    color: #FFC700;
+    text-decoration: none;
+  }
+  #fp{
+    font-size: 14px;
+    font-weight: 600;
+    display: flex;
+    justify-content: right;
+    align-self: flex-end;
+  }
+  #fp .fp{
+    color: black;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+  }
+  .error{
+    padding: 10px 5px;
+    background-color: rgb(255, 243, 243);
+    color: red;
+    font-size: 12px;
+    font-weight: 600;
+  }
+  .message{
+    padding: 10px 5px;
+    background-color: rgb(240, 254, 240);
+    color: green;
+    font-size: 12px;
+    font-weight: 600;
+  }
+  #phoneNo{
+    width: 27vw;
+  }
+  .remember input{
+    height: 20px;
+    width: 20px;
+    margin-right: 20px;
+  }
+  .remember{
+    display: flex;
+    justify-content: right;
+    align-items: center;
+  }
+  @media screen and (max-width: 700px){
+    .whiite-bk{
+      background-color: white;
+      margin-top: 20px;
+      padding: 20px;
+    }
+    .form input{
+        height: 45px;
+        width: 60vw;
+    }
+    #phoneNo{
+      width: 50vw;
+    }
+    .big_tech{
+      height: 45px;
+        width: 60vw;
+    }
+    .form button{
+        height: 45px;
+        width: 63vw;
+    }
+  }

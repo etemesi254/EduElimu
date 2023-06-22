@@ -6,9 +6,13 @@ import {ImBooks,ImFilm,ImPlay} from "react-icons/im";
 import {IoBookSharp} from "react-icons/io5";
 import { RiShoppingBag2Fill } from "react-icons/ri";
 import { AiFillDollarCircle } from "react-icons/ai";
+import LogoutConfirmationDialog from "../user_auth/logoutConfirmation";
 
-const MainDash = ({setHideSidebar,hideSidebar})=>{
+const MainDash = ({setHideSidebar,hideSidebar,showLogout,setShowLogout})=>{
     return  <>
+	{showLogout &&  <LogoutConfirmationDialog
+                setShowLogout={setShowLogout}
+              />}
     <div class="head-title">
 				<div class="left">
 					<h1>Dashboard</h1>

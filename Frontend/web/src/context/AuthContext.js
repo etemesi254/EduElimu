@@ -18,9 +18,35 @@ export function AuthProvider({children}) {
         return authFB.createUserWithEmailAndPassword(email, password);
     }
 
-    async function registerUser(user) {
+    async function loginLaravel(email, password) {
+      try {
+        const response = await fetch('http://127.0.0.1:8000/api/loginUser', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({email: email, password: password}),
+        });
+        console.log(response);
+    
+        if (!response.status === 201) {
+          throw new Error('Registration failed');
+        }
+
+        localStorage.setItem('token', response.token);
+        // const data = await response.json();
+        // console.log('User registered successfully:', data);
+        // return data;
+      } catch (error) {
+        console.error('Error registering user:', error);
+        throw error;
+      }
+    }
+    
+
+    async function registerUserLaravel(user) {
         try {
-          const response = await fetch('your_api_endpoint/register', {
+          const response = await fetch('http://127.0.0.1:8000/api/registerUser', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -82,7 +108,8 @@ export function AuthProvider({children}) {
         logout,
         resetPassword,
         setUpRecaptcha,
-        customResetPassword
+        customResetPassword,
+        loginLaravel
     }
   return (
     <AuthContext.Provider value={value}>

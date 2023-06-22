@@ -6,7 +6,11 @@ import {ImBooks,ImFilm} from "react-icons/im";
 import {IoBookSharp} from "react-icons/io5";
 import React,{useState} from "react";
 
-const Sidebar = ({setHideSidebar,hideSidebar})=>{
+const Sidebar = ({setHideSidebar,hideSidebar,showLogout,setShowLogout})=>{
+    
+    function handleLogout(){
+        setShowLogout(true);
+    }
     
     return <section id="sidebar" className={hideSidebar?"hide":""}>
     <a href="#" className="brand">
@@ -52,8 +56,8 @@ const Sidebar = ({setHideSidebar,hideSidebar})=>{
                 <span className="text">Settings</span>
             </a>
         </li>
-        <li>
-            <a href="#" className="logout">
+        <li onClick={handleLogout}>
+            <a  className="logout">
                 <RiLogoutCircleFill className="nav-icons"/>
                 <span className="text">Logout</span>
             </a>

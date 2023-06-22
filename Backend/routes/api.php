@@ -94,6 +94,10 @@ Route::fallback(function () {
 
 });
 
+Route::group(['middleware' => 'auth:sanctum'], function(){
+    //we will put our secure routes here
+
+    });
 
 Route::put("/updateUserWithEmail/{email}", [UsersController::class, 'updateUserWithEmail']);
 Route::post('/registerUser', [UsersController::class, 'register']);

@@ -25,6 +25,7 @@ import MainDash from './Admin/mainDash';
 import CompleteProfileEmail from './user_auth/completeProfile';
 import UserSettings from './settings/user_settings';
 import UserLayout from './completed_homepage/userLayout';
+import LoginAdmin from './Admin/admin_auth/login';
 
 
 function App() {
@@ -56,7 +57,8 @@ function App() {
               showDeclinePrompt={showDeclinePrompt}
               setShowDeclinePrompt={setShowDeclinePrompt}
               />}/>
-              <Route path="/settings" Component={UserSettings}/>
+              <Route path="/settings" element={<UserSettings showLogout={showLogout} 
+             setShowLogout={setShowLogout}/>}/>
           </Route>
           <Route path='/register' element={<RegisterUser  completeProfile={completeProfile}
               setCompleteProfile={setCompleteProfile}/>}/>
@@ -64,8 +66,11 @@ function App() {
           <Route path='/forgotPassword' Component={ForgotPassword}/>
           <Route path='/signupwithphone' Component={SignInWithPhone}/>
           <Route path='/resetPassword' Component={CustomReset}/>
-          <Route path='/admin' Component={AdminLayout}>
-            <Route path='dash' Component={MainDash}/>
+          <Route path='/adminLogin' Component={LoginAdmin}/>
+          <Route path='/admin' element={<AdminLayout showLogout={showLogout} 
+              setShowLogout={setShowLogout}/>}>
+            <Route exact path='/admin' element={<MainDash showLogout={showLogout} 
+             setShowLogout={setShowLogout}/>}/>
           </Route>
           <Route path='/completeProfile' Component={CompleteProfileEmail}/>
         </Routes>
