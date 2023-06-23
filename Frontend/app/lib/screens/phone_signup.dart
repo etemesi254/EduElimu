@@ -249,8 +249,8 @@ class _PhoneLoginScreenState extends State<PhoneLoginScreen> {
       },
       child: Row(
         children: [
-          Text(country.flagEmoji),
-          SizedBox(
+          Text(country.flagEmoji,style: const TextStyle(fontSize: 22),),
+          const SizedBox(
             width: 5,
           ),
           Expanded(child: Text(country.name))

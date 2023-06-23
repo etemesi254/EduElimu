@@ -18,6 +18,6 @@ void showOverlayMessage(String error,
         error,
         style: const TextStyle(color: Colors.white),
       ),
-      background: backgroundColor ?? EduColors.appColor,
+      background: backgroundColor ?? Colors.green,
       duration: duration);
 }

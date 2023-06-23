@@ -1,4 +1,5 @@
 import 'package:edu_elimu/screens/landing_page.dart';
+import 'package:edu_elimu/screens/reset_password_email.dart';
 import 'package:edu_elimu/themes/app_theme.dart';
 import 'package:edu_elimu/themes/colors.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -8,7 +9,6 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:overlay_support/overlay_support.dart';
 
 import 'firebase_options.dart';
-
 
 void configLoading() {
   EasyLoading.instance
@@ -24,7 +24,7 @@ void configLoading() {
     ..maskColor = Colors.blue.withOpacity(0.5)
     ..userInteractions = true
     ..dismissOnTap = false;
-    //..customAnimation = CustomAnimation();
+  //..customAnimation = CustomAnimation();
 }
 
 void main() async {
@@ -50,6 +50,17 @@ class MyApp extends StatelessWidget {
     return OverlaySupport.global(
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
+        onGenerateRoute: ((settings) {
+          if (settings.name == "/") {
+            return MaterialPageRoute(builder: (context) => const LandingPage());
+          }
+          // Add event handling.
+          // If we don't know the page, just show the landing page
+
+          var uri = settings.name!;
+          return MaterialPageRoute(
+              builder: (context) => PasswordResetScreenWithEmail(urlText: uri));
+        }),
         title: 'Edu Elimu',
         theme: EduTheme.themeData(context),
         home: const LandingPage(),

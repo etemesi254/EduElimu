@@ -28,10 +28,12 @@ class SignupScreen extends StatefulWidget {
 
 class _SignupScreenState extends State<SignupScreen> {
   bool showPassword = false;
+  bool showConfirmPassword = false;
 
   TextEditingController passwordController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController nameController = TextEditingController();
+  TextEditingController passwordConfirmController = TextEditingController();
 
   final GoogleSignIn googleSignIn = GoogleSignIn();
   FirebaseAuth auth = FirebaseAuth.instance;
@@ -51,10 +53,7 @@ class _SignupScreenState extends State<SignupScreen> {
           child: ListView(children: [
             // createBanner(),
             Lottie.asset("assets/lottie/sign-up.json",
-                height: MediaQuery
-                    .of(context)
-                    .size
-                    .height * 0.25),
+                height: MediaQuery.of(context).size.height * 0.25),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 4),
               child: Text(
@@ -75,12 +74,18 @@ class _SignupScreenState extends State<SignupScreen> {
               padding: const EdgeInsets.symmetric(vertical: 10.0),
               child: createPasswordBox(),
             ),
+
+            const SizedBox(height: 10),
+
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 10.0),
+              child: createPasswordConfirmBox(),
+            ),
             const Padding(
               padding: EdgeInsets.symmetric(vertical: 10),
               child: Text(
                   "Password length must be greater than 8 characters and at least one special symbol"),
             ),
-            const SizedBox(height: 10),
             createSignUpButton(),
             const SizedBox(
               height: 15,
@@ -170,7 +175,7 @@ class _SignupScreenState extends State<SignupScreen> {
             borderSide: BorderSide(color: EduColors.appColor)),
         label: Text("Email Address or phone",
             style:
-            TextStyle(fontSize: 15, color: Colors.black.withOpacity(0.7))),
+                TextStyle(fontSize: 15, color: Colors.black.withOpacity(0.7))),
       ),
       textAlign: TextAlign.start,
     );
@@ -208,7 +213,45 @@ class _SignupScreenState extends State<SignupScreen> {
             borderSide: BorderSide(color: EduColors.appColor)),
         label: Text("Password",
             style:
-            TextStyle(fontSize: 15, color: Colors.black.withOpacity(0.7))),
+                TextStyle(fontSize: 15, color: Colors.black.withOpacity(0.7))),
+      ),
+      textAlign: TextAlign.start,
+    );
+  }
+
+  Widget createPasswordConfirmBox() {
+    return TextField(
+      onChanged: (newValue) {},
+      controller: passwordConfirmController,
+      obscureText: showConfirmPassword,
+      autocorrect: false,
+      enableSuggestions: false,
+      // contextMenuBuilder: (context,textState){
+      //
+      // },
+      // toolbarOptions: ToolbarOptions(
+      //   copy: false,
+      //   paste: false,
+      //   cut: false,
+      //   selectAll: false,
+      // ),
+      decoration: InputDecoration(
+        prefixIcon: const Icon(Icons.lock),
+        suffixIcon: IconButton(
+          onPressed: () {
+            showConfirmPassword ^= true;
+            setState(() {});
+          },
+          icon: showConfirmPassword
+              ? const Icon(Icons.visibility)
+              : const Icon(Icons.visibility_off),
+        ),
+        isDense: false,
+        focusedBorder: const UnderlineInputBorder(
+            borderSide: BorderSide(color: EduColors.appColor)),
+        label: Text("Confirm password",
+            style:
+                TextStyle(fontSize: 15, color: Colors.black.withOpacity(0.7))),
       ),
       textAlign: TextAlign.start,
     );
@@ -225,6 +268,13 @@ class _SignupScreenState extends State<SignupScreen> {
           if (passwordController.text.length < 8) {
             showOverlayError("Password is not long enough");
             return;
+          }
+          if (passwordController.text.length < 8) {
+            showOverlayError("Password is not long enough");
+            return;
+          }
+          if (passwordConfirmController.text != passwordController.text) {
+            showOverlayError("Passwords do not match");
           }
           if (!specialChar.hasMatch(passwordController.text)) {
             showOverlayError("Password does not have a special character");
@@ -252,13 +302,13 @@ class _SignupScreenState extends State<SignupScreen> {
             color: EduColors.appColor, borderRadius: BorderRadius.circular(3)),
         child: const Center(
             child: Text(
-              "CONTINUE",
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                  color: EduColors.blackColor,
-                  fontSize: 17,
-                  fontWeight: FontWeight.w500),
-            )),
+          "CONTINUE",
+          textAlign: TextAlign.center,
+          style: TextStyle(
+              color: EduColors.blackColor,
+              fontSize: 17,
+              fontWeight: FontWeight.w500),
+        )),
       ),
     );
   }
@@ -269,10 +319,10 @@ class _SignupScreenState extends State<SignupScreen> {
         try {
           EasyLoading.show(status: "Loading...");
           final GoogleSignInAccount? googleSignInAccount =
-          await googleSignIn.signIn();
+              await googleSignIn.signIn();
           if (googleSignInAccount != null) {
             final GoogleSignInAuthentication googleSignInAuthentication =
-            await googleSignInAccount.authentication;
+                await googleSignInAccount.authentication;
 
             final AuthCredential credential = GoogleAuthProvider.credential(
               accessToken: googleSignInAuthentication.accessToken,
@@ -280,9 +330,8 @@ class _SignupScreenState extends State<SignupScreen> {
             );
 
             try {
-
               final UserCredential userCredential =
-              await auth.signInWithCredential(credential);
+                  await auth.signInWithCredential(credential);
 
               user = userCredential.user;
               showOverlayMessage("Sign In successful");
@@ -291,7 +340,6 @@ class _SignupScreenState extends State<SignupScreen> {
               Navigator.of(context).push(MaterialPageRoute(
                   builder: (BuildContext ctx) =>
                       AfterSignUpScreen(user: user!)));
-
             } on FirebaseAuthException catch (e) {
               if (e.code == 'account-exists-with-different-credential') {
                 // handle the error here
@@ -327,17 +375,17 @@ class _SignupScreenState extends State<SignupScreen> {
               padding: const EdgeInsets.all(10.0),
               child: CachedNetworkImage(
                   imageUrl:
-                  "https://img.icons8.com/fluency/48/google-logo.png"),
+                      "https://img.icons8.com/fluency/48/google-logo.png"),
             ),
             Center(
                 child: Text(
-                  "Login with Google",
-                  textAlign: TextAlign.center,
-                  style: GoogleFonts.poppins(
-                      color: EduColors.blackColor,
-                      fontSize: 14,
-                      fontWeight: FontWeight.w500),
-                )),
+              "Login with Google",
+              textAlign: TextAlign.center,
+              style: GoogleFonts.poppins(
+                  color: EduColors.blackColor,
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500),
+            )),
           ],
         ),
       ),
@@ -357,13 +405,13 @@ class _SignupScreenState extends State<SignupScreen> {
             borderRadius: BorderRadius.circular(0)),
         child: const Center(
             child: Text(
-              "Login with Phone Number",
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                  color: EduColors.whiteColor,
-                  fontSize: 14,
-                  fontWeight: FontWeight.w500),
-            )),
+          "Login with Phone Number",
+          textAlign: TextAlign.center,
+          style: TextStyle(
+              color: EduColors.whiteColor,
+              fontSize: 14,
+              fontWeight: FontWeight.w500),
+        )),
       ),
     );
   }
