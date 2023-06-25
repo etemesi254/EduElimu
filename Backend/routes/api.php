@@ -1,9 +1,8 @@
 <?php
 
-use App\Models\User;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\ChannelController;
 use App\Http\Controllers\UsersController;
+use App\Http\Controllers\VideoUploaderController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -30,3 +29,5 @@ Route::put("/updateUserWithEmail/{email}", [UsersController::class, 'updateUserW
 Route::post('/registerUser', [UsersController::class, 'register']);
 Route::put("/updateUserWithNo/{number}", [UsersController::class, 'updateUserWithPhone']);
 Route::get("/getCurrentUser", [UsersController::class, 'getCurrentUser']);
+
+Route::any("/uploads/upload_video", [VideoUploaderController::class, "addVideo"]);
