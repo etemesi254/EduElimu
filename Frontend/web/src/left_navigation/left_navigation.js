@@ -5,7 +5,7 @@ import {BsBrowserEdge} from 'react-icons/bs';
 import {TbLogout} from 'react-icons/tb';
 import {SlGameController} from 'react-icons/sl';
 import { useAuth } from '../context/AuthContext';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import './left_navigation.css'
 
 function LeftNavigation({showLogout,setShowLogout}){
@@ -28,7 +28,7 @@ function LeftNavigation({showLogout,setShowLogout}){
     </ul>
     <ul className='section'>
     <p>General</p>
-        <li><AiOutlineSetting className='left-icons'/><a href=''>Settings</a> </li>
+        <Link to="/settings"><li><AiOutlineSetting className='left-icons'/><a href=''>Settings</a> </li></Link>
         <li id='logout'><TbLogout className='left-icons'/><p  onClick={handleLogout}>Logout</p> </li>
     </ul>
 

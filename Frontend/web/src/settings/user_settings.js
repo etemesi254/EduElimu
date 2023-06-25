@@ -2,7 +2,8 @@ import "./user_settings.css"
 import { useAuth } from "../context/AuthContext";
 import { useEffect, useState } from "react";
 import { toast } from 'react-toastify';
-function UserSettings(){
+import LogoutConfirmationDialog from "../user_auth/logoutConfirmation";
+function UserSettings({showLogout,setShowLogout}){
     const {currentUser} = useAuth();
     const [name,setName] = useState('');
     const [phone_number,setPhone] = useState('');
@@ -26,26 +27,26 @@ function UserSettings(){
     async function getCurrentUser() {
       try {
         const email = encodeURIComponent(currentUser.email);
-        const phoneNumber = encodeURIComponent(currentUser.phoneNumber);
+        const phoneNumber = currentUser.phoneNumber;
 
         const url = `http://127.0.0.1:8000/api/getCurrentUser?email=${email}&phone_number=${phoneNumber}`;
 
         const response = await fetch(url, {
+          // mode: 'no-cors',
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
           },
         });
 
-        if (response.ok) {
+        if (response.status === 201) {
             const user = await response.json();
             setUser(user); // Update the user state
           } else {
             throw new Error('Failed to fetch current user');
           }
         } catch (error) {
-          console.error('Error:', error);
-          throw error;
+          console.error('Error:', error.message);
         }
       }
   
@@ -92,13 +93,16 @@ function UserSettings(){
     }
       
     return <>
+    {showLogout &&  <LogoutConfirmationDialog
+                setShowLogout={setShowLogout}
+              />}
     <div className="settings">
         <div className="img-divv">
             <img src="https://res.cloudinary.com/diqqf3eq2/image/upload/v1595959131/person-2_ipcjws.jpg"/>
         </div>
         <div className="user_info">
-            <h3>Venessa Chebukwa</h3>
-            <p>Nairobi, Kenya</p>
+            <h3>{displayName}</h3>
+            <p>{displayEmail}</p>
         </div>
     </div>
     <div className="user_settings_form">
