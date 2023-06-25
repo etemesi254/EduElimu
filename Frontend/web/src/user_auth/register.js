@@ -4,6 +4,7 @@ import { useEffect, useRef,useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { Link , useNavigate} from 'react-router-dom';
 
+
 function RegisterUser ({setCompleteProfile}){
     const container = useRef(null);
     const {signup,loginLaravel} = useAuth();
@@ -12,6 +13,7 @@ function RegisterUser ({setCompleteProfile}){
     const [confirmPassword, setConfirmPassword] = useState('');
     const [error,setError] = useState('');
     const [loading,setLoading] = useState(false);
+    const [showSpinner,setShowSpinner] = useState(false);
     const navigate = useNavigate();
     const csrfToken = window.CSRF_TOKEN;
 
@@ -33,9 +35,7 @@ function RegisterUser ({setCompleteProfile}){
         if(password!= confirmPassword){
             return setError('Your passwords do not match')
         }
-
-
-
+        setShowSpinner(true);
         try {
             const response = await fetch('http://127.0.0.1:8000/api/registerUser', {
                 // mode: 'no-cors',
@@ -53,6 +53,7 @@ function RegisterUser ({setCompleteProfile}){
             if (response.status === 200) {
                 try{
                     setLoading(true);
+                    
                     await signup(email,password);
                     await loginLaravel(email,password);
                     navigate("/");
@@ -60,7 +61,9 @@ function RegisterUser ({setCompleteProfile}){
                     setTimeout(() => {
                         setCompleteProfile(true);
                       }, 10000); 
+                      setShowSpinner(false);
                 }catch(error){
+                    setShowSpinner(false);
                     const errorMessage = error.message.startsWith("Firebase: ")
                     ? error.message.substring("Firebase: ".length) // Remove the "Firebase: " prefix
                     : error.message;
@@ -71,10 +74,14 @@ function RegisterUser ({setCompleteProfile}){
         
             const data = await response.json();
             console.log('User registered successfully:', data);
+            setShowSpinner(false);
             return data;
           } catch (error) {
+            setShowSpinner(false);
             return console.error(error.message);
           }
+
+          
     }
 
     function navigateToPhonePage(){
@@ -91,7 +98,8 @@ function RegisterUser ({setCompleteProfile}){
         });
         return () => instance.destroy();
     },[]);
-    return <section className='section_register'>
+    return <>
+    <section className='section_register'>
         <div className="register_background" style={{
         backgroundImage: `url("./assets/home (1).jpg")`,
         backgroundSize: 'cover',
@@ -141,6 +149,7 @@ function RegisterUser ({setCompleteProfile}){
             </div>
         </div>
     </section>
+    </>
 }
 
 export default RegisterUser;
