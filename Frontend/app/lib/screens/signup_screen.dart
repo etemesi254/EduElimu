@@ -275,6 +275,7 @@ class _SignupScreenState extends State<SignupScreen> {
           }
           if (passwordConfirmController.text != passwordController.text) {
             showOverlayError("Passwords do not match");
+            return;
           }
           if (!specialChar.hasMatch(passwordController.text)) {
             showOverlayError("Password does not have a special character");
