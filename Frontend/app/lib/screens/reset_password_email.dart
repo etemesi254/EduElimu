@@ -161,6 +161,7 @@ class _PasswordResetScreenWithEmailState
           }
           if (passwordConfirmController.text != passwordController.text) {
             showOverlayError("Passwords do not match");
+            return;
           }
           if (!specialChar.hasMatch(passwordController.text)) {
             showOverlayError("Password does not have a special character");
@@ -180,7 +181,12 @@ class _PasswordResetScreenWithEmailState
           // UserCredential user = await auth.createUserWithEmailAndPassword(
           //     email: emailController.text, password: passwordController.text);
 
-          showOverlayMessage("Successfully created user");
+          showOverlayMessage(
+              "Successfully reset password, use the new password to log in");
+
+           Navigator.popUntil(context, (route) => route.isFirst);
+          Navigator.of(context).push(
+              MaterialPageRoute(builder: (context) => const LoginScreen()));
         } on Exception catch (e) {
           var msg = "Could not create user";
 
