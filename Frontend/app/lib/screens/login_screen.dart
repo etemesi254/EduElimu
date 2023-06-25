@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:local_auth/local_auth.dart';
@@ -48,7 +49,10 @@ class _LoginScreenState extends State<LoginScreen> {
           child: ListView(children: [
             // createBanner(),
             Lottie.asset("assets/lottie/login.json",
-                height: MediaQuery.of(context).size.height * 0.23),
+                height: MediaQuery
+                    .of(context)
+                    .size
+                    .height * 0.23),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 4),
               child: Text(
@@ -133,7 +137,7 @@ class _LoginScreenState extends State<LoginScreen> {
         try {
           final bool didAuthenticate = await localAuth.authenticate(
               localizedReason:
-                  "We need to confirm it's you before resetting password");
+              "We need to confirm it's you before resetting password");
           if (didAuthenticate) {
             Navigator.of(context).push(MaterialPageRoute(
                 builder: (context) => const ForgotPasswordPage()));
@@ -171,7 +175,7 @@ class _LoginScreenState extends State<LoginScreen> {
             borderSide: BorderSide(color: EduColors.appColor)),
         label: Text("Email Address",
             style:
-                TextStyle(fontSize: 15, color: Colors.black.withOpacity(0.7))),
+            TextStyle(fontSize: 15, color: Colors.black.withOpacity(0.7))),
       ),
       textAlign: TextAlign.start,
     );
@@ -198,7 +202,7 @@ class _LoginScreenState extends State<LoginScreen> {
             borderSide: BorderSide(color: EduColors.appColor)),
         label: Text("Password",
             style:
-                TextStyle(fontSize: 15, color: Colors.black.withOpacity(0.7))),
+            TextStyle(fontSize: 15, color: Colors.black.withOpacity(0.7))),
       ),
       textAlign: TextAlign.start,
     );
@@ -221,14 +225,16 @@ class _LoginScreenState extends State<LoginScreen> {
         }
 
         try {
+          EasyLoading.show(status: "Loading..");
           UserCredential resp = await auth.signInWithEmailAndPassword(
               email: emailController.text, password: passwordController.text);
 
           Navigator.of(context).push(MaterialPageRoute(
               builder: (context) => AccountPage(user: resp.user!)));
-
         } on FirebaseAuthException catch (e) {
           showOverlayError(e.message!);
+        } finally {
+          EasyLoading.dismiss();
         }
       },
       child: Container(
@@ -238,13 +244,13 @@ class _LoginScreenState extends State<LoginScreen> {
             color: EduColors.appColor, borderRadius: BorderRadius.circular(3)),
         child: const Center(
             child: Text(
-          "LOGIN",
-          textAlign: TextAlign.center,
-          style: TextStyle(
-              color: EduColors.blackColor,
-              fontSize: 17,
-              fontWeight: FontWeight.w500),
-        )),
+              "LOGIN",
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                  color: EduColors.blackColor,
+                  fontSize: 17,
+                  fontWeight: FontWeight.w500),
+            )),
       ),
     );
   }
@@ -253,11 +259,12 @@ class _LoginScreenState extends State<LoginScreen> {
     return InkWell(
       onTap: () async {
         try {
+          EasyLoading.show(status: "Loading");
           final GoogleSignInAccount? googleSignInAccount =
-              await googleSignIn.signIn();
+          await googleSignIn.signIn();
           if (googleSignInAccount != null) {
             final GoogleSignInAuthentication googleSignInAuthentication =
-                await googleSignInAccount.authentication;
+            await googleSignInAccount.authentication;
 
             final AuthCredential credential = GoogleAuthProvider.credential(
               accessToken: googleSignInAuthentication.accessToken,
@@ -266,13 +273,15 @@ class _LoginScreenState extends State<LoginScreen> {
 
             try {
               final UserCredential userCredential =
-                  await auth.signInWithCredential(credential);
+              await auth.signInWithCredential(credential);
 
               user = userCredential.user;
               showOverlayMessage("Sign In successful");
+              EasyLoading.dismiss();
               Navigator.of(context).push(MaterialPageRoute(
                   builder: (context) => AccountPage(user: user!)));
             } on FirebaseAuthException catch (e) {
+              EasyLoading.dismiss();
               if (e.code == 'account-exists-with-different-credential') {
                 // handle the error here
                 showOverlayError(e.toString());
@@ -281,6 +290,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 showOverlayError(e.toString());
               }
             } catch (e) {
+              EasyLoading.dismiss();
               // handle the error here
               showOverlayError(e.toString());
             }
@@ -289,6 +299,7 @@ class _LoginScreenState extends State<LoginScreen> {
           }
         } on Exception catch (e) {
           print(e.toString());
+          EasyLoading.dismiss();
           showOverlayError("Could not sign up via Google");
           rethrow;
         }
@@ -305,17 +316,17 @@ class _LoginScreenState extends State<LoginScreen> {
               padding: const EdgeInsets.all(10.0),
               child: CachedNetworkImage(
                   imageUrl:
-                      "https://img.icons8.com/fluency/48/google-logo.png"),
+                  "https://img.icons8.com/fluency/48/google-logo.png"),
             ),
             Center(
                 child: Text(
-              "Login with Google",
-              textAlign: TextAlign.center,
-              style: GoogleFonts.poppins(
-                  color: EduColors.blackColor,
-                  fontSize: 14,
-                  fontWeight: FontWeight.w500),
-            )),
+                  "Login with Google",
+                  textAlign: TextAlign.center,
+                  style: GoogleFonts.poppins(
+                      color: EduColors.blackColor,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500),
+                )),
           ],
         ),
       ),
@@ -335,13 +346,13 @@ class _LoginScreenState extends State<LoginScreen> {
             borderRadius: BorderRadius.circular(0)),
         child: const Center(
             child: Text(
-          "Login with Phone Number",
-          textAlign: TextAlign.center,
-          style: TextStyle(
-              color: EduColors.whiteColor,
-              fontSize: 14,
-              fontWeight: FontWeight.w500),
-        )),
+              "Login with Phone Number",
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                  color: EduColors.whiteColor,
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500),
+            )),
       ),
     );
   }
