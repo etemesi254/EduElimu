@@ -9,7 +9,19 @@ class Videos extends Model
 {
     use HasFactory;
 
-    public function chanel(){
-        return $this->belongsTo(Chanel::class,'chanel_id');
+    protected $fillable = [
+        "name",
+        "channel_id",
+        "description",
+        "view_count",
+        "status",
+        "file_url",
+        "banner_url"
+    ];
+
+    public function channel(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(Channel::class, 'channel_id');
     }
+
 }
