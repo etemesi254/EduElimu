@@ -25,8 +25,9 @@ class User extends Authenticatable
         'DOB',
         'profile_image',
         'phone_number',
+        "firebase_id",
     ];
-    
+
 
     /**
      * The attributes that should be hidden for serialization.

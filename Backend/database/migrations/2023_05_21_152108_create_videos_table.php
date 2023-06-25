@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('videos', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->foreignId('chanel_id')->nullable()->constrained('chanels');//videos can only exist under a channel
+            $table->foreignId('channel_id')->nullable()->constrained('channels');//videos can only exist under a channel
             $table->string('description');
             $table->integer('view_count');
             $table->string('status');

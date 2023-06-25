@@ -4,17 +4,17 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
     public function up(): void
     {
-        Schema::create('subscribers', function (Blueprint $table) {
-            $table->foreignId('channel_id')->constrained('channels');
-            $table->foreignId('user_id')->constrained('users');
-            $table->timestamps();
+        //
+        Schema::table('channels', function (Blueprint $table) {
+            $table->bigInteger("subscribers");
+            $table->string("description");
+
         });
     }
 
@@ -23,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('subscribeds');
+        //
     }
 };

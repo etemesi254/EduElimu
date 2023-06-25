@@ -17,15 +17,15 @@ class UsersController extends Controller
                     'message' => ['These credentials do not match our records.']
                 ], 404);
             }
-        
+
             $token = $user->createToken('my-app-token')->plainTextToken;
-        
+
             $response = [
                 'user' => $user,
                 'token' => $token,
             'status' => 201
             ];
-        
+
             return response()->json($response);
     }
 
@@ -41,12 +41,12 @@ class UsersController extends Controller
                 'status'=>201,
                 'message'=>'User updated successfully',
                 'data'=>$updated_user
-            ],201); 
+            ],201);
         } catch (\Throwable $th) {
             return response()->json([
                 'status'=>500,
                 'message'=>$th->getMessage(),
-            ],500); 
+            ],500);
         }
     }
 
@@ -64,12 +64,12 @@ class UsersController extends Controller
             'status'=>200,
             'message'=>'User created successfully',
             'data'=>$user
-        ],200); 
+        ],200);
        } catch (\Throwable $th) {
         return response()->json([
             'status'=>500,
             'message'=>$th->getMessage(),
-        ],500); 
+        ],500);
        }
     }
 
@@ -95,12 +95,12 @@ class UsersController extends Controller
                 'status'=>201,
                 'message'=>'User updated successfully',
                 'data'=>$updated_user
-            ],201); 
+            ],201);
         } catch (\Throwable $th) {
             return response()->json([
                 'status'=>500,
                 'message'=>$th->getMessage(),
-            ],500); 
+            ],500);
         }
     }
 
@@ -108,37 +108,37 @@ class UsersController extends Controller
         try {
             if (request()->has('email')) {
                 $user = User::where('email', request()->email)->first();
-        
+
                 if ($user) {
                     return  response()->json([
                         'status'=>201,
                         'data'=>$user
-                    ],201); 
+                    ],201);
                 } else {
                     // Handle the case when the user is not found
                     return response()->json(['message' => 'User not found'], 404);
                 }
-            } 
-    
+            }
+
             if (request()->has('phone_number')) {
                 $user = User::where('phone_number', request()->phone_number)->first();
-        
+
                 if ($user) {
                     return  response()->json([
                         'status'=>201,
                         'data'=>$user
-                    ],201); 
+                    ],201);
                 } else {
                     // Handle the case when the user is not found
                     return response()->json(['message' => 'User not found'], 404);
                 }
-            } 
+            }
         } catch (\Throwable $th) {
             return response()->json([
                 'status'=>500,
                 'message'=>$th->getMessage(),
-            ],500); 
+            ],500);
         }
     }
-    
+
 }

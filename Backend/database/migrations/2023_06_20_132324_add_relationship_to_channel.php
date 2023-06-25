@@ -11,10 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('subscribers', function (Blueprint $table) {
-            $table->foreignId('channel_id')->constrained('channels');
-            $table->foreignId('user_id')->constrained('users');
-            $table->timestamps();
+        Schema::table('channels', function (Blueprint $table) {
+            $table->bigInteger("user_id")->unsigned();
+
+           $table->foreign("user_id")->references("id")->on("users");
         });
     }
 
@@ -23,6 +23,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('subscribeds');
+        Schema::table('channels', function (Blueprint $table) {
+            //
+        });
     }
 };
