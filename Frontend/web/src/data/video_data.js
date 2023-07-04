@@ -12,7 +12,7 @@ const videoData = [
     {
         id: 2,
         title: "Artificial Intelligence and the Future of Work",
-        creator: "Sophia Johnson",
+        creator: "Sophia Johnson",  
         views: "1.8 million",
         created: "3 years ago",
         posterImage: `${process.env.PUBLIC_URL}/assets/poster (2).jpg`,
