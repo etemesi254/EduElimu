@@ -1,0 +1,106 @@
+.chanel-dashboard-img {
+    height: 250px;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+.chanel-dashboard-img img{
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+}
+.chanel-details{
+    display:flex ;
+    justify-content: left !important;
+    align-items: center;
+    margin-top: 15px;
+    margin-right: 60%;
+}
+.chanel-details .chanel-profile-pic {
+    height: 100px;
+    width: 100px;
+}
+.chanel-details .chanel-profile-pic img{
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    border-radius: 100%;
+}
+.chanel-dets{
+    margin-left: 20px;
+}
+.chanel-dets h2{
+    font-size: 18px;
+}
+.chanel-dets p{
+    font-size: 13px;
+    color: gray;
+}
+.chanel-dets div{
+    display: flex;
+}
+.chanel-dets div >*{
+    margin: 5px 0px;
+    margin-right: 10px;
+}
+.mini-nav-bar{
+    margin-top: 20px;
+}
+.mini-nav-bar-link{
+    display: flex;
+    justify-content: center;
+}
+.mini-nav-bar-link li .link{
+    font-weight: 600;
+    color: gray;
+    margin: 10px 50px;
+}
+.intro-video-div{
+    margin-top: 25px;
+}
+.intro-video-div .video-div:first-child {
+    min-width: 400px;
+    height: 205px;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 0px;
+    border-bottom-left-radius: 0px;
+    position: relative;
+  }
+  
+  .intro-video-div .video-div:first-child video {
+    width: 100%;
+    height: 100%;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 0px;
+    border-bottom-left-radius: 0px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    object-fit: cover;
+  }
+.intro-video-div{
+    display: flex;
+    align-items: center;
+    margin-right: 30%;
+}
+.intro-video-deets{
+    margin-left: 25px;
+    min-width: 400px;
+}
+.intro-video-deets>*{
+    margin-bottom: 10px;
+}
+.intro-video-deets div{
+    display: flex;
+}
+.intro-video-deets .stats p{
+    font-size: 13px;
+    color: gray;
+    margin-right: 10px;
+}
+.intro-video-details p{
+    font-size: 14px;
+    color: black;
+}

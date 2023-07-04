@@ -26,6 +26,7 @@ import CompleteProfileEmail from './user_auth/completeProfile';
 import UserSettings from './settings/user_settings';
 import UserLayout from './completed_homepage/userLayout';
 import LoginAdmin from './Admin/admin_auth/login';
+import ChanelDashboard from './Chanels/chanel_dashboard/chanel_dash';
 
 
 function App() {
@@ -59,6 +60,7 @@ function App() {
               />}/>
               <Route path="/settings" element={<UserSettings showLogout={showLogout} 
              setShowLogout={setShowLogout}/>}/>
+              <Route path="/chanel" element={<ChanelDashboard/>}/>
           </Route>
           <Route path='/register' element={<RegisterUser  completeProfile={completeProfile}
               setCompleteProfile={setCompleteProfile}/>}/>
