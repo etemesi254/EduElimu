@@ -112,6 +112,14 @@
     width: 75vw;
     overflow-x: scroll;
 }
+.chanel-courses-page{
+    margin-top: 30px;
+    display: flex;
+    flex-wrap: wrap;
+}
+.chanel-courses-page>*{
+    margin: 15px;
+}
 .chanel-courses::-webkit-scrollbar{
     display: none;
 }
@@ -124,7 +132,6 @@
 }
 .scroll-button{
     position: absolute;
-
 }
 .chanel-video-head{
     margin-bottom: 12px;
@@ -176,3 +183,9 @@
     font-weight: 500px;
   }
   
+.about-description,.about-details,.about-links{
+    padding-right: 30px;
+    padding-bottom: 30px;
+    margin-top: 20px;
+    border-bottom: 1px solid rgb(191, 190, 190);
+}
