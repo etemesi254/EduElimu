@@ -1,9 +1,54 @@
 import { Link } from "react-router-dom";
-import React, { useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+import {BsFillPlayFill} from 'react-icons/bs';
+import videoData from "../../data/video_data";
 import "./chanel_dash.css"
+import { BsArrowLeft, BsArrowRight } from 'react-icons/bs';
+import ChanelCourse from "./chanel_course";
+import ChanelVideos from "./chanel_videos";
 
 function ChanelDashboard(){
+    
+ 
+  // State to track the scroll position and container dimensions
+  const [scrollPosition, setScrollPosition] = useState(0);
+  const [containerWidth, setContainerWidth] = useState(0);
+  const [containerScrollWidth, setContainerScrollWidth] = useState(0);
+
+  // Function to scroll the content towards the right
+  const scrollRight = () => {
+    const container = document.querySelector('.chanel-courses');
+    container.scrollBy({ left: containerWidth, behavior: 'smooth' });
+  };
+
+  // Function to scroll the content towards the left
+  const scrollLeft = () => {
+    const container = document.querySelector('.chanel-courses');
+    container.scrollBy({ left: -containerWidth, behavior: 'smooth' });
+  };
+
+  // Function to handle scrolling and update scroll position and container dimensions
+  const handleScroll = () => {
+    const container = document.querySelector('.chanel-courses');
+    setScrollPosition(container.scrollLeft);
+    setContainerWidth(container.clientWidth);
+    setContainerScrollWidth(container.scrollWidth);
+  };
+
+  useEffect(() => {
+    // Add event listener to track scroll position and container dimensions
+    const container = document.querySelector('.chanel-courses');
+    container.addEventListener('scroll', handleScroll);
+    setContainerWidth(container.clientWidth);
+    setContainerScrollWidth(container.scrollWidth);
+    return () => {
+      // Clean up the event listener
+      container.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
     const videoRef = useRef(null);
+    const [videos, setVideos] = useState(videoData);
 
   const playMovie = () => {
     videoRef.current.play();
@@ -13,7 +58,7 @@ function ChanelDashboard(){
     videoRef.current.pause();
     videoRef.current.currentTime = 0;
   }
-    return <>
+    return <div className="home-image">
     <div className="chanel-dashboard-img">
         <img src={process.env.PUBLIC_URL + '/assets/poster (1).jpg'} />
     </div>
@@ -72,13 +117,51 @@ function ChanelDashboard(){
                 </div>
             </div>
         </div>
-        <div className="chanel-videos">
-
+        <div className="scrollable-container">
+            <div className="chanel-video-head">
+                <h2>Videos</h2>
+                <BsFillPlayFill className="scroll-icons"/>
+                <p>view all</p>
+            </div>
+            {scrollPosition > 0 && (
+            <div className="scroll-button left-scroll" onClick={scrollLeft}>
+                <BsArrowLeft className="scroll-icons"/>
+            </div>
+            )}
+            <div className="chanel-courses">
+            {videos.map((video,index)=>{
+                return <ChanelVideos video={video} key={video.id}/>
+            })}
+            </div>
+            {scrollPosition < containerScrollWidth - containerWidth && (
+            <div className="scroll-button right-scroll" onClick={scrollRight}>
+                <BsArrowRight  className="scroll-icons"/>
+            </div>
+            )}
         </div>
-        <div className="chanel-courses">
-
+        <div className="scrollable-container">
+            <div className="chanel-video-head">
+                <h2>Courses</h2>
+                <BsFillPlayFill className="scroll-icons"/>
+                <p>view all</p>
+            </div>
+            {scrollPosition > 0 && (
+            <div className="scroll-button left-scroll" onClick={scrollLeft}>
+                <BsArrowLeft className="scroll-icons"/>
+            </div>
+            )}
+            <div className="chanel-courses">
+            {videos.map((video,index)=>{
+                return <ChanelCourse video={video} key={video.id}/>
+            })}
+            </div>
+            {scrollPosition < containerScrollWidth - containerWidth && (
+            <div className="scroll-button right-scroll" onClick={scrollRight}>
+                <BsArrowRight  className="scroll-icons"/>
+            </div>
+            )}
         </div>
     </div>
-    </>
+    </div>
 }
 export default ChanelDashboard;

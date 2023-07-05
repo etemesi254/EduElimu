@@ -1,0 +1,40 @@
+.course-poster-container{
+    height: 150px;
+    width: 250px;
+    position: relative;
+}
+.course-poster-container img{
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    border-radius: 15px;
+}
+.course-poster-container .course-video-info{
+    padding: 5px 0;
+    padding-left: 5px;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.4);
+    border-radius: 0 0 15px 15px;
+}
+.course-poster-container .course-video-info p{
+    color: white;
+    font-size: 14px;
+}
+.chanel-course-info{
+width: 250px;
+margin-top: 10px;
+}
+.chanel-course-info h3{
+    font-size: 15px;
+}
+.chanel-course-info p{
+    color: grey;
+    font-size: 14px;
+    font-weight: 600;
+    margin-top: 5px;
+}
+.chanel-course-info p:hover{
+    cursor: pointer;
+}
