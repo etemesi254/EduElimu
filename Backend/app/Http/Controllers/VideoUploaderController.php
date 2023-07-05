@@ -85,4 +85,9 @@ class VideoUploaderController extends Controller
         // store the video
         return $request->file("video")->store("videos");
     }
+
+    public function getAllVideos(Request $request)
+    {
+        return response()->json(data: Videos::all(), status: 200);
+    }
 }
