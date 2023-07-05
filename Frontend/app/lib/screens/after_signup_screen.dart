@@ -1,6 +1,7 @@
 import 'package:edu_elimu/api/users.dart';
 import 'package:edu_elimu/models/user_account.dart';
 import 'package:edu_elimu/screens/account_page.dart';
+import 'package:edu_elimu/screens/profile_page.dart';
 import 'package:edu_elimu/screens/settings_page.dart';
 import 'package:edu_elimu/utils.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -167,7 +168,7 @@ class _AfterSignUpScreenState extends State<AfterSignUpScreen> {
         onTap: () async {
           Navigator.of(context).push(MaterialPageRoute(
               builder: (BuildContext context) =>
-                  AccountPage(user: widget.user)));
+                  ProfilePageScreen(user: widget.user)));
         },
         child: Container(
           height: 45,

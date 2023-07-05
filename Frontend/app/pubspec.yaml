@@ -50,6 +50,7 @@ dependencies:
   intl: ^0.18.1
   http: ^0.13.6
   country_picker: ^2.0.20
+  image_picker: ^1.0.0
 
 
 dev_dependencies:
