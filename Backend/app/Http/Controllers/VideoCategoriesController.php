@@ -61,7 +61,7 @@ class VideoCategoriesController extends Controller
     public function storeBanner(Request $request): bool|string
     {
         // store the video
-        return $request->file("banner")->store("categories_banner");
+        return $request->file("banner")->store("categories_banner","public");
     }
 
     public function listAllCategories(Request $request){

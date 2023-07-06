@@ -77,13 +77,13 @@ class VideoUploaderController extends Controller
     public function storeBanner(Request $request): bool|string
     {
         // store the video
-        return $request->file("image_banner")->store("image_banner");
+        return $request->file("image_banner")->store("image_banner","public");
     }
 
     public function storeVideo(Request $request): bool|string
     {
         // store the video
-        return $request->file("video")->store("videos");
+        return $request->file("video")->store("videos","public");
     }
 
     public function getAllVideos(Request $request)
