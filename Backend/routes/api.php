@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ChannelController;
 use App\Http\Controllers\UsersController;
+use App\Http\Controllers\VideoCategoriesController;
 use App\Http\Controllers\VideoUploaderController;
 use Illuminate\Support\Facades\Route;
 
@@ -24,15 +25,20 @@ Route::fallback(function () {
 
 });
 
-Route::group(['middleware' => 'auth:sanctum'], function(){
+Route::group(['middleware' => 'auth:sanctum'], function () {
     //we will put our secure routes here
 
-    });
+});
 
-Route::any("/channels/create", [ChannelController::class, "addChannel"]);
 Route::put("/updateUserWithEmail/{email}", [UsersController::class, 'updateUserWithEmail']);
 Route::post('/registerUser', [UsersController::class, 'register']);
 Route::put("/updateUserWithNo/{number}", [UsersController::class, 'updateUserWithPhone']);
 Route::get("/getCurrentUser", [UsersController::class, 'getCurrentUser']);
 
 Route::any("/uploads/upload_video", [VideoUploaderController::class, "addVideo"]);
+Route::any("/videos/all", [VideoUploaderController::class, "getAllVideos"]);
+
+Route::any("/channels/create", [ChannelController::class, "addChannel"]);
+
+Route::post("/categories/create", [VideoCategoriesController::class, "createCategory"]);
+Route::get("/categories/all", [VideoCategoriesController::class, "listAllCategories"]);

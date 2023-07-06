@@ -1,4 +1,5 @@
 import 'package:edu_elimu/screens/after_signup_screen.dart';
+import 'package:edu_elimu/screens/create_channel_screen.dart';
 import 'package:edu_elimu/themes/colors.dart';
 import 'package:edu_elimu/utils.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -76,6 +77,8 @@ class _AccountPageState extends State<AccountPage> {
             const SizedBox(height: 40),
             createUpdateDetailsButton(context),
             const SizedBox(height: 40),
+
+
 
             Row(
               children: [

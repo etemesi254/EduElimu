@@ -1,9 +1,11 @@
 import 'package:edu_elimu/components/bottom_tab.dart';
+import 'package:edu_elimu/components/categories_component.dart';
 import 'package:edu_elimu/screens/account_page.dart';
 import 'package:edu_elimu/screens/default_screen.dart';
 import 'package:edu_elimu/screens/home_screen.dart';
 import 'package:edu_elimu/screens/login_and_signup.dart';
 import 'package:edu_elimu/screens/login_screen.dart';
+import 'package:edu_elimu/screens/profile_page.dart';
 import 'package:edu_elimu/screens/signup_screen.dart';
 import 'package:edu_elimu/themes/colors.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -49,7 +51,7 @@ class _LandingPageState extends State<LandingPage>
               onTap: () {
                 Navigator.of(context).push(MaterialPageRoute(
                     builder: (BuildContext context) =>
-                        AccountPage(user: FirebaseAuth.instance.currentUser!)));
+                        ProfilePageScreen(user: FirebaseAuth.instance.currentUser!)));
               },
               child: Padding(
                 padding: const EdgeInsets.only(right: 18.0),
@@ -111,7 +113,7 @@ class _LandingPageState extends State<LandingPage>
         padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 20),
         child: TabBarView(controller: controller, children: [
           HomeScreen(),
-          PlaceholderComponent(),
+          EduCategoriesComponent(),
           LoginAndSignupBanner()
         ]),
       ),

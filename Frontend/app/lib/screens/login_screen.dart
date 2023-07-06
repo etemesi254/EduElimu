@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:edu_elimu/screens/account_page.dart';
 import 'package:edu_elimu/screens/forgot_password.dart';
 import 'package:edu_elimu/screens/phone_signup.dart';
+import 'package:edu_elimu/screens/profile_page.dart';
 import 'package:edu_elimu/screens/signup_screen.dart';
 import 'package:edu_elimu/themes/colors.dart';
 import 'package:edu_elimu/utils.dart';
@@ -230,7 +231,7 @@ class _LoginScreenState extends State<LoginScreen> {
               email: emailController.text, password: passwordController.text);
 
           Navigator.of(context).push(MaterialPageRoute(
-              builder: (context) => AccountPage(user: resp.user!)));
+              builder: (context) => ProfilePageScreen(user: resp.user!)));
         } on FirebaseAuthException catch (e) {
           showOverlayError(e.message!);
         } finally {
@@ -279,7 +280,7 @@ class _LoginScreenState extends State<LoginScreen> {
               showOverlayMessage("Sign In successful");
               EasyLoading.dismiss();
               Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => AccountPage(user: user!)));
+                  builder: (context) => ProfilePageScreen(user: user!)));
             } on FirebaseAuthException catch (e) {
               EasyLoading.dismiss();
               if (e.code == 'account-exists-with-different-credential') {
