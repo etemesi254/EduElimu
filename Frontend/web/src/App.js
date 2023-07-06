@@ -64,6 +64,7 @@ function App() {
               />}/>
               <Route path="/settings" element={<UserSettings showLogout={showLogout} 
              setShowLogout={setShowLogout}/>}/>
+             <Route path='video_player' element={<VideoPlayer/>}/>
               <Route path="/chanel" element={<ChanelLayout/>}>
                 <Route exact path='/chanel'element={<ChanelDashboard/>}/>
                 <Route path='videos' element={<ChanelVideoPage/>}/>
