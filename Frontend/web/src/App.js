@@ -26,6 +26,11 @@ import CompleteProfileEmail from './user_auth/completeProfile';
 import UserSettings from './settings/user_settings';
 import UserLayout from './completed_homepage/userLayout';
 import LoginAdmin from './Admin/admin_auth/login';
+import ChanelDashboard from './Chanels/chanel_dashboard/chanel_dash';
+import ChanelLayout from './Chanels/chanel_layout';
+import ChanelVideoPage from './Chanels/chanel_dashboard/chanel_videos_page';
+import ChanelCoursesPage from './Chanels/chanel_dashboard/chanel_courses_page';
+import ChanelAbout from './Chanels/chanel_dashboard/chanel_about';
 
 
 function App() {
@@ -59,6 +64,12 @@ function App() {
               />}/>
               <Route path="/settings" element={<UserSettings showLogout={showLogout} 
              setShowLogout={setShowLogout}/>}/>
+              <Route path="/chanel" element={<ChanelLayout/>}>
+                <Route exact path='/chanel'element={<ChanelDashboard/>}/>
+                <Route path='videos' element={<ChanelVideoPage/>}/>
+                <Route path='courses' element={<ChanelCoursesPage/>}/>
+                <Route path='about' element={<ChanelAbout/>}/>
+              </Route>
           </Route>
           <Route path='/register' element={<RegisterUser  completeProfile={completeProfile}
               setCompleteProfile={setCompleteProfile}/>}/>

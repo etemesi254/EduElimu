@@ -201,6 +201,20 @@
     justify-content: right;
     align-items: center;
   }
+  .container {
+    position: relative;
+    /* Add any additional styles for the container */
+  }
+  
+  .loader-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 9999;
+    /* Add any additional styles for the loader container */
+  }
+  
   @media screen and (max-width: 700px){
     .whiite-bk{
       background-color: white;

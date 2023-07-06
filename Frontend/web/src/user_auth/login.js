@@ -44,20 +44,20 @@ function Loginuser (){
         e.preventDefault();
         try{
             setLoading(true);
-            const response = await fetch('http://127.0.0.1:8000/api/loginUser', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({email: email, password: password})
-                });
-            console.log(response);
-            if(response.status === 200){
+            // const response = await fetch('http://127.0.0.1:8000/api/loginUser', {
+            //     method: 'POST',
+            //     headers: {
+            //         'Content-Type': 'application/json',
+            //     },
+            //     body: JSON.stringify({email: email, password: password})
+            //     });
+            // console.log(response);
+            // if(response.status === 200){
                 await login(email,password);
                 return navigate("/");
-            }
+            // }
 
-            return setError('Login unsuccessful. Try again later');
+            // return setError('Login unsuccessful. Try again later');
             
             
         }catch(error){

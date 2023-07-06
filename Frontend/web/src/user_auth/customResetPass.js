@@ -59,10 +59,10 @@ function CustomReset (){
             setError(errorMessage);
         }
         setLoading(false);
-        // setTimeout(() => {
-        //     setError('');
-        //     setMessage('');
-        // }, 3000);
+        setTimeout(() => {
+            setError('');
+            setMessage('');
+        }, 3000);
     }
 
     return <>

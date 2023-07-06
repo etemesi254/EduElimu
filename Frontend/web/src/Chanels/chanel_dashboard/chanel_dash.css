@@ -1,0 +1,191 @@
+.chanel-dashboard-img {
+    height: 250px;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+.chanel-dashboard-img img{
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+}
+.chanel-details{
+    display:flex ;
+    justify-content: left !important;
+    align-items: center;
+    margin-top: 15px;
+    /* margin-right: 60%; */
+}
+.chanel-details .chanel-profile-pic {
+    height: 100px;
+    width: 100px;
+}
+.chanel-details .chanel-profile-pic img{
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    border-radius: 100%;
+}
+.chanel-dets{
+    margin-left: 20px;
+}
+.chanel-dets h2{
+    font-size: 18px;
+}
+.chanel-dets p{
+    font-size: 13px;
+    color: gray;
+}
+.chanel-dets div{
+    display: flex;
+}
+.chanel-dets div >*{
+    margin: 5px 0px;
+    margin-right: 10px;
+}
+.mini-nav-bar{
+    margin-top: 20px;
+}
+.mini-nav-bar-link{
+    display: flex;
+    justify-content: center;
+}
+.mini-nav-bar-link li .link{
+    font-weight: 600;
+    color: gray;
+    margin: 10px 50px;
+}
+.intro-video-div{
+    margin-top: 25px;
+}
+.intro-video-div .video-div:first-child {
+    min-width: 400px;
+    height: 205px;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 0px;
+    border-bottom-left-radius: 0px;
+    position: relative;
+  }
+  
+  .intro-video-div .video-div:first-child video {
+    width: 100%;
+    height: 100%;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 0px;
+    border-bottom-left-radius: 0px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    object-fit: cover;
+  }
+.intro-video-div{
+    display: flex;
+    align-items: center;
+    /* margin-right: 30%; */
+}
+.intro-video-deets{
+    margin-left: 25px;
+    width: 400px;
+}
+.intro-video-deets>*{
+    margin-bottom: 10px;
+}
+.intro-video-deets div{
+    display: flex;
+}
+.intro-video-deets .stats p{
+    font-size: 13px;
+    color: gray;
+    margin-right: 10px;
+}
+.intro-video-details p{
+    font-size: 14px;
+    color: black;
+}
+.chanel-videos{
+    margin-top: 30px;
+}
+.chanel-courses{
+    display: flex;
+    width: 75vw;
+    overflow-x: scroll;
+}
+.chanel-courses-page{
+    margin-top: 30px;
+    display: flex;
+    flex-wrap: wrap;
+}
+.chanel-courses-page>*{
+    margin: 15px;
+}
+.chanel-courses::-webkit-scrollbar{
+    display: none;
+}
+.chanel-courses >*{
+    margin: 10px;
+}
+.scrollable-container{
+    margin-top: 30px;
+    position: relative;
+}
+.scroll-button{
+    position: absolute;
+}
+.chanel-video-head{
+    margin-bottom: 12px;
+    display:flex ;
+    align-items: center;
+}
+.chanel-video-head h2{
+    font-size: 18px;
+    margin-left: 10px;
+    margin-right: 30px;
+}
+.chanel-video-head p{
+    font-size: 15px;
+}
+.left-scroll{
+    left: -10px;
+    top: 30%;
+    z-index: 999;
+}
+.right-scroll{
+    right: -7px;
+    top: 30%;
+    z-index: 999;
+}
+.scroll-buttons {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+  }
+  
+  .scroll-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background-color: #fff;
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    margin: 0 5px;
+  }
+  
+  .scroll-button:hover {
+    background-color: #d0d0d0;
+  }
+  .scroll-icons{
+    font-size: 18px;
+    font-weight: 500px;
+  }
+  
+.about-description,.about-details,.about-links{
+    padding-right: 30px;
+    padding-bottom: 30px;
+    margin-top: 20px;
+    border-bottom: 1px solid rgb(191, 190, 190);
+}
