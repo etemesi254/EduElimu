@@ -6,7 +6,6 @@ import RightNavigation from './right_navigation/right_navigation';
 import HomeContent from './home_content/home_content';
 import CarouselImage from './carousell/carousell';
 import HomePage from './completed_homepage/homepage';
-import MainVideoDisplay from './completed_video_display/video_display';
 import VideoPlayer from './main_video_display/main_video';
 import YourComponent from './user_auth/register';
 import SlidingForm from './user_auth/register';
@@ -31,6 +30,8 @@ import ChanelLayout from './Chanels/chanel_layout';
 import ChanelVideoPage from './Chanels/chanel_dashboard/chanel_videos_page';
 import ChanelCoursesPage from './Chanels/chanel_dashboard/chanel_courses_page';
 import ChanelAbout from './Chanels/chanel_dashboard/chanel_about';
+import GameSplashScreen from './Interactive games/splash_screen';
+import GameDashboard from './Interactive games/game_dash';
 
 
 function App() {
@@ -72,6 +73,8 @@ function App() {
                 <Route path='about' element={<ChanelAbout/>}/>
               </Route>
           </Route>
+          <Route path='/interactive_games' element={<GameSplashScreen/>}/>
+          <Route path='/game_dash' element={<GameDashboard/>}/>
           <Route path='/register' element={<RegisterUser  completeProfile={completeProfile}
               setCompleteProfile={setCompleteProfile}/>}/>
           <Route path='/login' Component={Loginuser}/>

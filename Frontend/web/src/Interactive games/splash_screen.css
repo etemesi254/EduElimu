@@ -1,0 +1,52 @@
+@font-face {
+    font-family: 'Docallisme';
+    src: url('../Fonts/DOCALLISME\ ON\ STREET.ttf') format('truetype');
+}
+@font-face {
+    font-family: 'Nextcustom';
+    src: url('../Fonts/Next\ Custom.ttf') format('truetype');
+}
+@font-face {
+    font-family: 'Bombing';
+    src: url('../Fonts/Bombing.ttf') format('truetype');
+}
+.game-sec{
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #FFC700;
+}
+.game-sec h1{
+    font-family: 'Docallisme';
+    font-size: 100px;
+    display: flex;
+    justify-content: center;
+}
+.game-sec h3{
+    font-size: 50px;
+    display: flex;
+    color: beige;
+    justify-content: center;
+    font-family: 'Nextcustom';
+}
+.game-sec-div{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.progressbar-div{
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.progressbar-div h4{
+    font-family: 'Just Another Hand', cursive;
+    font-size: 30px;
+}
+.game-icons{
+    font-size: 100px;
+}
