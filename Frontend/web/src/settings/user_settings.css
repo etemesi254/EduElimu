@@ -1,6 +1,7 @@
 .settings .img-divv{
     height: 170px;
     width: 170px;
+    position: relative;
 }
 .settings .img-divv img{
     height: 100%;
@@ -8,13 +9,30 @@
     border-radius: 100%;
     object-fit: cover;
 }
+#change-pic{
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    font-size: 40px;
+    color: #FFC700;
+}
+#change-pic:hover{
+    cursor: pointer;
+}
 .settings{
     display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-content: start;
+    justify-content: center;
 }
 .settings >*{
     margin: 10px;
+}
+.settings .user_info{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 .settings .user_info p{
     color: gray;
@@ -61,6 +79,30 @@
 .user_settings_form .button-div{
     display: flex;
     justify-content: center;
+}
+.user_settings_form .Account,.user_settings_form .chanel,.user_settings_form .videos{
+    width: 50vw;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 30px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgb(176, 176, 176);
+}
+.user_settings_form .Account:hover,.user_settings_form .chanel:hover,.user_settings_form .videos:hover{
+    cursor: pointer;
+    color: #FFC700;
+}
+.user_settings_form .Account div,.user_settings_form .chanel div,.user_settings_form .videos div{
+    display: flex;
+    align-items: center;
+}
+.prof-icons{
+    font-size: 25px;
+    margin-right: 10px;
+}
+.user_settings_form span{
+    font-weight: 600;
 }
 @media screen and (max-width: 700px){
     .user_settings_form form button{

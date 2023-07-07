@@ -32,6 +32,8 @@ import ChanelCoursesPage from './Chanels/chanel_dashboard/chanel_courses_page';
 import ChanelAbout from './Chanels/chanel_dashboard/chanel_about';
 import GameSplashScreen from './Interactive games/splash_screen';
 import GameDashboard from './Interactive games/game_dash';
+import GameLayout from './Interactive games/game_layout';
+import UserProfile from './user profile/userprofile';
 
 
 function App() {
@@ -65,6 +67,8 @@ function App() {
               />}/>
               <Route path="/settings" element={<UserSettings showLogout={showLogout} 
              setShowLogout={setShowLogout}/>}/>
+             <Route path="/profile" element={<UserProfile showLogout={showLogout} 
+             setShowLogout={setShowLogout}/>}/>
              <Route path='video_player' element={<VideoPlayer/>}/>
               <Route path="/chanel" element={<ChanelLayout/>}>
                 <Route exact path='/chanel'element={<ChanelDashboard/>}/>
@@ -74,7 +78,10 @@ function App() {
               </Route>
           </Route>
           <Route path='/interactive_games' element={<GameSplashScreen/>}/>
-          <Route path='/game_dash' element={<GameDashboard/>}/>
+          <Route path='/interactive_games/game_dash' element={<GameLayout/>}>
+              <Route exact path='/interactive_games/game_dash' element={<GameDashboard/>}/>
+            </Route>
+          
           <Route path='/register' element={<RegisterUser  completeProfile={completeProfile}
               setCompleteProfile={setCompleteProfile}/>}/>
           <Route path='/login' Component={Loginuser}/>

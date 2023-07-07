@@ -2,6 +2,7 @@ import "./user_settings.css"
 import { useAuth } from "../context/AuthContext";
 import { useEffect, useState } from "react";
 import { toast } from 'react-toastify';
+import {AiFillPlusCircle} from 'react-icons/ai';
 import LogoutConfirmationDialog from "../user_auth/logoutConfirmation";
 function UserSettings({showLogout,setShowLogout}){
     const {currentUser} = useAuth();
@@ -92,13 +93,14 @@ function UserSettings({showLogout,setShowLogout}){
         }, 3000);
     }
       
-    return <>
+    return <div className="home-image">
     {showLogout &&  <LogoutConfirmationDialog
                 setShowLogout={setShowLogout}
               />}
     <div className="settings">
         <div className="img-divv">
             <img src="https://res.cloudinary.com/diqqf3eq2/image/upload/v1595959131/person-2_ipcjws.jpg"/>
+            <AiFillPlusCircle id="change-pic"/>
         </div>
         <div className="user_info">
             <h3>{displayName}</h3>
@@ -133,7 +135,7 @@ function UserSettings({showLogout,setShowLogout}){
             </div>
         </form>
     </div>
-    </>
+    </div>
 
 }
 export default UserSettings;

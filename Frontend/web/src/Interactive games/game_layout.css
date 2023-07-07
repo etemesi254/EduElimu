@@ -1,0 +1,48 @@
+.game-layout nav{
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    padding: 10px 0;
+}
+.game-layout .game-stats{
+    display: flex;
+    margin-right: 30px;
+}
+.game-layout .game-stats .stats-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 10px;
+}
+.game-layout .game-stats .stats-container span{
+    color: gray;
+    font-weight: 800;
+    margin-right: 10px;
+}
+.game-layout .game-stats .stats-container div{
+    height: 40px;
+    width: 40px;
+}
+.game-layout .game-stats .stats-container #coins{
+    height: 30px;
+    width: 30px;
+}
+.game-layout .game-stats .stats-container #streaks{
+    height: 30px;
+    width: 30px;
+}
+.game-layout .game-stats .stats-container div #img{
+    height: 100%;
+    width: 100%;
+    border-radius: 100%;
+    object-fit: fill;
+}
+nav #close{
+    font-size: 30px;
+    color: orangered;
+}
+nav #close:hover{
+    cursor: pointer;
+    color: orange;
+}
