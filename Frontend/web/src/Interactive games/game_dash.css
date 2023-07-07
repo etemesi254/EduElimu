@@ -1,0 +1,4 @@
+.game-dashboard-container{
+    display: flex;
+    flex-wrap: wrap;
+}

@@ -19,29 +19,6 @@ function UploadVideos(){
         return () => instance.destroy();
     },[]);
 
-    // useEffect(() => {
-    //     let animationInstance = null;
-      
-    //     const loadAnimation = async () => {
-    //       const animationData = await import('./upload.json');
-    //       animationInstance = lottie.loadAnimation({
-    //         container: container.current,
-    //         renderer: 'svg',
-    //         loop: true,
-    //         autoplay: true,
-    //         animationData: animationData.default,
-    //       });
-    //     };
-      
-    //     loadAnimation();
-      
-    //     return () => {
-    //       if (animationInstance) {
-    //         animationInstance.destroy();
-    //       }
-    //     };
-    //   }, []);
-
     return <div className='home-image'>
         <div className="create-channels-container">
             <div className="lottie_container" ref={container}></div>
@@ -53,7 +30,7 @@ function UploadVideos(){
             <div className='create-channels-form'>
             <form onSubmit={handleSubmit}>
             <div className="">
-                <div className="form-group">
+                <div className="form-group"> 
                     <div className="settings_input">
                         <label>Video Title</label>
                         <input type="text" name="name" placeholder='Channel Name'/>

@@ -33,6 +33,7 @@ import GameLayout from './Interactive games/game_layout';
 import UserProfile from './user profile/userprofile';
 import CreateChannel from './Chanels/create chanel/create_chanel';
 import UploadVideos from './Chanels/create chanel/upload_videos';
+import GameCategoryDash from './Interactive games/game_category_dash';
 
 
 function App() {
@@ -79,10 +80,10 @@ function App() {
               </Route>
           </Route>
           <Route path='/interactive_games' element={<GameSplashScreen/>}/>
-          <Route path='/interactive_games/game_dash' element={<GameLayout/>}>
-              <Route exact path='/interactive_games/game_dash' element={<GameDashboard/>}/>
-            </Route>
-          
+          <Route path='/interactive_games/dashboard' element={<GameLayout/>}>
+              <Route exact path='/interactive_games/dashboard' element={<GameDashboard/>}/>
+              <Route path='/interactive_games/dashboard/:category' element={<GameCategoryDash/>}/>
+          </Route>
           <Route path='/register' element={<RegisterUser  completeProfile={completeProfile}
               setCompleteProfile={setCompleteProfile}/>}/>
           <Route path='/login' Component={Loginuser}/>

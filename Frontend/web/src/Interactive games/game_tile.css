@@ -1,0 +1,66 @@
+.game-tile {
+    width: 300px;
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
+    position: relative;
+    padding: 20px;
+    border-radius: 20px;
+    margin: 30px;
+    transition: transform 0.3s;
+  }
+  
+  .game-tile:hover {
+    transform: scale(1.05);
+    cursor: pointer;
+  }
+  
+.game-tile-icon{
+    background-color: palevioletred;
+    position: absolute;
+    top: -10px;
+    left: 45%;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 25px;
+    height: 40px;
+    width: 40px;
+    border-radius: 10px;
+}
+.game-tile h3{
+    margin-top: 20px;
+}
+.game-tile h3,.game-tile p{
+    display: flex;
+    justify-content: center;
+}
+.game-tile p{
+    color: gray;
+    font-size: 14px;
+}
+.game-tile-count{
+    display: flex;
+    justify-content: end;
+}
+.game-tile-count p{
+    padding:5px 15px;
+    border-radius: 15px;
+    font-weight: 600;
+    color: palevioletred;
+    background-color: rgb(250, 233, 239);
+}
+.game-tile-progress{
+    margin:20px 0;
+}
+.game-tile-progress div{
+    margin-bottom: 5px;
+    display: flex;
+    justify-content: space-between;
+}
+.game-tile-progress div span{
+    font-size: 14px;
+    font-weight: 600;
+}
+.game-tile iframe{
+    margin-top: 20px;
+}
