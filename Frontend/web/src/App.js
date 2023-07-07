@@ -32,6 +32,7 @@ import GameDashboard from './Interactive games/game_dash';
 import GameLayout from './Interactive games/game_layout';
 import UserProfile from './user profile/userprofile';
 import CreateChannel from './Chanels/create chanel/create_chanel';
+import UploadVideos from './Chanels/create chanel/upload_videos';
 
 
 function App() {
@@ -68,6 +69,7 @@ function App() {
              <Route path="/profile" element={<UserProfile showLogout={showLogout} 
              setShowLogout={setShowLogout}/>}/>
              <Route path="/create_channel" element={<CreateChannel/>}/>
+             <Route path="/upload_videos" element={<UploadVideos/>}/>
              <Route path='video_player' element={<VideoPlayer/>}/>
               <Route path="/chanel" element={<ChanelLayout/>}>
                 <Route exact path='/chanel'element={<ChanelDashboard/>}/>

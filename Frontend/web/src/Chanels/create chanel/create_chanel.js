@@ -8,39 +8,39 @@ function CreateChannel(){
 
     }
 
-    // useEffect(()=>{
-    //     const instance = lottie.loadAnimation({
-    //         container:container.current,
-    //         renderer:'svg',
-    //         loop: true,
-    //         autoplay:true,
-    //         animationData: require('./create.json'),
-    //     });
-    //     return () => instance.destroy();
-    // },[]);
-
-    useEffect(() => {
-        let animationInstance = null;
-      
-        const loadAnimation = async () => {
-          const animationData = await import('./create.json');
-          animationInstance = lottie.loadAnimation({
-            container: container.current,
-            renderer: 'svg',
+    useEffect(()=>{
+        const instance = lottie.loadAnimation({
+            container:container.current,
+            renderer:'svg',
             loop: true,
-            autoplay: true,
-            animationData: animationData.default,
-          });
-        };
+            autoplay:true,
+            animationData: require('./create.json'),
+        });
+        return () => instance.destroy();
+    },[]);
+
+    // useEffect(() => {
+    //     let animationInstance = null;
       
-        loadAnimation();
+    //     const loadAnimation = async () => {
+    //       const animationData = await import('./create.json');
+    //       animationInstance = lottie.loadAnimation({
+    //         container: container.current,
+    //         renderer: 'svg',
+    //         loop: true,
+    //         autoplay: true,
+    //         animationData: animationData.default,
+    //       });
+    //     };
       
-        return () => {
-          if (animationInstance) {
-            animationInstance.destroy();
-          }
-        };
-      }, []);
+    //     loadAnimation();
+      
+    //     return () => {
+    //       if (animationInstance) {
+    //         animationInstance.destroy();
+    //       }
+    //     };
+    //   }, []);
 
     return <div className='home-image'>
         <div className="create-channels-container">
