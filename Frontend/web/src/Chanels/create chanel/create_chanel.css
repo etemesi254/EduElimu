@@ -1,0 +1,67 @@
+.create-channels-container .lottie_container{
+    height: 300px;
+}
+.create-channels-form{
+    margin-top: 20px;
+}
+.create-channels-form form {
+    display: flex;
+    justify-content: center;
+}
+.form-group-flex{
+    display: flex;
+}
+.create-channels-form .form-group{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.create-channels-form form .settings_input{
+    display: flex;
+    flex-direction: column;
+}
+.create-channel-head h1,.create-channel-head p{
+    display: flex;
+    justify-content: center;
+}
+.create-channel-head h1{
+    margin-bottom: 10px;
+}
+.create-channel-head p {
+    font-size: 14px;
+    color: gray;
+}
+.create-channels-form form .settings_input input{
+    height: 40px;
+    width: 350px;
+    margin: 20px;
+    border: none;
+    background-color: #f9f8f2;
+    padding: 10px;
+}
+.create-channels-form form .settings_input textarea{
+    padding: 10px;
+    background-color: #f9f8f2;
+    margin: 20px;
+    border: none;
+    height: 70px;
+}
+.create-channels-form form .settings_input label{
+    margin:0 20px;
+    font-size: 14px;
+    font-weight: 600;
+    margin-top: 20px;
+}
+
+.create-channels-form form button{
+    height: 40px;
+    width: 360px;
+    background-color: #FFC700;
+    color: black;
+    font-weight: 600;
+    border: none;
+}
+.create-channels-form .button-div{
+    display: flex;
+    justify-content: center;
+}

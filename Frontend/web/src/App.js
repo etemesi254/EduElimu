@@ -1,10 +1,7 @@
 import logo from './logo.svg';
 import './App.css';
 import LeftNavigation from './left_navigation/left_navigation';
-import TopNavigation from './top_navigation/top_navigation';
-import RightNavigation from './right_navigation/right_navigation';
-import HomeContent from './home_content/home_content';
-import CarouselImage from './carousell/carousell';
+
 import HomePage from './completed_homepage/homepage';
 import VideoPlayer from './main_video_display/main_video';
 import YourComponent from './user_auth/register';
@@ -34,6 +31,7 @@ import GameSplashScreen from './Interactive games/splash_screen';
 import GameDashboard from './Interactive games/game_dash';
 import GameLayout from './Interactive games/game_layout';
 import UserProfile from './user profile/userprofile';
+import CreateChannel from './Chanels/create chanel/create_chanel';
 
 
 function App() {
@@ -69,6 +67,7 @@ function App() {
              setShowLogout={setShowLogout}/>}/>
              <Route path="/profile" element={<UserProfile showLogout={showLogout} 
              setShowLogout={setShowLogout}/>}/>
+             <Route path="/create_channel" element={<CreateChannel/>}/>
              <Route path='video_player' element={<VideoPlayer/>}/>
               <Route path="/chanel" element={<ChanelLayout/>}>
                 <Route exact path='/chanel'element={<ChanelDashboard/>}/>
