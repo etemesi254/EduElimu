@@ -42,3 +42,6 @@ Route::any("/channels/create", [ChannelController::class, "addChannel"]);
 
 Route::post("/categories/create", [VideoCategoriesController::class, "createCategory"]);
 Route::get("/categories/all", [VideoCategoriesController::class, "listAllCategories"]);
+
+
+Route::any("/users/firebase_id",[UsersController::class,"getUserWithFirebaseId"]);
