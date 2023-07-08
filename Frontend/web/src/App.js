@@ -82,7 +82,7 @@ function App() {
           <Route path='/interactive_games' element={<GameSplashScreen/>}/>
           <Route path='/interactive_games/dashboard' element={<GameLayout/>}>
               <Route exact path='/interactive_games/dashboard' element={<GameDashboard/>}/>
-              <Route path='/interactive_games/dashboard/:category' element={<GameCategoryDash/>}/>
+              <Route path='/interactive_games/dashboard/:category/:color/:icon' element={<GameCategoryDash/>}/>
           </Route>
           <Route path='/register' element={<RegisterUser  completeProfile={completeProfile}
               setCompleteProfile={setCompleteProfile}/>}/>

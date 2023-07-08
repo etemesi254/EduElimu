@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './progressbar.css';
 
-const ProgressBar = () => {
+const ProgressBar = ({ onComplete }) => {
   const [progress, setProgress] = useState(0);
 
   useEffect(() => {
@@ -9,6 +9,7 @@ const ProgressBar = () => {
       setProgress((prevProgress) => {
         if (prevProgress === 100) {
           clearInterval(interval);
+          onComplete(); // Call the onComplete function when progress reaches 100
           return prevProgress;
         } else {
           return prevProgress + 1;
@@ -19,7 +20,7 @@ const ProgressBar = () => {
     return () => {
       clearInterval(interval);
     };
-  }, []);
+  }, [onComplete]);
 
   return (
     <div className="progress-bar">
