@@ -34,6 +34,7 @@ import UserProfile from './user profile/userprofile';
 import CreateChannel from './Chanels/create chanel/create_chanel';
 import UploadVideos from './Chanels/create chanel/upload_videos';
 import GameCategoryDash from './Interactive games/game_category_dash';
+import GameWindow from './Interactive games/game_window';
 
 
 function App() {
@@ -83,6 +84,7 @@ function App() {
           <Route path='/interactive_games/dashboard' element={<GameLayout/>}>
               <Route exact path='/interactive_games/dashboard' element={<GameDashboard/>}/>
               <Route path='/interactive_games/dashboard/:category/:color/:icon' element={<GameCategoryDash/>}/>
+              <Route path='/interactive_games/dashboard/:quiz' element={<GameWindow/>}/>
           </Route>
           <Route path='/register' element={<RegisterUser  completeProfile={completeProfile}
               setCompleteProfile={setCompleteProfile}/>}/>

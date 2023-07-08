@@ -29,6 +29,7 @@
 }
 .game-tile h3{
     margin-top: 20px;
+    color: black;
 }
 .game-tile h3,.game-tile p{
     display: flex;
@@ -60,6 +61,7 @@
 .game-tile-progress div span{
     font-size: 14px;
     font-weight: 600;
+    color: black;
 }
 .game-tile iframe{
     margin-top: 20px;

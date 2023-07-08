@@ -101,3 +101,6 @@
     margin-top: 20px;
     background-color: #879bac;
 }
+.games button:hover{
+    cursor: pointer;
+}

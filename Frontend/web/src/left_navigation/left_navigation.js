@@ -9,9 +9,13 @@ import { Link, useNavigate } from 'react-router-dom';
 import './left_navigation.css'
 
 function LeftNavigation({showLogout,setShowLogout}){
+    const navigate = useNavigate();
 
     function handleLogout(){
         setShowLogout(true);
+    }
+    function viewGames(){
+        navigate("/interactive_games");
     }
     return  <div className='left-nav'>
     <h2>EduElimu.</h2>
@@ -40,7 +44,7 @@ function LeftNavigation({showLogout,setShowLogout}){
                 </div>
                 <h3>Interactive Games</h3>
                 <p>play interactive games</p>
-                <button><h5>View Games</h5></button>
+                <button onClick={viewGames}><h5>View Games</h5></button>
             </div>
         </div>
     </div>
