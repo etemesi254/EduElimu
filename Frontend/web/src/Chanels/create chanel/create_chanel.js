@@ -1,10 +1,18 @@
 import lottie from 'lottie-web';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import "./create_chanel.css";
 function CreateChannel(){
     const container = useRef(null);
+    const [name,setName] = useState();
+    const [description,setDescription] = useState();
+    const [channel_banner,setChannelBanner] = useState();
+
+    const handleNameInput = (e)=>setName(e.target.value);
+    const handleDescriptionInput = (e)=>setDescription(e.target.value);
+    const handleChannelBanner = (e)=>setChannelBanner(e.target.value);
     
-    function handleSubmit(){
+    function handleSubmit(e){
+        e.preventDefault();
 
     }
 
@@ -19,28 +27,6 @@ function CreateChannel(){
         return () => instance.destroy();
     },[]);
 
-    // useEffect(() => {
-    //     let animationInstance = null;
-      
-    //     const loadAnimation = async () => {
-    //       const animationData = await import('./create.json');
-    //       animationInstance = lottie.loadAnimation({
-    //         container: container.current,
-    //         renderer: 'svg',
-    //         loop: true,
-    //         autoplay: true,
-    //         animationData: animationData.default,
-    //       });
-    //     };
-      
-    //     loadAnimation();
-      
-    //     return () => {
-    //       if (animationInstance) {
-    //         animationInstance.destroy();
-    //       }
-    //     };
-    //   }, []);
 
     return <div className='home-image'>
         <div className="create-channels-container">
@@ -57,16 +43,16 @@ function CreateChannel(){
                     <div className='form-group-flex'>
                         <div className="settings_input">
                             <label>Channel Name</label>
-                            <input type="text" name="name" placeholder='Channel Name'/>
+                            <input type="text" name="name" placeholder='Channel Name' value={name} onChange={setName}/>
                         </div>
                         <div className="settings_input">
                             <label>Banner Image</label>
-                            <input type="file"/>
+                            <input type="file" value={channel_banner} onChange={setChannelBanner}/>
                         </div>
                     </div>
                     <div className="settings_input">
                         <label>Description</label>
-                        <textarea placeholder="Enter channel description here"></textarea>
+                        <textarea placeholder="Enter channel description here" value={description} onChange={setDescription}></textarea>
                     </div>
                     <div className="settings_input">
                         <label>Details</label>

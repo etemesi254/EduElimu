@@ -2,7 +2,7 @@ import React from 'react';
 import {BiMessageRoundedDots,BiBell} from 'react-icons/bi';
 import './top_navigation.css';
 import { useAuth } from '../context/AuthContext';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 function TopNavigation(){
     const {currentUser} = useAuth();
@@ -22,7 +22,8 @@ function TopNavigation(){
         <div id='right'>
             {currentUser? <> 
 
-            <div className='profile-container'>
+           <Link to={"/profile"}>
+           <div className='profile-container'>
                 <div className='img'>
                     <img src="https://res.cloudinary.com/diqqf3eq2/image/upload/v1595959131/person-2_ipcjws.jpg" alt='name' />
                 </div>
@@ -30,7 +31,8 @@ function TopNavigation(){
                     <h5>{currentUser && currentUser.email|| currentUser.phoneNumber}</h5>
                     <p>Nairobi,Kenya</p>
                 </div>
-            </div></> :<button onClick={login}>Log in</button> }
+            </div>
+           </Link></> :<button onClick={login}>Log in</button> }
             
             {/* <BiBell className='top-icons'/>
             <BiMessageRoundedDots  className='top-icons'/>
