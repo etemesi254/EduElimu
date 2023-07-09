@@ -1,9 +1,41 @@
+@font-face {
+    font-family: 'Docallisme';
+    src: url('../Fonts/DOCALLISME\ ON\ STREET.ttf') format('truetype');
+}
+@font-face {
+    font-family: 'Nextcustom';
+    src: url('../Fonts/Next\ Custom.ttf') format('truetype');
+}
+@font-face {
+    font-family: 'Bombing';
+    src: url('../Fonts/Bombing.ttf') format('truetype');
+}
 .game-layout nav{
+    background-color: rgba(0, 0, 0, 0.3); /* Use rgba to set the background color with transparency */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1; /* Set a higher z-index to make the navigation appear on top of other content */
+  backdrop-filter: blur(10px); 
+    padding-left: 20px;
+    padding-right: 20px;
     display: flex;
     align-items: center;
-    justify-content: end;
+    justify-content: space-between;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
     padding: 10px 0;
+}
+.game-layout nav h3{
+    font-family: 'Nextcustom';
+    color: white;
+    margin-left: 20px;
+    
+}
+.game-layout nav h4{
+    color: white;
+    font-family: 'Docallisme';
+    margin-left: 20px;
 }
 .game-layout .game-stats{
     display: flex;
@@ -41,8 +73,23 @@
 nav #close{
     font-size: 30px;
     color: orangered;
+    margin-right: 20px;
 }
 nav #close:hover{
     cursor: pointer;
     color: orange;
+}
+nav #home{
+    font-size: 30px;
+    margin-right: 15px;
+    color: white;
+}
+nav #home:hover{
+    cursor: pointer;
+    color: orange;
+}
+nav .flex-nav{
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }

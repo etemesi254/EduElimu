@@ -1,23 +1,23 @@
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { gamedata } from "./game_data";
 import GameCategoryTile from "./game_cate_tile";
 import { useState } from "react";
 
 function GameCategoryDash(){
-    const {category} = useParams();
-    console.log(category);
+    const {category,color,icon} = useParams();
 
     const [games,setGames] = useState(gamedata);
     const filteredData = games.filter((game) => game.category.toLowerCase() === category.toLowerCase());
 
-
-    console.log(filteredData);
-
     return <>
        <div className="game-dashboard-container">
-        <h1>hello</h1>
         {filteredData.map((data,index)=>{
-            return <GameCategoryTile data={data}/>
+            let linkTo = `/interactive_games/dashboard/${encodeURIComponent(
+                JSON.stringify(data)
+              )}`;
+            return <Link to= {linkTo}>
+                <GameCategoryTile data={data} color={color} icon={icon}/>
+            </Link>
         })}
      </div>
     </>

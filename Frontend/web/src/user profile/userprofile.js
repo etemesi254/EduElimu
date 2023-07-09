@@ -6,6 +6,7 @@ import {GrFormNext} from "react-icons/gr";
 import {MdOutlineSwitchAccount,MdOutlineCreate} from "react-icons/md";
 import { toast } from 'react-toastify';
 import LogoutConfirmationDialog from "../user_auth/logoutConfirmation";
+import { Link } from "react-router-dom";
 function UserProfile({showLogout,setShowLogout}){
     const {currentUser} = useAuth();
 
@@ -63,27 +64,33 @@ function UserProfile({showLogout,setShowLogout}){
         </div>
     </div>
     <div className="user_settings_form">
-        <div className="Account">
-            <div>
-                <MdOutlineSwitchAccount className="prof-icons"/>
-                <span>Account Details</span>
-            </div>
-            <GrFormNext className="prof-icons"/>
-        </div>
-        <div className="chanel">
-            <div>
-                <MdOutlineCreate className="prof-icons"/>
-                <span>Create Chanel</span>
-            </div>
-            <GrFormNext className="prof-icons"/>
-        </div>
-        <div className="videos">
-            <div>
-                <FiUploadCloud className="prof-icons"/>
-                <span>Upload Videos</span>
-            </div>
-            <GrFormNext className="prof-icons"/>
-        </div>
+        <Link to="/settings">
+          <div className="Account">
+              <div>
+                  <MdOutlineSwitchAccount className="prof-icons"/>
+                  <span>Account Details</span>
+              </div>
+              <GrFormNext className="prof-icons"/>
+          </div>
+        </Link>
+        <Link to="/create_channel">
+          <div className="chanel">
+              <div>
+                  <MdOutlineCreate className="prof-icons"/>
+                  <span>Create Chanel</span>
+              </div>
+              <GrFormNext className="prof-icons"/>
+          </div>
+        </Link>
+        <Link to="/upload_videos">
+          <div className="videos">
+              <div>
+                  <FiUploadCloud className="prof-icons"/>
+                  <span>Upload Videos</span>
+              </div>
+              <GrFormNext className="prof-icons"/>
+          </div>
+        </Link>
     </div>
     </>
 
