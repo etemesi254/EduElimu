@@ -61,6 +61,7 @@ class UsersController extends Controller
                 'DOB' => request()->DOB,
                 'email' => request()->email,
                 'password' => Hash::make(request()->password),
+                "firebase_id"=>request()->firebase_id,
             ]);
             return response()->json([
                 'status' => 200,

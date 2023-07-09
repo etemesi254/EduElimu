@@ -36,12 +36,17 @@ Route::put("/updateUserWithNo/{number}", [UsersController::class, 'updateUserWit
 Route::get("/getCurrentUser", [UsersController::class, 'getCurrentUser']);
 
 Route::any("/uploads/upload_video", [VideoUploaderController::class, "addVideo"]);
+
 Route::any("/videos/all", [VideoUploaderController::class, "getAllVideos"]);
 
-Route::any("/channels/create", [ChannelController::class, "addChannel"]);
+Route::prefix("channels")->group(function () {
+    Route::any("/create", [ChannelController::class, "addChannel"]);
+    Route::any("/firebase_id", [ChannelController::class, "getChannelsWithFirebaseId"]);
+});
+
 
 Route::post("/categories/create", [VideoCategoriesController::class, "createCategory"]);
 Route::get("/categories/all", [VideoCategoriesController::class, "listAllCategories"]);
 
 
-Route::any("/users/firebase_id",[UsersController::class,"getUserWithFirebaseId"]);
+Route::any("/users/firebase_id", [UsersController::class, "getUserWithFirebaseId"]);
