@@ -1,8 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:edu_elimu/api/categories.dart';
 import 'package:edu_elimu/components/connection_error.dart';
+import 'package:edu_elimu/themes/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:hive/hive.dart';
 
 import '../models/categories_model.dart';
@@ -48,45 +50,10 @@ class _EduCategoriesComponentState extends State<EduCategoriesComponent> {
               return const Center(child: CircularProgressIndicator());
             }
             if (snapshot.hasData) {
-              return CustomScrollView(
-                slivers: [
-                  SliverGrid(
-                      gridDelegate:
-                          const SliverGridDelegateWithMaxCrossAxisExtent(
-                        maxCrossAxisExtent: 250.0,
-                        mainAxisSpacing: 10.0,
-                        crossAxisSpacing: 10.0,
-                        childAspectRatio: 1.0,
-                      ),
-                      delegate: SliverChildBuilderDelegate(
-                          childCount: snapshot.data!.length,
-                          (BuildContext context, int index) {
-                        var stand = snapshot.data![index];
-                        var url =
-                            "${endpoint!}${snapshot.data![index].imageUrl}";
-                        print(url);
-                        CachedNetworkImage img = CachedNetworkImage(
-                          imageUrl: url,
-                          // width: 200,
-                        );
-                        return Container(
-                          decoration: BoxDecoration(
-                            border: Border.all(color: Colors.black)
-                          ),
-                          child: Stack(
-                            children: [
-                              img,
-                              Positioned(
-                                  bottom: 20,
-                                  child: Container(
-                                      color: Colors.white,
-                                      width: 250,
-                                      height: 50,
-                                      child: Text(stand.name)))
-                            ],
-                          ),
-                        );
-                      }))
+              return ListView(
+                children: [
+                  for (var category in snapshot.data!)
+                    createSingleCategoryComponent(category)
                 ],
               );
             } else if (snapshot.hasError) {
@@ -103,11 +70,77 @@ class _EduCategoriesComponentState extends State<EduCategoriesComponent> {
   }
 
   Widget createSingleCategoryComponent(VideoCategory category) {
-    return Container(
-      height: 200,
-      width: 100,
-      child: Stack(
-        children: [Text("data")],
+    var url = "${endpoint!}${category.imageUrl}";
+    CachedNetworkImage img = CachedNetworkImage(
+      imageUrl: url,
+      // width: 200,
+      height: 300,
+    );
+    return InkWell(
+      onTap: () {
+        // show button to show video categories
+      },
+      onLongPress: () {
+        showDialog(
+            context: context,
+            builder: (builder) {
+              return AlertDialog(
+                //title: Text(category.name),
+                content: FractionallySizedBox(
+                  heightFactor: 0.6,
+                  child: Column(
+                    children: [
+                      Text(category.name,style: const TextStyle(fontWeight: FontWeight.bold),),
+                      Expanded(child: img),
+                      Container(
+                          color: Colors.white,
+                          width: double.infinity,
+                          padding: const EdgeInsets.only(top: 10),
+                          height: 50,
+                          child: Text(
+                            category.description,
+                            textAlign: TextAlign.center,
+                            style: GoogleFonts.poppins(
+                                fontWeight: FontWeight.normal, fontSize: 16),
+                          )),
+                      OutlinedButton(
+                        style: OutlinedButton.styleFrom(
+                          backgroundColor: EduColors.appColor,
+                        ),
+                          onPressed: () {
+
+                          },
+                          child: const SizedBox(
+                              width: double.infinity,
+                              child: Text(
+                                "Go",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(color: Colors.white,fontSize: 20,fontWeight: FontWeight.w500),
+                              )))
+                    ],
+                  ),
+                ),
+              );
+            });
+      },
+      child: Container(
+        decoration: BoxDecoration(border: Border.all(color: Colors.black)),
+        child: Column(
+          children: [
+            img,
+            Container(
+                color: Colors.white,
+                width: double.infinity,
+                padding: const EdgeInsets.only(top: 10),
+                height: 50,
+                child: Text(
+                  category.name,
+                  textAlign: TextAlign.center,
+                  style: GoogleFonts.poppins(
+                      fontWeight: FontWeight.w500, fontSize: 20),
+                ))
+          ],
+        ),
       ),
     );
   }

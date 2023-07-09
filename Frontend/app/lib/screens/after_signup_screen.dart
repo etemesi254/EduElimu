@@ -40,6 +40,7 @@ class _AfterSignUpScreenState extends State<AfterSignUpScreen> {
     emailController.text = widget.user.email ?? "";
     emailEditable = emailController.text.isEmpty;
     phoneEditable = phoneController.text.isEmpty;
+    getUserDetails();
   }
 
   @override
@@ -94,9 +95,9 @@ class _AfterSignUpScreenState extends State<AfterSignUpScreen> {
             ),
             const SizedBox(height: 20),
             InkWell(
-              onTap: (){
-                Navigator.of(context)
-                    .push(MaterialPageRoute(builder: (context) => const SettingsPage()));
+              onTap: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => const SettingsPage()));
               },
               child: SizedBox(
                 height: 50,
@@ -133,6 +134,7 @@ class _AfterSignUpScreenState extends State<AfterSignUpScreen> {
               firebaseUID: widget.user.uid,
               fullName: nameController.text,
               email: emailController.text,
+              photoId: widget.user.photoURL,
               password: "TEMP");
           EasyLoading.show(status: "Loading..");
           try {
@@ -288,4 +290,9 @@ class _AfterSignUpScreenState extends State<AfterSignUpScreen> {
       ),
     );
   }
+
+  void getUserDetails() async{
+    await getUserWithFirebaseId(widget.user.uid);
+  }
+
 }
