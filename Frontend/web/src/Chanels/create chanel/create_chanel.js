@@ -1,18 +1,76 @@
 import lottie from 'lottie-web';
 import { useEffect, useRef, useState } from 'react';
 import "./create_chanel.css";
+import { useAuth } from '../../context/AuthContext';
+
 function CreateChannel(){
     const container = useRef(null);
-    const [name,setName] = useState();
-    const [description,setDescription] = useState();
-    const [channel_banner,setChannelBanner] = useState();
+    const [name,setName] = useState('');
+    const [description,setDescription] = useState('');
+    const [channel_banner,setChannelBanner] = useState('');
+    
+    
+    const {currentUser} = useAuth();
+
+
+    const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    async function getCurrentUser() {
+      try {
+        const email = encodeURIComponent(currentUser.email);
+        const phoneNumber = currentUser.phoneNumber;
+
+        const url = `http://127.0.0.1:8000/api/getCurrentUser?email=${email}&phone_number=${phoneNumber}`;
+
+        const response = await fetch(url, {
+          // mode: 'no-cors',
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+
+        if (response.status === 201) {
+            const user = await response.json();
+            setUser(user); // Update the user state
+          } else {
+            throw new Error('Failed to fetch current user');
+          }
+        } catch (error) {
+          console.error('Error:', error.message);
+        }
+      }
+  
+      getCurrentUser(); 
+    }, []); 
+
+    console.log(user.data.id);
 
     const handleNameInput = (e)=>setName(e.target.value);
     const handleDescriptionInput = (e)=>setDescription(e.target.value);
     const handleChannelBanner = (e)=>setChannelBanner(e.target.value);
     
-    function handleSubmit(e){
+    async function handleSubmit(e){
         e.preventDefault();
+        const formData = new FormData();
+        formData.append('name',name);
+        formData.append('channel_banner',channel_banner);
+        formData.append('description',description);
+        formData.append('user_id',user.data.id);
+
+        try {
+            const result = await fetch(
+                "http://127.0.0.1:8000/api/channels/create",
+                {
+                    method: "POST",
+                    body: formData,
+                }
+            );
+            console.log(result);
+        } catch (error) {
+            console.log(error.message);
+        }
 
     }
 
@@ -43,16 +101,16 @@ function CreateChannel(){
                     <div className='form-group-flex'>
                         <div className="settings_input">
                             <label>Channel Name</label>
-                            <input type="text" name="name" placeholder='Channel Name' value={name} onChange={setName}/>
+                            <input type="text" name="name" placeholder='Channel Name' value={name} onChange={handleNameInput}/>
                         </div>
                         <div className="settings_input">
                             <label>Banner Image</label>
-                            <input type="file" value={channel_banner} onChange={setChannelBanner}/>
+                            <input type="file" value={channel_banner} onChange={handleChannelBanner}/>
                         </div>
                     </div>
                     <div className="settings_input">
                         <label>Description</label>
-                        <textarea placeholder="Enter channel description here" value={description} onChange={setDescription}></textarea>
+                        <textarea placeholder="Enter channel description here" value={description} onChange={handleDescriptionInput}></textarea>
                     </div>
                     <div className="settings_input">
                         <label>Details</label>
