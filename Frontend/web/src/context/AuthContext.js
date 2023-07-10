@@ -18,6 +18,12 @@ export function AuthProvider({children}) {
         return authFB.createUserWithEmailAndPassword(email, password);
     }
 
+    function signUpWithGoogle() {
+      const provider = new authFB.GoogleAuthProvider();
+      return authFB.signInWithPopup(provider);
+    }
+    
+
     async function loginLaravel(email, password) {
       try {
         const response = await fetch('http://127.0.0.1:8000/api/loginUser', {
@@ -44,17 +50,17 @@ export function AuthProvider({children}) {
     }
     
 
-    async function registerUserLaravel(user) {
+    async function registerUserLaravel(email,firebase_id,profile_image) {
         try {
           const response = await fetch('http://127.0.0.1:8000/api/registerUser', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
             },
-            body: JSON.stringify(user),
+            body: JSON.stringify({"email": email, "profile_image": profile_image, "firebase_id": firebase_id}),
           });
       
-          if (!response.ok) {
+          if (response.status != 200) {
             throw new Error('Registration failed');
           }
       
@@ -109,7 +115,9 @@ export function AuthProvider({children}) {
         resetPassword,
         setUpRecaptcha,
         customResetPassword,
-        loginLaravel
+        loginLaravel,
+        signUpWithGoogle,
+        registerUserLaravel
     }
   return (
     <AuthContext.Provider value={value}>

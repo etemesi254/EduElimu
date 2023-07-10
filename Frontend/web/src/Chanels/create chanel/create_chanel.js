@@ -2,6 +2,7 @@ import lottie from 'lottie-web';
 import { useEffect, useRef, useState } from 'react';
 import "./create_chanel.css";
 import { useAuth } from '../../context/AuthContext';
+import { toast } from 'react-toastify';
 
 function CreateChannel(){
     const container = useRef(null);
@@ -30,6 +31,8 @@ function CreateChannel(){
             'Content-Type': 'application/json',
           },
         });
+        console.log(response)
+
 
         if (response.status === 201) {
             const user = await response.json();
@@ -45,33 +48,39 @@ function CreateChannel(){
       getCurrentUser(); 
     }, []); 
 
-    console.log(user.data.id);
-
     const handleNameInput = (e)=>setName(e.target.value);
     const handleDescriptionInput = (e)=>setDescription(e.target.value);
-    const handleChannelBanner = (e)=>setChannelBanner(e.target.value);
+    const handleChannelBanner = (e)=>setChannelBanner(e.target.files[0]);
     
     async function handleSubmit(e){
         e.preventDefault();
-        const formData = new FormData();
-        formData.append('name',name);
-        formData.append('channel_banner',channel_banner);
-        formData.append('description',description);
-        formData.append('user_id',user.data.id);
-
         try {
             const result = await fetch(
                 "http://127.0.0.1:8000/api/channels/create",
                 {
                     method: "POST",
-                    body: formData,
+                    headers: {
+                        'Content-Type': 'application/json',
+                      },
+                      
+                    body: JSON.stringify({
+                        "name":name, "channel_banner":channel_banner,
+                        "description":description,
+                        "user_id":user.data.id
+                    }),
                 }
             );
             console.log(result);
+            
+            const response = await result.json();
+            console.log(response);
+            if(result.status === 201) {
+                return toast.success('Your channel has been created');
+            }
+            toast.error('Error creating channel');
         } catch (error) {
-            console.log(error.message);
+            return toast.error(error.message);
         }
-
     }
 
     useEffect(()=>{

@@ -15,14 +15,13 @@ class VideoUploaderController extends Controller
             "name" => "required",
             "channel_id" => "required",
             "description" => "required",
-            "status" => "required",
             "video" => "required",
             "image_banner" => "required",
         ];
 
         try {
-
             $request->validate($rules);
+            
             // store banner image and video
             $imagePath = $this->storeBanner($request);
             if (is_bool($imagePath)) {
@@ -57,7 +56,7 @@ class VideoUploaderController extends Controller
 
             return response()->json([
                 'status' => 201,
-                'message' => "Successfully created channel",
+                'message' => "Successfully uploaded video",
                 "data" => $video,
 
             ], 201);

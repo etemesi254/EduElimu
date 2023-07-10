@@ -34,13 +34,14 @@ Route::put("/updateUserWithEmail/{email}", [UsersController::class, 'updateUserW
 Route::post('/registerUser', [UsersController::class, 'register']);
 Route::put("/updateUserWithNo/{number}", [UsersController::class, 'updateUserWithPhone']);
 Route::get("/getCurrentUser", [UsersController::class, 'getCurrentUser']);
+Route::delete('/deleteUser/{user}', [UsersController::class, 'deleteUser']);
 
-Route::any("/uploads/upload_video", [VideoUploaderController::class, "addVideo"]);
+Route::post("/uploads/upload_video", [VideoUploaderController::class, "addVideo"]);
 
 Route::any("/videos/all", [VideoUploaderController::class, "getAllVideos"]);
 
 Route::prefix("channels")->group(function () {
-    Route::any("/create", [ChannelController::class, "addChannel"]);
+    Route::post("/create", [ChannelController::class, "addChannel"]);
     Route::any("/firebase_id", [ChannelController::class, "getChannelsWithFirebaseId"]);
 });
 

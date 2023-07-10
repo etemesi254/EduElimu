@@ -162,4 +162,20 @@ class UsersController extends Controller
         }
     }
 
+    public function deleteUser($user){
+        try {
+            $user = User::findOrFail($user);
+            $user->delete();
+            return response()->json([
+                'status' => 201,
+                'message' => "user deleted successfully"
+            ], 201);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'status' => 500,
+                'message' => $th->getMessage(),
+            ], 500);
+        }
+    }
+
 }

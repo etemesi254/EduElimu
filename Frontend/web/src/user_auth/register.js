@@ -3,11 +3,14 @@ import lottie from 'lottie-web';
 import { useEffect, useRef,useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { Link , useNavigate} from 'react-router-dom';
+import { auth,provider } from './config';
+import {signInWithPopup} from "firebase/auth";
 
 
 function RegisterUser ({setCompleteProfile}){
     const container = useRef(null);
-    const {signup,loginLaravel} = useAuth();
+    const [value,setValue] = useState('');
+    const {signup,loginLaravel,registerUserLaravel} = useAuth();
     const [email,setEmail] = useState('');
     const [password,setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
@@ -26,6 +29,26 @@ function RegisterUser ({setCompleteProfile}){
         const specialCharactersRegex = /[!@#$%^&*(),.?":{}|<>]/;
         return specialCharactersRegex.test(password);
       }
+
+      async function handleSignUpwithGoogle (){
+        await signInWithPopup(auth,provider).then(async (data)=>{
+            setValue(data.user.email);
+            try {
+                let email = data.user.email;
+                let firebase_id = data.user.uid;
+                let profile_image = data.user.protoURL;
+                const response = await registerUserLaravel(email,firebase_id,profile_image);
+                if(response.status === 200) {
+                    return navigate('/');
+                }else{
+                    return setError("Couldn't register user.Try again later.");
+                }
+            } catch (error) {
+                return setError(error.message);
+            }
+            
+        });
+    }
 
     async function handleSubmit(e){
         e.preventDefault();
@@ -136,7 +159,7 @@ function RegisterUser ({setCompleteProfile}){
                 </form>
                 <h4 className='alt'>OR</h4>
                 <div className='signwith'>
-                    <div className='big_tech'>
+                    <div className='big_tech' onClick={handleSignUpwithGoogle}>
                         <img src='./assets/google.png'/>
                         <p>Sign up with Google</p>
                     </div>

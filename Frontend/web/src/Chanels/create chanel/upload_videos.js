@@ -1,39 +1,49 @@
 import lottie from 'lottie-web';
 import { useEffect, useRef, useState } from 'react';
 import "./create_chanel.css";
+import { toast } from 'react-toastify';
+
 function UploadVideos(){
     const container = useRef(null);
     const [videoName, setVideoName] = useState('');
     const [videoDescription, setVideoDescription] = useState('');
     const [fileUrl, setFileUrl] = useState('');
     const [bannerUrl, setBannerUrl] = useState('');
+    const [disabled,setDisabled] = useState(false);
 
     const handleNameInput = (e)=> setVideoName(e.target.value);
     const handleDescriptionInput = (e)=> setVideoDescription(e.target.value);
-    const handleFileUrlInput = (e)=> setFileUrl(e.target.value);
-    const handleBannerUrlInput = (e)=> setBannerUrl(e.target.value);
+    const handleFileUrlInput = (e) => setFileUrl(e.target.files[0]);
+    const handleBannerUrlInput = (e) => setBannerUrl(e.target.files[0]);
+
     
     async function handleSubmit(e){
         e.preventDefault();
-        let formData = new FormData();
-        formData.append("name",videoName);
-        formData.append("description",videoDescription);
-        formData.append("video",fileUrl);
-        formData.append("image_banner",bannerUrl);
-        formData.append("channel_id",1);
+        setDisabled(true);
+        const formData = new FormData();
+        formData.append('name', videoName);
+        formData.append('description', videoDescription);
+        formData.append('video', fileUrl);
+        formData.append('image_banner', bannerUrl);
+        formData.append('channel_id', 9);
 
         try {
-            const result = await fetch(
-                "http://127.0.0.1:8000/api/uploads/upload_video",
-                {
-                    method: "POST",
-                    body: formData,
-                }
-            );
+        const result = await fetch("http://127.0.0.1:8000/api/uploads/upload_video", {
+            method: "POST",
+            body: formData,
+        });
 
-            console.log(result);
+            const response = await result.json();
+            console.log(response);
+            console.log(response.message);
+            if(result.status === 201) {
+                return toast.success('Your channel has been created');
+            }
+            toast.error('Error creating channel');
+            setDisabled(false);
         } catch (error) {
-            console.log(error.message);
+            setDisabled(false);
+            return toast.error(error.message);
         }
     }
 
@@ -67,7 +77,7 @@ function UploadVideos(){
                         </div>
                         <div className="settings_input">
                             <label>Poster Image</label>
-                            <input type="file" value={bannerUrl} onChange={handleBannerUrlInput}/>
+                            <input type="file" onChange={handleBannerUrlInput}/>
                         </div>
                     </div>
                     <div className="settings_input">
@@ -77,7 +87,7 @@ function UploadVideos(){
                     <div className='button-div'>
                         <div className="settings_input">
                             <label>Video File</label>
-                            <input type="file" value={fileUrl} onChange={handleFileUrlInput}/>
+                            <input type="file" onChange={handleFileUrlInput}/>
                         </div>
                     </div>
                    
