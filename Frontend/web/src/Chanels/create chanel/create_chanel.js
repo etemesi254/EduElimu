@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 import "./create_chanel.css";
 import { useAuth } from '../../context/AuthContext';
 import { toast } from 'react-toastify';
+import { useUserContext } from '../../context/UserContext';
 
 function CreateChannel(){
     const container = useRef(null);
@@ -10,43 +11,7 @@ function CreateChannel(){
     const [description,setDescription] = useState('');
     const [channel_banner,setChannelBanner] = useState('');
     
-    
-    const {currentUser} = useAuth();
-
-
-    const [user, setUser] = useState(null);
-
-  useEffect(() => {
-    async function getCurrentUser() {
-      try {
-        const email = encodeURIComponent(currentUser.email);
-        const phoneNumber = currentUser.phoneNumber;
-
-        const url = `http://127.0.0.1:8000/api/getCurrentUser?email=${email}&phone_number=${phoneNumber}`;
-
-        const response = await fetch(url, {
-          // mode: 'no-cors',
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        });
-        console.log(response)
-
-
-        if (response.status === 201) {
-            const user = await response.json();
-            setUser(user); // Update the user state
-          } else {
-            throw new Error('Failed to fetch current user');
-          }
-        } catch (error) {
-          console.error('Error:', error.message);
-        }
-      }
-  
-      getCurrentUser(); 
-    }, []); 
+    const {user} = useUserContext();
 
     const handleNameInput = (e)=>setName(e.target.value);
     const handleDescriptionInput = (e)=>setDescription(e.target.value);
@@ -58,7 +23,9 @@ function CreateChannel(){
         formData.append('name', name);
         formData.append('description', description);
         formData.append('channel_banner', channel_banner);
-        formData.append('user_id', user.data.id);
+        formData.append('user_id', user.id);
+
+        console.log(formData);
     
         try {
             const result = await fetch(

@@ -35,6 +35,8 @@ import CreateChannel from './Chanels/create chanel/create_chanel';
 import UploadVideos from './Chanels/create chanel/upload_videos';
 import GameCategoryDash from './Interactive games/game_category_dash';
 import GameWindow from './Interactive games/game_window';
+import { UserProvider } from './context/UserContext';
+import ViewChannelList from './Chanels/viewChannelList';
 
 
 function App() {
@@ -54,52 +56,55 @@ function App() {
   return (
     <Router>
       <AuthProvider>
-        <Routes showLogout={showLogout}
-            setShowLogout={setShowLogout}>
-          <Route path="/" element={<UserLayout  showLogout={showLogout} 
-              setShowLogout={setShowLogout}/>}>
-            <Route exact path='/' element={<HomePage 
-             showLogout={showLogout} 
-             setShowLogout={setShowLogout}
-              completeProfile={completeProfile}
-              setCompleteProfile={setCompleteProfile}
-              showDeclinePrompt={showDeclinePrompt}
-              setShowDeclinePrompt={setShowDeclinePrompt}
-              />}/>
-              <Route path="/settings" element={<UserSettings showLogout={showLogout} 
-             setShowLogout={setShowLogout}/>}/>
-             <Route path="/profile" element={<UserProfile showLogout={showLogout} 
-             setShowLogout={setShowLogout}/>}/>
-             <Route path="/create_channel" element={<CreateChannel/>}/>
-             <Route path="/upload_videos" element={<UploadVideos/>}/>
-             <Route path='video_player' element={<VideoPlayer/>}/>
-              <Route path="/chanel" element={<ChanelLayout/>}>
-                <Route exact path='/chanel'element={<ChanelDashboard/>}/>
-                <Route path='videos' element={<ChanelVideoPage/>}/>
-                <Route path='courses' element={<ChanelCoursesPage/>}/>
-                <Route path='about' element={<ChanelAbout/>}/>
-              </Route>
-          </Route>
-          <Route path='/interactive_games' element={<GameSplashScreen/>}/>
-          <Route path='/interactive_games/dashboard' element={<GameLayout/>}>
-              <Route exact path='/interactive_games/dashboard' element={<GameDashboard/>}/>
-              <Route path='/interactive_games/dashboard/:category/:color/:icon' element={<GameCategoryDash/>}/>
-              <Route path='/interactive_games/dashboard/:quiz' element={<GameWindow/>}/>
-          </Route>
-          <Route path='/register' element={<RegisterUser  completeProfile={completeProfile}
-              setCompleteProfile={setCompleteProfile}/>}/>
-          <Route path='/login' Component={Loginuser}/>
-          <Route path='/forgotPassword' Component={ForgotPassword}/>
-          <Route path='/signupwithphone' Component={SignInWithPhone}/>
-          <Route path='/resetPassword' Component={CustomReset}/>
-          <Route path='/adminLogin' Component={LoginAdmin}/>
-          <Route path='/admin' element={<AdminLayout showLogout={showLogout} 
-              setShowLogout={setShowLogout}/>}>
-            <Route exact path='/admin' element={<MainDash showLogout={showLogout} 
-             setShowLogout={setShowLogout}/>}/>
-          </Route>
-          <Route path='/completeProfile' Component={CompleteProfileEmail}/>
-        </Routes>
+        <UserProvider>
+          <Routes showLogout={showLogout}
+              setShowLogout={setShowLogout}>
+            <Route path="/" element={<UserLayout  showLogout={showLogout} 
+                setShowLogout={setShowLogout}/>}>
+              <Route exact path='/' element={<HomePage 
+              showLogout={showLogout} 
+              setShowLogout={setShowLogout}
+                completeProfile={completeProfile}
+                setCompleteProfile={setCompleteProfile}
+                showDeclinePrompt={showDeclinePrompt}
+                setShowDeclinePrompt={setShowDeclinePrompt}
+                />}/>
+                <Route path="/settings" element={<UserSettings showLogout={showLogout} 
+              setShowLogout={setShowLogout}/>}/>
+              <Route path="/profile" element={<UserProfile showLogout={showLogout} 
+              setShowLogout={setShowLogout}/>}/>
+              <Route path="/create_channel" element={<CreateChannel/>}/>
+              <Route path='/show_channel_list' element={<ViewChannelList/>}/>
+              <Route path="/upload_videos" element={<UploadVideos/>}/>
+              <Route path='video_player' element={<VideoPlayer/>}/>
+                <Route path="/chanel/:id/:channel" element={<ChanelLayout/>}>
+                  <Route exact path='/chanel/:id/:channel'element={<ChanelDashboard/>}/>
+                  <Route path='videos' element={<ChanelVideoPage/>}/>
+                  <Route path='courses' element={<ChanelCoursesPage/>}/>
+                  <Route path='about' element={<ChanelAbout/>}/>
+                </Route>
+            </Route>
+            <Route path='/interactive_games' element={<GameSplashScreen/>}/>
+            <Route path='/interactive_games/dashboard' element={<GameLayout/>}>
+                <Route exact path='/interactive_games/dashboard' element={<GameDashboard/>}/>
+                <Route path='/interactive_games/dashboard/:category/:color/:icon' element={<GameCategoryDash/>}/>
+                <Route path='/interactive_games/dashboard/:quiz' element={<GameWindow/>}/>
+            </Route>
+            <Route path='/register' element={<RegisterUser  completeProfile={completeProfile}
+                setCompleteProfile={setCompleteProfile}/>}/>
+            <Route path='/login' Component={Loginuser}/>
+            <Route path='/forgotPassword' Component={ForgotPassword}/>
+            <Route path='/signupwithphone' Component={SignInWithPhone}/>
+            <Route path='/resetPassword' Component={CustomReset}/>
+            <Route path='/adminLogin' Component={LoginAdmin}/>
+            <Route path='/admin' element={<AdminLayout showLogout={showLogout} 
+                setShowLogout={setShowLogout}/>}>
+              <Route exact path='/admin' element={<MainDash showLogout={showLogout} 
+              setShowLogout={setShowLogout}/>}/>
+            </Route>
+            <Route path='/completeProfile' Component={CompleteProfileEmail}/>
+          </Routes>
+        </UserProvider>
       </AuthProvider>
     </Router>
    

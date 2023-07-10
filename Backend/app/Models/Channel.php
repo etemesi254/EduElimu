@@ -21,4 +21,8 @@ class Channel extends Model
     {
         return $this->hasMany(Videos::class);
     }
+
+    public function user(){
+        return $this->belongsTo(User::class,'user_id');
+    }
 }

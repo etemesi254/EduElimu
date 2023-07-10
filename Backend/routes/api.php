@@ -40,11 +40,14 @@ Route::post("/uploads/upload_video", [VideoUploaderController::class, "addVideo"
 
 Route::any("/videos/all", [VideoUploaderController::class, "getAllVideos"]);
 
+Route::get("/videos/{id}", [VideoUploaderController::class,"getUserVideos"]);
+
 Route::prefix("channels")->group(function () {
     Route::post("/create", [ChannelController::class, "addChannel"]);
     Route::any("/firebase_id", [ChannelController::class, "getChannelsWithFirebaseId"]);
     Route::any("/all", [ChannelController::class, "getAllChannels"]);
     Route::delete("/delete", [ChannelController::class, "deleteChannel"]);
+    Route::get("/getChannelVideos/{channel}", [ChannelController::class, "getChannelVideos"]);
     Route::any("/update", [ChannelController::class, "updateChannelDetails"]);
 });
 

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Videos;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class VideoUploaderController extends Controller
@@ -88,5 +89,32 @@ class VideoUploaderController extends Controller
     public function getAllVideos(Request $request)
     {
         return response()->json(data: Videos::all(), status: 200);
+    }
+
+    public function getUserVideos($user){
+        
+        try {
+            $user = User::findOrFail($user);
+            $channels = $user->channels()->with('videos')->get();
+
+            $videos = [];
+            foreach ($channels as $channel) {
+                $videos = array_merge($videos, $channel->videos->toArray());
+            }
+
+            return response()->json(
+                [
+                    "status" => 200,
+                    "message" => 'videos retrieved successfully',
+                    "data" => $videos
+                ], status: 200);
+        } catch (\Exception $e) {
+            return response()->json(
+                [
+                    "status" => 500,
+                    "message" => $e->getMessage(),
+                    "data" => null
+                ], status: 500);
+        }
     }
 }

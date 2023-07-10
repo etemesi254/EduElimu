@@ -175,4 +175,26 @@ class ChannelController extends Controller
             ], 422);
         }
     }
+
+    public function getChannelVideos($channel){
+        try {
+            $channel = Channel::findOrFail($channel);
+
+            $videos = $channel->videos()->get();
+
+            return response()->json(
+                [
+                    "status" => 200,
+                    "message" => 'videos retrieved successfully',
+                    "data" => $videos
+                ], status: 200);
+        } catch (\Exception $e) {
+            return response()->json(
+                [
+                    "status" => 500,
+                    "message" => $e->getMessage(),
+                    "data" => null
+                ], status: 500);
+        }
+    }
 }

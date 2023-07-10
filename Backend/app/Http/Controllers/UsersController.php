@@ -87,12 +87,14 @@ class UsersController extends Controller
         }
 
         if (request()->profile_image) {
-            $updated_user['profile_image'] = request()->profile_image;
+            $updated_user['profile_image'] = request()->file("profile_image")->store("profile_image","public");
         }
 
         if (request()->DOB) {
             $updated_user['DOB'] = request()->DOB;
         }
+
+
         try {
             User::where('email', $email)->update($updated_user);
             return response()->json([

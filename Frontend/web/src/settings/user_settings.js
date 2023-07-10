@@ -1,97 +1,95 @@
 import "./user_settings.css"
-import { useAuth } from "../context/AuthContext";
 import { useEffect, useState } from "react";
 import { toast } from 'react-toastify';
+import { useRef } from 'react';
 import {AiFillPlusCircle} from 'react-icons/ai';
 import LogoutConfirmationDialog from "../user_auth/logoutConfirmation";
+import { useUserContext } from "../context/UserContext";
 function UserSettings({showLogout,setShowLogout}){
-    const {currentUser} = useAuth();
     const [name,setName] = useState('');
     const [phone_number,setPhone] = useState('');
     const [profile_image,setProfileImage] = useState('');
     const [DOB,setDOB] = useState('');
     const [email,setEmail] = useState('');
+    const [imageSRC,setImageSRC] = useState('');
     const [error,setError] = useState('');
     const [loading,setLoading] = useState(false);
     const [message,setMessage] = useState('');
 
 
-    const [user, setUser] = useState(null);
+    const {user} = useUserContext();
 
     const handlePhoneInput = (e)=> setPhone(e.target.value);
     const handleNameInput = (e)=> setName(e.target.value);
-    const handleProfileInput = (e)=> setProfileImage(e.target.value);
     const handleDOBInput = (e)=> setDOB(e.target.value);
     const handleEmailInput = (e)=> setEmail(e.target.value);
 
-  useEffect(() => {
-    async function getCurrentUser() {
+    const fileInputRef = useRef(null);
+
+    const handleIconClick = () => {
+      fileInputRef.current.click();
+    };
+
+    const handleFileChange = (event) => {
+      const selectedFile = event.target.files[0];
+      setProfileImage(selectedFile);
+      console.log(profile_image);
+      console.log(selectedFile);
+    };
+
+
+    const displayName = user && user.name ? user.name : (user && user.email ? user.email.split('@')[0] : 'Default Name');
+    const displaypic = user && user.profile_image ? `http://127.0.0.1:8000/storage/${user.profile_image}`:`${process.env.PUBLIC_URL}/assets/eduelimu.png`;
+    const displayEmail = user && user.email ? user.email :'Default Email';
+    const displayPhone = user && user.phoneNumber ? user.phoneNumber :'123456789';
+    const displayDOB = user && user.DOB ? user.DOB :'Default DOB';
+
+
+    async function handleSubmit(e) {
+      e.preventDefault();
+      const formData = new FormData();
+    
       try {
-        const email = encodeURIComponent(currentUser.email);
-        const phoneNumber = currentUser.phoneNumber;
+        setLoading(true);
+    
+        formData.append('name', name);
+        formData.append('profile_image', profile_image);
+        formData.append('phone_number', phone_number);
+        formData.append('DOB', DOB);
 
-        const url = `http://127.0.0.1:8000/api/getCurrentUser?email=${email}&phone_number=${phoneNumber}`;
-
-        const response = await fetch(url, {
-          // mode: 'no-cors',
-          method: 'GET',
+        console.log(formData);
+    
+        const response = await fetch('http://127.0.0.1:8000/api/updateUserWithEmail/' + user.email, {
+          method: 'PUT',
+          body: formData,
           headers: {
-            'Content-Type': 'application/json',
+            // Set appropriate headers for multipart/form-data
+            'Content-Type': 'multipart/form-data',
           },
         });
-
+    
+        console.log(response);
+        const result = await response.json();
+        console.log(result);
+    
         if (response.status === 201) {
-            const user = await response.json();
-            setUser(user); // Update the user state
-          } else {
-            throw new Error('Failed to fetch current user');
-          }
-        } catch (error) {
-          console.error('Error:', error.message);
+          return toast.success('Profile updated successfully!');
         }
+      } catch (error) {
+        const errorMessage = error.message.startsWith('Firebase: ')
+          ? error.message.substring('Firebase: '.length) // Remove the "Firebase: " prefix
+          : error.message;
+    
+        setError(errorMessage);
       }
-  
-      getCurrentUser(); 
-    }, []); 
-
-    const displayName = user && user.data.name ? user.data.name : 'Default Name';
-    const displayEmail = user && user.data.email ? user.data.email :'Default Email';
-    const displayPhone = user && user.data.phoneNumber ? user.data.phoneNumber :'123456789';
-    const displayDOB = user && user.data.DOB ? user.data.DOB :'Default DOB';
-
-    console.log(user);
-
-    async function handleSubmit(e){
-        e.preventDefault();
-        try{
-            setLoading(true);
-            const response = await fetch('http://127.0.0.1:8000/api/updateUserWithEmail/'+ currentUser.email, {
-              method: 'PUT',
-              headers: {
-                'Content-Type': 'application/json',
-              },
-              body: JSON.stringify({name,phone_number,profile_image,DOB}),
-            });
-
-            console.log(response);
-            console.log(currentUser);
-
-            if(response.status === 201){
-                return toast.success('Profile updated successfully!');
-            }
-        }catch(error){
-            const errorMessage = error.message.startsWith("Firebase: ")
-            ? error.message.substring("Firebase: ".length) // Remove the "Firebase: " prefix
-            : error.message;
-
-            setError(errorMessage);
-        }
-        setLoading(false);
-        setTimeout(() => {
-            setError('');
-            setMessage('');
-        }, 3000);
+    
+      setLoading(false);
+      setTimeout(() => {
+        setError('');
+        setMessage('');
+      }, 3000);
     }
+    
       
     return <div className="home-image">
     {showLogout &&  <LogoutConfirmationDialog
@@ -99,8 +97,15 @@ function UserSettings({showLogout,setShowLogout}){
               />}
     <div className="settings">
         <div className="img-divv">
-            <img src="https://res.cloudinary.com/diqqf3eq2/image/upload/v1595959131/person-2_ipcjws.jpg"/>
-            <AiFillPlusCircle id="change-pic"/>
+            <img src={displaypic}/>
+            <AiFillPlusCircle id="change-pic" onClick={handleIconClick}/>
+            <input
+              type="file"
+              id="file-upload"
+              ref={fileInputRef}
+              style={{ display: 'none' }}
+              onChange={handleFileChange}
+            />
         </div>
         <div className="user_info">
             <h3>{displayName}</h3>

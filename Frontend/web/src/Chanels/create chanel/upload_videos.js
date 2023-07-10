@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 import "./create_chanel.css";
 import { toast } from 'react-toastify';
 import { useAuth } from '../../context/AuthContext';
+import { useUserContext } from '../../context/UserContext';
 
 function UploadVideos(){
     const container = useRef(null);
@@ -11,11 +12,8 @@ function UploadVideos(){
     const [fileUrl, setFileUrl] = useState('');
     const [bannerUrl, setBannerUrl] = useState('');
     const [disabled,setDisabled] = useState(false);
-    const [user, setUser] = useState(null);
-    const [firebaseId, setFirebaseId] = useState(null);
-    const [channel, setChannel] = useState(null);
     const [userChannel,setUserChannel] = useState('');
-    const {currentUser} = useAuth();
+    const {channel} = useUserContext();
 
     const handleNameInput = (e)=> setVideoName(e.target.value);
     const handleDescriptionInput = (e)=> setVideoDescription(e.target.value);
@@ -53,69 +51,7 @@ function UploadVideos(){
             return toast.error(error.message);
         }
     }
-
-    useEffect(() => {
-        async function getCurrentUser() {
-          try {
-            const email = encodeURIComponent(currentUser.email);
-            const phoneNumber = currentUser.phoneNumber;
     
-            const url = `http://127.0.0.1:8000/api/getCurrentUser?email=${email}&phone_number=${phoneNumber}`;
-    
-            const response = await fetch(url, {
-              // mode: 'no-cors',
-              method: 'GET',
-              headers: {
-                'Content-Type': 'application/json',
-              },
-            });
-            console.log(response)
-    
-    
-            if (response.status === 201) {
-                const user = await response.json();
-                setUser(user); // Update the user state
-                setFirebaseId(user.data.firebase_id); 
-                getUserChannel();
-              } else {
-                throw new Error('Failed to fetch current user');
-              }
-            } catch (error) {
-              console.error('Error:', error.message);
-            }
-          }
-
-          async function getUserChannel() {
-            try {
-              const url = 'http://127.0.0.1:8000/api/channels/all';
-      
-              const response = await fetch(url, {
-                method: 'POST',
-                headers: {
-                  'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    "firebase_id": firebaseId
-                })
-              });
-              console.log(response)
-      
-      
-              if (response.status === 200) {
-                  const channels = await response.json();
-                  setChannel(channels.data);
-                } else {
-                  throw new Error('Failed to fetch users channels');
-                }
-              } catch (error) {
-                console.error('Error:', error.message);
-              }
-            }
-      
-          getCurrentUser(); 
-        }, []); 
-    
-
     useEffect(()=>{
         const instance = lottie.loadAnimation({
             container:container.current,
@@ -161,6 +97,7 @@ function UploadVideos(){
                         <div className="settings_input">
                             <label>Your Channels</label>
                             <select onChange={handleSetUserChannelInput}>
+                              <option>Select the video's channel</option>
                             {channel ? channel.map((channel) => (
                             <option key={channel.id} value={channel.id}>{channel.name}</option>
                             )):<option>You dont have a channel :( Kindly create one first</option>}

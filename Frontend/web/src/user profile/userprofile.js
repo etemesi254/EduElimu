@@ -6,47 +6,14 @@ import {GrFormNext} from "react-icons/gr";
 import {MdOutlineSwitchAccount,MdOutlineCreate} from "react-icons/md";
 import { toast } from 'react-toastify';
 import LogoutConfirmationDialog from "../user_auth/logoutConfirmation";
+import { useUserContext } from "../context/UserContext";
 import { Link } from "react-router-dom";
 function UserProfile({showLogout,setShowLogout}){
-    const {currentUser} = useAuth();
+    const {user} = useUserContext();
+    
+    const displayName = user && user.name ? user.name : (user && user.email ? user.email.split('@')[0] : 'Default Name');
 
-
-    const [user, setUser] = useState(null);
-
-  useEffect(() => {
-    async function getCurrentUser() {
-      try {
-        const email = encodeURIComponent(currentUser.email);
-        const phoneNumber = currentUser.phoneNumber;
-
-        const url = `http://127.0.0.1:8000/api/getCurrentUser?email=${email}&phone_number=${phoneNumber}`;
-
-        const response = await fetch(url, {
-          // mode: 'no-cors',
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        });
-
-        if (response.status === 201) {
-            const user = await response.json();
-            setUser(user); // Update the user state
-          } else {
-            throw new Error('Failed to fetch current user');
-          }
-        } catch (error) {
-          console.error('Error:', error.message);
-        }
-      }
-  
-      getCurrentUser(); 
-    }, []); 
-
-    const displayName = user && user.data.name ? user.data.name : 'Default Name';
-    const displayEmail = user && user.data.email ? user.data.email :'Default Email';
-    const displayPhone = user && user.data.phoneNumber ? user.data.phoneNumber :'123456789';
-    const displayDOB = user && user.data.DOB ? user.data.DOB :'Default DOB';
+    const displayEmail = user && user.email ? user.email :'Default Email';
 
     console.log(user);
 
@@ -59,8 +26,8 @@ function UserProfile({showLogout,setShowLogout}){
             <img src="https://res.cloudinary.com/diqqf3eq2/image/upload/v1595959131/person-2_ipcjws.jpg"/>
         </div>
         <div className="user_info">
-            <h3>Venessa Chebukwa</h3>
-            <p>vanessachebukwa@gmail.com</p>
+            <h3>{displayName}</h3>
+            <p>{displayEmail}</p>
         </div>
     </div>
     <div className="user_settings_form">
@@ -91,6 +58,10 @@ function UserProfile({showLogout,setShowLogout}){
               <GrFormNext className="prof-icons"/>
           </div>
         </Link>
+        <div className="user-channels">
+          <button id="channels">View your channels</button>
+          <button id="videos">View your videos</button>
+        </div>
     </div>
     </>
 
