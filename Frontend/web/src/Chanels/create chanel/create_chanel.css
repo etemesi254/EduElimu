@@ -31,7 +31,7 @@
     font-size: 14px;
     color: gray;
 }
-.create-channels-form form .settings_input input{
+.create-channels-form form .settings_input input,.create-channels-form form .settings_input select{
     height: 40px;
     width: 350px;
     margin: 20px;

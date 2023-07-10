@@ -77,7 +77,7 @@ function UserProfile({showLogout,setShowLogout}){
           <div className="chanel">
               <div>
                   <MdOutlineCreate className="prof-icons"/>
-                  <span>Create Chanel</span>
+                  <span>Create New Channel</span>
               </div>
               <GrFormNext className="prof-icons"/>
           </div>

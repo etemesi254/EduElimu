@@ -2,6 +2,7 @@ import lottie from 'lottie-web';
 import { useEffect, useRef, useState } from 'react';
 import "./create_chanel.css";
 import { toast } from 'react-toastify';
+import { useAuth } from '../../context/AuthContext';
 
 function UploadVideos(){
     const container = useRef(null);
@@ -10,9 +11,15 @@ function UploadVideos(){
     const [fileUrl, setFileUrl] = useState('');
     const [bannerUrl, setBannerUrl] = useState('');
     const [disabled,setDisabled] = useState(false);
+    const [user, setUser] = useState(null);
+    const [firebaseId, setFirebaseId] = useState(null);
+    const [channel, setChannel] = useState(null);
+    const [userChannel,setUserChannel] = useState('');
+    const {currentUser} = useAuth();
 
     const handleNameInput = (e)=> setVideoName(e.target.value);
     const handleDescriptionInput = (e)=> setVideoDescription(e.target.value);
+    const handleSetUserChannelInput = (e)=> setUserChannel(e.target.value);
     const handleFileUrlInput = (e) => setFileUrl(e.target.files[0]);
     const handleBannerUrlInput = (e) => setBannerUrl(e.target.files[0]);
 
@@ -25,7 +32,7 @@ function UploadVideos(){
         formData.append('description', videoDescription);
         formData.append('video', fileUrl);
         formData.append('image_banner', bannerUrl);
-        formData.append('channel_id', 9);
+        formData.append('channel_id', userChannel);
 
         try {
         const result = await fetch("http://127.0.0.1:8000/api/uploads/upload_video", {
@@ -37,7 +44,7 @@ function UploadVideos(){
             console.log(response);
             console.log(response.message);
             if(result.status === 201) {
-                return toast.success('Your channel has been created');
+                return toast.success('Your Video was successfully uploaded');
             }
             toast.error('Error creating channel');
             setDisabled(false);
@@ -46,6 +53,68 @@ function UploadVideos(){
             return toast.error(error.message);
         }
     }
+
+    useEffect(() => {
+        async function getCurrentUser() {
+          try {
+            const email = encodeURIComponent(currentUser.email);
+            const phoneNumber = currentUser.phoneNumber;
+    
+            const url = `http://127.0.0.1:8000/api/getCurrentUser?email=${email}&phone_number=${phoneNumber}`;
+    
+            const response = await fetch(url, {
+              // mode: 'no-cors',
+              method: 'GET',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+            });
+            console.log(response)
+    
+    
+            if (response.status === 201) {
+                const user = await response.json();
+                setUser(user); // Update the user state
+                setFirebaseId(user.data.firebase_id); 
+                getUserChannel();
+              } else {
+                throw new Error('Failed to fetch current user');
+              }
+            } catch (error) {
+              console.error('Error:', error.message);
+            }
+          }
+
+          async function getUserChannel() {
+            try {
+              const url = 'http://127.0.0.1:8000/api/channels/all';
+      
+              const response = await fetch(url, {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    "firebase_id": firebaseId
+                })
+              });
+              console.log(response)
+      
+      
+              if (response.status === 200) {
+                  const channels = await response.json();
+                  setChannel(channels.data);
+                } else {
+                  throw new Error('Failed to fetch users channels');
+                }
+              } catch (error) {
+                console.error('Error:', error.message);
+              }
+            }
+      
+          getCurrentUser(); 
+        }, []); 
+    
 
     useEffect(()=>{
         const instance = lottie.loadAnimation({
@@ -84,10 +153,18 @@ function UploadVideos(){
                         <label>Description</label>
                         <textarea placeholder="Enter channel description here" value={videoDescription} onChange={handleDescriptionInput}></textarea>
                     </div>
-                    <div className='button-div'>
+                    <div className='form-group-flex'>
                         <div className="settings_input">
                             <label>Video File</label>
                             <input type="file" onChange={handleFileUrlInput}/>
+                        </div>
+                        <div className="settings_input">
+                            <label>Your Channels</label>
+                            <select onChange={handleSetUserChannelInput}>
+                            {channel ? channel.map((channel) => (
+                            <option key={channel.id} value={channel.id}>{channel.name}</option>
+                            )):<option>You dont have a channel :( Kindly create one first</option>}
+                        </select>
                         </div>
                     </div>
                    

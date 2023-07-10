@@ -54,20 +54,18 @@ function CreateChannel(){
     
     async function handleSubmit(e){
         e.preventDefault();
+        const formData = new FormData();
+        formData.append('name', name);
+        formData.append('description', description);
+        formData.append('channel_banner', channel_banner);
+        formData.append('user_id', user.data.id);
+    
         try {
             const result = await fetch(
                 "http://127.0.0.1:8000/api/channels/create",
                 {
                     method: "POST",
-                    headers: {
-                        'Content-Type': 'application/json',
-                      },
-                      
-                    body: JSON.stringify({
-                        "name":name, "channel_banner":channel_banner,
-                        "description":description,
-                        "user_id":user.data.id
-                    }),
+                    body: formData
                 }
             );
             console.log(result);
@@ -114,20 +112,12 @@ function CreateChannel(){
                         </div>
                         <div className="settings_input">
                             <label>Banner Image</label>
-                            <input type="file" value={channel_banner} onChange={handleChannelBanner}/>
+                            <input type="file" onChange={handleChannelBanner}/>
                         </div>
                     </div>
                     <div className="settings_input">
                         <label>Description</label>
                         <textarea placeholder="Enter channel description here" value={description} onChange={handleDescriptionInput}></textarea>
-                    </div>
-                    <div className="settings_input">
-                        <label>Details</label>
-                        <textarea placeholder="Enter channel details here"></textarea>
-                    </div>
-                    <div className="settings_input">
-                        <label>Links</label>
-                        <textarea placeholder="Enter channel links here"></textarea>
                     </div>
                 </div>
                 <br/>
