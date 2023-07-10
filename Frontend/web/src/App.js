@@ -79,9 +79,9 @@ function App() {
               <Route path='video_player' element={<VideoPlayer/>}/>
                 <Route path="/chanel/:id/:channel" element={<ChanelLayout/>}>
                   <Route exact path='/chanel/:id/:channel'element={<ChanelDashboard/>}/>
-                  <Route path='videos' element={<ChanelVideoPage/>}/>
+                  <Route path='videos/:videos' element={<ChanelVideoPage/>}/>
                   <Route path='courses' element={<ChanelCoursesPage/>}/>
-                  <Route path='about' element={<ChanelAbout/>}/>
+                  <Route path='about/:about' element={<ChanelAbout/>}/>
                 </Route>
             </Route>
             <Route path='/interactive_games' element={<GameSplashScreen/>}/>

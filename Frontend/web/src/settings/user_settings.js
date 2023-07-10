@@ -56,16 +56,14 @@ function UserSettings({showLogout,setShowLogout}){
         formData.append('profile_image', profile_image);
         formData.append('phone_number', phone_number);
         formData.append('DOB', DOB);
-
-        console.log(formData);
     
         const response = await fetch('http://127.0.0.1:8000/api/updateUserWithEmail/' + user.email, {
-          method: 'PUT',
+          method: 'POST',
           body: formData,
-          headers: {
-            // Set appropriate headers for multipart/form-data
-            'Content-Type': 'multipart/form-data',
-          },
+          // headers: {
+          //   // Set appropriate headers for multipart/form-data
+          //   'Content-Type': 'multipart/form-data',
+          // },
         });
     
         console.log(response);

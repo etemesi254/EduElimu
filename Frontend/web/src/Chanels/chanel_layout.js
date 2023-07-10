@@ -1,12 +1,44 @@
 import { Link, Outlet, useParams } from "react-router-dom";
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 
 function ChanelLayout(){
     const {channel} = useParams();
     const data = JSON.parse(decodeURIComponent(channel));
+    const [videos,setVideos] = useState();
 
-    const { name, subscribers,description, banner } = data;
+    const { id, name, subscribers,description, banner } = data;
+
+    useEffect(() => {
+        async function getChannelVideos() {
+          try {
+            const url = `http://127.0.0.1:8000/api/channels/getChannelVideos/${id}`;
+      
+            const response = await fetch(url, {
+              // mode: 'no-cors',
+              method: "GET",
+              headers: {
+                "Content-Type": "application/json",
+              },
+            });
+      
+            const result = await response.json();
+            console.log(result);
+            console.log(response.status);
+      
+            if (response.status === 200) {
+              console.log(result.data); // Verify the data from the response
+              setVideos(result.data);
+            } else {
+              throw new Error("Failed to fetch channel videos");
+            }
+          } catch (error) {
+            console.error("Error:", error.message);
+          }
+        }
+      
+        getChannelVideos();
+      }, []);
 
     return <div className="home-image">
     <div className="chanel-dashboard-img">
@@ -29,10 +61,16 @@ function ChanelLayout(){
     <div className="mini-nav-bar">
         <div className="mini-nav-bar-link">
             <li>
-                <Link to="" className="link">HOME</Link>
+                <Link to={`/chanel/${id}/${encodeURIComponent(
+                                JSON.stringify(channel)
+                            )}`} className="link">HOME</Link>
             </li>
             <li>
-                <Link to="" className="link">VIDEOS</Link>
+                <Link to={`/chanel/${id}/${encodeURIComponent(
+                                JSON.stringify(channel)
+                            )}/videos/${encodeURIComponent(
+                                JSON.stringify(videos)
+                            )}`} className="link">VIDEOS</Link>
             </li>
             <li>
                 <Link to="" className="link">COURSES</Link>
