@@ -15,7 +15,6 @@ class VideoUploaderController extends Controller
             "name" => "required",
             "channel_id" => "required",
             "description" => "required",
-            "status" => "required",
             "video" => "required",
             "image_banner" => "required",
         ];
@@ -50,7 +49,7 @@ class VideoUploaderController extends Controller
                 "channel_id" => $request->channel_id,
                 "description" => $request->description,
                 "view_count" => 0,
-                "status" => $request->status,
+                "status" => 1,
                 "file_url" => $videoPath,
                 "banner_url" => $imagePath
             ]);
