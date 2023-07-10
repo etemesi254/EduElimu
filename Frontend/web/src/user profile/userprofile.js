@@ -7,15 +7,20 @@ import {MdOutlineSwitchAccount,MdOutlineCreate} from "react-icons/md";
 import { toast } from 'react-toastify';
 import LogoutConfirmationDialog from "../user_auth/logoutConfirmation";
 import { useUserContext } from "../context/UserContext";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 function UserProfile({showLogout,setShowLogout}){
     const {user} = useUserContext();
+    const navigate = useNavigate();
     
     const displayName = user && user.name ? user.name : (user && user.email ? user.email.split('@')[0] : 'Default Name');
 
     const displayEmail = user && user.email ? user.email :'Default Email';
 
     console.log(user);
+
+    function handleViewChannels(){
+      navigate("/show_channel_list");
+    }
 
     return <>
     {showLogout &&  <LogoutConfirmationDialog
@@ -59,7 +64,7 @@ function UserProfile({showLogout,setShowLogout}){
           </div>
         </Link>
         <div className="user-channels">
-          <button id="channels">View your channels</button>
+          <button id="channels" onClick={handleViewChannels}>View your channels</button>
           <button id="videos">View your videos</button>
         </div>
     </div>

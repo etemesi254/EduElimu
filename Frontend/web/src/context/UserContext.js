@@ -37,7 +37,7 @@ export function UserProvider ({ children }){
           const user = await response.json();
           setUser(user.data); // Update the user state
           setFirebaseId(user.data.firebase_id);
-          getUserChannel();
+          getUserChannel(user.data.id);
           getUserVideos(user.data.id);
         } else {
           throw new Error("Failed to fetch current user");
@@ -48,18 +48,15 @@ export function UserProvider ({ children }){
     }
 
     //get user channels
-    async function getUserChannel() {
+    async function getUserChannel($user_id) {
       try {
-        const url = "http://127.0.0.1:8000/api/channels/all";
+        const url = `http://127.0.0.1:8000/api/channels/getUserChannels/${$user_id}`;
 
         const response = await fetch(url, {
-          method: "POST",
+          method: "GET",
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({
-            firebase_id: firebaseId,
-          }),
         });
         console.log(response);
 

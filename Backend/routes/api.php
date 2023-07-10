@@ -48,6 +48,7 @@ Route::prefix("channels")->group(function () {
     Route::any("/all", [ChannelController::class, "getAllChannels"]);
     Route::delete("/delete", [ChannelController::class, "deleteChannel"]);
     Route::get("/getChannelVideos/{channel}", [ChannelController::class, "getChannelVideos"]);
+    Route::get("/getUserChannels/{user}", [ChannelController::class, "getUserChannels"]);
     Route::any("/update", [ChannelController::class, "updateChannelDetails"]);
 });
 

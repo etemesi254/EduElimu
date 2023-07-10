@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Channel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Models\User;
 use PHPUnit\Exception;
 
 
@@ -173,6 +174,26 @@ class ChannelController extends Controller
                 'status' => 422,
                 'message' => $e->getMessage(),
             ], 422);
+        }
+    }
+
+    public function getUserChannels($user){
+        try {
+            $user = User::findOrFail($user);
+            $channels = $user->channels()->get();
+            return response()->json(
+                [
+                    "status" => 200,
+                    "message" => 'channels retrieved successfully',
+                    "data" => $channels,
+                ], status: 200);
+        } catch (\Exception $e) {
+            return response()->json(
+                [
+                    "status" => 500,
+                    "message" => $e->getMessage(),
+                    "data" => null
+                ], status: 500);
         }
     }
 
