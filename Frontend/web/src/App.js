@@ -37,6 +37,7 @@ import GameCategoryDash from './Interactive games/game_category_dash';
 import GameWindow from './Interactive games/game_window';
 import { UserProvider } from './context/UserContext';
 import ViewChannelList from './Chanels/viewChannelList';
+import EditChannel from './Chanels/editChannels';
 
 
 function App() {
@@ -74,14 +75,15 @@ function App() {
               <Route path="/profile" element={<UserProfile showLogout={showLogout} 
               setShowLogout={setShowLogout}/>}/>
               <Route path="/create_channel" element={<CreateChannel/>}/>
+              <Route path="/edit_channel/:id/:channel" element={<EditChannel/>}/>
               <Route path='/show_channel_list' element={<ViewChannelList/>}/>
               <Route path="/upload_videos" element={<UploadVideos/>}/>
               <Route path='video_player' element={<VideoPlayer/>}/>
                 <Route path="/chanel/:id/:channel" element={<ChanelLayout/>}>
                   <Route exact path='/chanel/:id/:channel'element={<ChanelDashboard/>}/>
-                  <Route path='videos' element={<ChanelVideoPage/>}/>
+                  <Route path='videos/:videos' element={<ChanelVideoPage/>}/>
                   <Route path='courses' element={<ChanelCoursesPage/>}/>
-                  <Route path='about' element={<ChanelAbout/>}/>
+                  <Route path='about/:about' element={<ChanelAbout/>}/>
                 </Route>
             </Route>
             <Route path='/interactive_games' element={<GameSplashScreen/>}/>

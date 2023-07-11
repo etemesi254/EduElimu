@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import React, { useEffect, useRef, useState } from 'react';
 import {BsFillPlayFill} from 'react-icons/bs';
 import videoData from "../../data/video_data";
@@ -6,8 +6,50 @@ import "./chanel_dash.css"
 import { BsArrowLeft, BsArrowRight } from 'react-icons/bs';
 import ChanelCourse from "./chanel_course";
 import ChanelVideos from "./chanel_videos";
+import { useUserContext } from "../../context/UserContext";
 
 function ChanelDashboard(){
+  const {channel} = useParams();
+  const {formatDateTime} = useUserContext();
+    const data = JSON.parse(decodeURIComponent(channel));
+    const [videos,setVideoes] = useState([]);
+    const [loading,setLoading] = useState(true);
+
+    const { id} = data;
+
+    useEffect(() => {
+      async function getChannelVideos() {
+        try {
+          const url = `http://127.0.0.1:8000/api/channels/getChannelVideos/${id}`;
+    
+          const response = await fetch(url, {
+            // mode: 'no-cors',
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          });
+    
+          const result = await response.json();
+          console.log(result);
+          console.log(response.status);
+    
+          if (response.status === 200) {
+            console.log(result.data); // Verify the data from the response
+            setVideoes(result.data);
+            setLoading(false);
+          } else {
+            throw new Error("Failed to fetch channel videos");
+          }
+        } catch (error) {
+          console.error("Error:", error.message);
+        }
+      }
+    
+      getChannelVideos();
+    }, []);
+    
+  
   // State to track the scroll position and container dimensions
   const [scrollPosition, setScrollPosition] = useState(0);
   const [containerWidth, setContainerWidth] = useState(0);
@@ -46,7 +88,8 @@ function ChanelDashboard(){
   }, []);
 
     const videoRef = useRef(null);
-    const [videos, setVideos] = useState(videoData);
+    const [videoss, setVideos] = useState(videoData);
+    console.log(videos.length,"length of videos")
 
   const playMovie = () => {
     videoRef.current.play();
@@ -57,52 +100,62 @@ function ChanelDashboard(){
     videoRef.current.currentTime = 0;
   }
     return <div className="chanel-page-content">
-    <div className="intro-video-div">
-        <div className="video-div">
-            <video
-                className="intro-vid" 
-                onMouseOver={playMovie}
-                onMouseOut={stopMovie}
-                ref={videoRef}
-                src={process.env.PUBLIC_URL + '/assets/video (3).mp4'}
-                poster={process.env.PUBLIC_URL + '/assets/poster (3).jpg'}
-                preload='none'
-                loop
-            />
-        </div>
-        <div className="intro-video-deets">
-            <h4>Artifical Intelligence and its effects</h4>
-            <div className="stats">
-                <p>1 year ago</p>
-                <p>256k views</p>
-            </div>
-            <div className="intro-video-details">
-                <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Sit, totam tenetur temporibus unde necessitatibus eveniet nesciunt deleniti molestias iusto magni facere suscipit eius fuga sunt nisi quod laudantium cum consectetur!</p>
-            </div>
-        </div>
-    </div>
-    <div className="scrollable-container">
-        <div className="chanel-video-head">
-            <h2>Videos</h2>
-            <BsFillPlayFill className="scroll-icons"/>
-            <p>view all</p>
-        </div>
-        {scrollPosition > 0 && (
-        <div className="scroll-button left-scroll" onClick={scrollLeft}>
-            <BsArrowLeft className="scroll-icons"/>
-        </div>
-        )}
-        <div className="chanel-courses">
-        {videos.map((video,index)=>{
-            return <ChanelVideos video={video} key={video.id}/>
-        })}
-        </div>
-        {scrollPosition < containerScrollWidth - containerWidth && (
-        <div className="scroll-button right-scroll" onClick={scrollRight}>
-            <BsArrowRight  className="scroll-icons"/>
-        </div>
-        )}
-    </div>
+      {!loading && videoss.length > 0 ? (
+         <div className="intro-video-div">
+              <div className="video-div">
+                  <video
+                      className="intro-vid" 
+                      onMouseOver={playMovie}
+                      onMouseOut={stopMovie}
+                      ref={videoRef}
+                      src={`http://127.0.0.1:8000/storage/${videos[0].file_url}`}
+                      poster={`http://127.0.0.1:8000/storage/${videos[0].banner_url}`}
+                      preload='none'
+                      loop
+                  />
+              </div>
+              <div className="intro-video-deets">
+                  <h4>{videos[0].name}</h4>
+                  <div className="stats">
+                      <p>{formatDateTime(videos[0].created_at)}</p>
+                      <p>{videos[0].view_count} views</p>
+                  </div>
+                  <div className="intro-video-details">
+                      <p>{videos[0].description}Lorem ipsum, dolor sit amet consectetur adipisicing elit. Sit, totam tenetur temporibus unde necessitatibus eveniet nesciunt deleniti molestias iusto magni facere suscipit eius fuga sunt nisi quod laudantium cum consectetur!</p>
+                  </div>
+              </div>
+          </div>
+    ) : (
+      <h2>No videos here</h2>
+    )}
+
+{!loading && videoss.length > 0 ? (
+         <div className="scrollable-container">
+         <div className="chanel-video-head">
+             <h2>Videos</h2>
+             <BsFillPlayFill className="scroll-icons"/>
+             <p>view all</p>
+         </div>
+         {scrollPosition > 0 && (
+         <div className="scroll-button left-scroll" onClick={scrollLeft}>
+             <BsArrowLeft className="scroll-icons"/>
+         </div>
+         )}
+         <div className="chanel-courses">
+         {videos.slice(1).reverse().map((video, index) => {
+            return <ChanelVideos video={video} key={video.id}  />;
+          })}
+
+         </div>
+         {scrollPosition < containerScrollWidth - containerWidth && (
+         <div className="scroll-button right-scroll" onClick={scrollRight}>
+             <BsArrowRight  className="scroll-icons"/>
+         </div>
+         )}
+     </div>
+    ) : (
+      <h2>No videos here</h2>
+    )}
     <div className="scrollable-container">
         <div className="chanel-video-head">
             <h2>Courses</h2>
@@ -115,7 +168,7 @@ function ChanelDashboard(){
         </div>
         )}
         <div className="chanel-courses">
-        {videos.map((video,index)=>{
+        {videoss.map((video,index)=>{
             return <ChanelCourse video={video} key={video.id}/>
         })}
         </div>

@@ -37,7 +37,7 @@ export function UserProvider ({ children }){
           const user = await response.json();
           setUser(user.data); // Update the user state
           setFirebaseId(user.data.firebase_id);
-          getUserChannel();
+          getUserChannel(user.data.id);
           getUserVideos(user.data.id);
         } else {
           throw new Error("Failed to fetch current user");
@@ -48,18 +48,15 @@ export function UserProvider ({ children }){
     }
 
     //get user channels
-    async function getUserChannel() {
+    async function getUserChannel($user_id) {
       try {
-        const url = "http://127.0.0.1:8000/api/channels/all";
+        const url = `http://127.0.0.1:8000/api/channels/getUserChannels/${$user_id}`;
 
         const response = await fetch(url, {
-          method: "POST",
+          method: "GET",
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({
-            firebase_id: firebaseId,
-          }),
         });
         console.log(response);
 
@@ -104,10 +101,42 @@ export function UserProvider ({ children }){
     }
   }, []);
 
+  function formatDateTime(datetime) {
+    const currentTime = new Date();
+    const timestamp = new Date(datetime);
+  
+    const diffInSeconds = Math.floor((currentTime - timestamp) / 1000);
+  
+    if (diffInSeconds < 60) {
+      return `${diffInSeconds} second${diffInSeconds !== 1 ? 's' : ''} ago`;
+    } else if (diffInSeconds < 3600) {
+      const diffInMinutes = Math.floor(diffInSeconds / 60);
+      return `${diffInMinutes} minute${diffInMinutes !== 1 ? 's' : ''} ago`;
+    } else if (diffInSeconds < 86400) {
+      const diffInHours = Math.floor(diffInSeconds / 3600);
+      return `${diffInHours} hour${diffInHours !== 1 ? 's' : ''} ago`;
+    } else if (diffInSeconds < 604800) {
+      const diffInDays = Math.floor(diffInSeconds / 86400);
+      return `${diffInDays} day${diffInDays !== 1 ? 's' : ''} ago`;
+    } else if (diffInSeconds < 2592000) {
+      const diffInWeeks = Math.floor(diffInSeconds / 604800);
+      return `${diffInWeeks} week${diffInWeeks !== 1 ? 's' : ''} ago`;
+    } else if (diffInSeconds < 31536000) {
+      const diffInMonths = Math.floor(diffInSeconds / 2592000);
+      return `${diffInMonths} month${diffInMonths !== 1 ? 's' : ''} ago`;
+    } else {
+      const diffInYears = Math.floor(diffInSeconds / 31536000);
+      return `${diffInYears} year${diffInYears !== 1 ? 's' : ''} ago`;
+    }
+  }
+  
+  
+
   const value = {
     user,
     channel,
-    userVideos
+    userVideos,
+    formatDateTime
   };
 
   return (

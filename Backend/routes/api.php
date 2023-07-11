@@ -30,7 +30,7 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
 
 });
 
-Route::put("/updateUserWithEmail/{email}", [UsersController::class, 'updateUserWithEmail']);
+Route::post("/updateUserWithEmail/{email}", [UsersController::class, 'updateUserWithEmail']);
 Route::post('/registerUser', [UsersController::class, 'register']);
 Route::put("/updateUserWithNo/{number}", [UsersController::class, 'updateUserWithPhone']);
 Route::get("/getCurrentUser", [UsersController::class, 'getCurrentUser']);
@@ -52,6 +52,7 @@ Route::prefix("channels")->group(function () {
     Route::delete("/delete", [ChannelController::class, "deleteChannel"]);
 
     Route::get("/getChannelVideos/{channel}", [ChannelController::class, "getChannelVideos"]);
+    Route::get("/getUserChannels/{user}", [ChannelController::class, "getUserChannels"]);
     Route::any("/update", [ChannelController::class, "updateChannelDetails"]);
 });
 
