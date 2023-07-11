@@ -21,3 +21,16 @@ void showOverlayMessage(String error,
       background: backgroundColor ?? Colors.green,
       duration: duration);
 }
+
+class NetworkException implements Exception {
+  final int status;
+  final String message;
+
+  NetworkException({required this.status, required this.message});
+
+  @override
+  String toString() {
+    // TODO: implement toString
+    return message;
+  }
+}

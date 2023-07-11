@@ -6,6 +6,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hive/hive.dart';
+import 'package:local_auth/local_auth.dart';
+import 'package:share_plus/share_plus.dart';
 
 import '../models/channels_models.dart';
 import '../themes/colors.dart';
@@ -22,6 +24,8 @@ class MyChannelsScreen extends StatefulWidget {
 
 class _MyChannelsScreenState extends State<MyChannelsScreen> {
   List<SingleChannelDetails> channels = [];
+  final LocalAuthentication localAuth = LocalAuthentication();
+
   bool shouldRefresh = true;
   Uri? endpoint;
 
@@ -49,19 +53,17 @@ class _MyChannelsScreenState extends State<MyChannelsScreen> {
       ),
       bottomSheet: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: OutlinedButton(
-            style: OutlinedButton.styleFrom(
-              backgroundColor: EduColors.appColor,
-            ),
-            onPressed: () {
+        child: InkWell(
+            onTap: () {
               Navigator.of(context).push(MaterialPageRoute(
                   builder: (builder) =>
                       CreateChannelScreen(user: widget.user)));
             },
-            child: const SizedBox(
+            child: Container(
+                color: EduColors.appColor,
                 width: double.infinity,
                 height: 50,
-                child: Center(
+                child: const Center(
                   child: Text(
                     "Create a new Channel",
                     textAlign: TextAlign.center,
@@ -94,7 +96,9 @@ class _MyChannelsScreenState extends State<MyChannelsScreen> {
                   }
                   return ListView(
                     children: [
-                      for (var chan in channels) createSingleChannelLayout(chan)
+                      for (var chan in channels)
+                        createSingleChannelLayout(chan),
+                      const SizedBox(height: 90),
                     ],
                   );
                 } else if (snapshot.hasError) {
@@ -117,18 +121,58 @@ class _MyChannelsScreenState extends State<MyChannelsScreen> {
       fit: BoxFit.fitWidth,
     );
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 10),
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+      margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+      decoration: BoxDecoration(
+          color: Colors.black.withOpacity(0.04),
+          borderRadius: BorderRadius.circular(10)),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(
-            child: img,
             width: double.infinity,
+            child: img,
           ),
-          const SizedBox(height: 20),
-          Text(
-            details.name,
-            style: const TextStyle(fontWeight: FontWeight.bold,fontSize: 20),
+          Row(
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SizedBox(height: 10),
+                  Text(
+                    details.name,
+                    style: GoogleFonts.inter(
+                        fontWeight: FontWeight.bold, fontSize: 24),
+                  ),
+                  Text(
+                    "${details.subscribers} subscribers",
+                    style: GoogleFonts.inter(
+                        fontWeight: FontWeight.normal, fontSize: 18),
+                  ),
+                ],
+              ),
+              const Spacer(),
+              //Actions
+              Row(
+                children: [
+                  IconButton(
+                    icon: const Icon(Icons.delete, color: Colors.red),
+                    onPressed: () async {
+                      final bool didAuthenticate = await localAuth.authenticate(
+                          localizedReason:
+                              "This is a potentially dangerous action, are you sure you want to permanently delete your channel?");
+                      if (didAuthenticate) {}
+                    },
+                  ),
+                  const SizedBox(width: 10),
+                  IconButton(
+                      onPressed: () {
+                        Share.share(
+                            "Check out my channel ${details.name} on Edu Elimu");
+                      },
+                      icon: const Icon(Icons.share, color: EduColors.appColor)),
+                ],
+              )
+            ],
           ),
         ],
       ),

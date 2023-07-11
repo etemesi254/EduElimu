@@ -1,8 +1,12 @@
 import 'dart:typed_data';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:edu_elimu/api/channels.dart';
+import 'package:edu_elimu/models/channels_models.dart';
+import 'package:edu_elimu/utils.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:lottie/lottie.dart';
@@ -38,8 +42,8 @@ class _CreateChannelScreenState extends State<CreateChannelScreen> {
       ),
       body: ListView(
         children: [
-          Lottie.asset("assets/lottie/create-channel.json",
-              height: MediaQuery.of(context).size.height * 0.25),
+          // Lottie.asset("assets/lottie/create-channel.json",
+          //     height: MediaQuery.of(context).size.height * 0.25),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 4),
             child: Text(
@@ -86,7 +90,7 @@ class _CreateChannelScreenState extends State<CreateChannelScreen> {
           ),
           if (imageError)
             Padding(
-              padding: const EdgeInsets.only(left:8.0,bottom: 10),
+              padding: const EdgeInsets.only(left: 8.0, bottom: 10),
               child: Text(
                 imageErrorMessage,
                 style: GoogleFonts.poppins(color: Colors.red),
@@ -102,7 +106,8 @@ class _CreateChannelScreenState extends State<CreateChannelScreen> {
               ),
             ),
           ),
-
+          createChannelButton(),
+          const SizedBox(height: 30)
         ],
       ),
     );
@@ -164,12 +169,12 @@ class _CreateChannelScreenState extends State<CreateChannelScreen> {
           imageError = false;
           var bytes = await file.readAsBytes();
           image =
-               Image.memory(bytes, errorBuilder: (context, exception, error) {
+              Image.memory(bytes, errorBuilder: (context, exception, error) {
             imageErrorMessage = exception.toString();
             imageError = true;
             return const Text("Could not load image");
           }, filterQuality: FilterQuality.high);
-          imageBytes = imageBytes;
+          imageBytes = bytes;
 
           if (image!.width != 1024) {
             imageError = true;
@@ -188,6 +193,53 @@ class _CreateChannelScreenState extends State<CreateChannelScreen> {
         margin: const EdgeInsets.all(10),
         decoration: BoxDecoration(border: Border.all(color: Colors.black)),
         child: image ?? const SizedBox(),
+      ),
+    );
+  }
+
+  Widget createChannelButton() {
+    return InkWell(
+      onTap: () async {
+        if (imageBytes != null) {
+          EasyLoading.show(status: "Uploading..");
+          try {
+            var ctx = ChannelUploadCtx(
+                firebaseId: widget.user.uid,
+                description: channelDescController.text,
+                data: imageBytes!,
+                name: channelController.text);
+            String response = await uploadChannelDetails(ctx);
+            // Todo: Add dialog box on channel creation
+          } on Exception catch (e) {
+            if (e is NetworkException){
+              showOverlayError(e.message);
+            }else{
+              showOverlayError("An error occurred, please try again");
+            }
+          } finally {
+            EasyLoading.dismiss();
+          }
+        } else {
+          showOverlayError("Image not loaded!!!");
+        }
+        //   Navigator.of(context).push(
+        //       MaterialPageRoute(builder: (context) => const SignupScreen()));
+      },
+      child: Container(
+        height: 45,
+        margin: EdgeInsets.symmetric(horizontal: 10),
+        decoration: BoxDecoration(
+            color: const Color(0xFF466b7d),
+            borderRadius: BorderRadius.circular(0)),
+        child: const Center(
+            child: Text(
+          "Create Channel ",
+          textAlign: TextAlign.center,
+          style: TextStyle(
+              color: EduColors.whiteColor,
+              fontSize: 17,
+              fontWeight: FontWeight.w500),
+        )),
       ),
     );
   }
