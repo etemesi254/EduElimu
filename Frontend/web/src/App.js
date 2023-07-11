@@ -37,6 +37,7 @@ import GameCategoryDash from './Interactive games/game_category_dash';
 import GameWindow from './Interactive games/game_window';
 import { UserProvider } from './context/UserContext';
 import ViewChannelList from './Chanels/viewChannelList';
+import EditChannel from './Chanels/editChannels';
 
 
 function App() {
@@ -74,6 +75,7 @@ function App() {
               <Route path="/profile" element={<UserProfile showLogout={showLogout} 
               setShowLogout={setShowLogout}/>}/>
               <Route path="/create_channel" element={<CreateChannel/>}/>
+              <Route path="/edit_channel/:id/:channel" element={<EditChannel/>}/>
               <Route path='/show_channel_list' element={<ViewChannelList/>}/>
               <Route path="/upload_videos" element={<UploadVideos/>}/>
               <Route path='video_player' element={<VideoPlayer/>}/>

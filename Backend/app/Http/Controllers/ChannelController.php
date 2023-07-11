@@ -129,37 +129,40 @@ class ChannelController extends Controller
 
     function updateChannelDetails(Request $request)
     {
+        $data = [];
         $rules = [
-            "name" => "required",
-            "description" => "required",
-            "channel_banner" => "required",
             "id" => "required|exists:channels",
-            "status" => "required"
         ];
         try {
             $request->validate($rules);
 
-            $data = $request->only("status", "name", "description");
-
-            $bannerPath = $this->storeChannelBanner($request);
-
-            if (is_bool($bannerPath)) {
-                // a boolean indicates an error
-                return response()->json(
-                    [
-                        "status" => 500,
-                        "message" => "Could not store video",
-                        "data" => null
-                    ], status: 500);
+            if($request->name){
+                $data["name"] = $request->name;
             }
 
+            if($request->description){
+                $data["description"] = $request->description;
+            }
 
-            $channel = tap(Channel::whereId($request->id))->update([
-                "name" => $data["name"],
-                "status" => $data["status"],
-                "description" => $data["description"],
-                "banner" => $bannerPath
-            ])->first();
+            if($request->status){
+                $data["status"] = $request->status;
+            }
+
+            if($request->banner){
+                $bannerPath = $this->storeChannelBanner($request->banner);
+
+                if (is_bool($bannerPath)) {
+                    // a boolean indicates an error
+                    return response()->json(
+                        [
+                            "status" => 500,
+                            "message" => "Could not store video",
+                            "data" => null
+                        ], status: 500);
+                }
+            }
+
+            $channel = tap(Channel::whereId($request->id))->update($data)->first();
 
             return response()->json([
                 'status' => 200,

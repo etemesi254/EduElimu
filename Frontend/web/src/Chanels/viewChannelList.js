@@ -63,7 +63,7 @@ function ViewChannelList(){
                             )}`} ><AiOutlineEye id="view"/></Link>
                         </td>
                         <td>
-                            <Link>
+                            <Link to={`/edit_channel/${channel.id}/${encodeURIComponent(JSON.stringify(channel))}`}>
                             <BiEditAlt id="edit"/>
                             </Link>
                         </td>
