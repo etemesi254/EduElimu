@@ -1,9 +1,10 @@
 <?php
 
 use App\Http\Controllers\ChannelController;
+use App\Http\Controllers\SubscribersController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\VideoCategoriesController;
-use App\Http\Controllers\VideoUploaderController;
+use App\Http\Controllers\VideoController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -36,28 +37,23 @@ Route::put("/updateUserWithNo/{number}", [UsersController::class, 'updateUserWit
 Route::get("/getCurrentUser", [UsersController::class, 'getCurrentUser']);
 Route::delete('/deleteUser/{user}', [UsersController::class, 'deleteUser']);
 
-Route::post("/uploads/upload_video", [VideoUploaderController::class, "addVideo"]);
+Route::post("/uploads/upload_video", [VideoController::class, "addVideo"]);
 
-Route::any("/videos/all", [VideoUploaderController::class, "getAllVideos"]);
+Route::prefix("videos")->group(function () {
+    Route::any("/all", [VideoController::class, "getAllVideos"]);
+    Route::get("/{id}", [VideoController::class, "getUserVideos"]);
+    Route::post("/delete", [VideoController::class, "deleteVideo"]);
+    Route::get("/channel/{id}", [VideoController::class, "getVideoChannel"]);
+    Route::post("/update", [VideoController::class, "updateChannelDetails"]);
+});
 
-Route::get("/videos/{id}", [VideoUploaderController::class, "getUserVideos"]);
-
-Route::post("/videos/delete", [VideoUploaderController::class,"deleteVideo"]);
-
-Route::get("/videos/channel/{id}", [VideoUploaderController::class,"getVideoChannel"]);
-
-Route::post("/videos/update", [VideoUploaderController::class,"updateChannelDetails"]);
 
 Route::prefix("channels")->group(function () {
     Route::post("/create", [ChannelController::class, "addChannel"]);
     Route::post("/create/firebase_id", [ChannelController::class, "addChannelWithFirebaseId"]);
-
     Route::any("/firebase_id", [ChannelController::class, "getChannelsWithFirebaseId"]);
     Route::any("/all", [ChannelController::class, "getAllChannels"]);
-    Route::post("/delete", [ChannelController::class, "deleteChannel"]);
-
-    Route::delete("/delete", [ChannelController::class, "deleteChannel"]);
-
+    Route::any("/delete", [ChannelController::class, "deleteChannel"]);
     Route::get("/getChannelVideos/{channel}", [ChannelController::class, "getChannelVideos"]);
     Route::get("/getUserChannels/{user}", [ChannelController::class, "getUserChannels"]);
     Route::any("/update", [ChannelController::class, "updateChannelDetails"]);
@@ -69,11 +65,15 @@ Route::prefix("categories")->group(
         Route::get("/all", [VideoCategoriesController::class, "listAllCategories"]);
         Route::any("/videos", [VideoCategoriesController::class, "listAllVideosForCategory"]);
         Route::delete("/delete", [VideoCategoriesController::class, "deleteVideoCategory"]);
-        Route::post("/update",[VideoCategoriesController::class,"updateVideoCategory"]);
+        Route::post("/update", [VideoCategoriesController::class, "updateVideoCategory"]);
         Route::get("/categoryDetails/{category}", [VideoCategoriesController::class, "getCategoryDetails"]);
         Route::post("/update", [VideoCategoriesController::class, "updateVideoCategory"]);
     }
 );
 
-
+Route::prefix("subscribers")->group(function () {
+    Route::any("subscribe", [SubscribersController::class, "subscribe"]);
+    Route::any("getChannelSubscribers", [SubscribersController::class, "getChannelSubscribers"]);
+    Route::any("unsubscribe", [SubscribersController::class, "unsubscribe"]);
+});
 Route::any("/users/firebase_id", [UsersController::class, "getUserWithFirebaseId"]);
