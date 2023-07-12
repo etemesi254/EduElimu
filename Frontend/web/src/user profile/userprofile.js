@@ -22,6 +22,10 @@ function UserProfile({showLogout,setShowLogout}){
       navigate("/show_channel_list");
     }
 
+    function handleViewVideos(){
+      navigate("/show_video_list");
+    }
+
     return <>
     {showLogout &&  <LogoutConfirmationDialog
                 setShowLogout={setShowLogout}
@@ -65,7 +69,7 @@ function UserProfile({showLogout,setShowLogout}){
         </Link>
         <div className="user-channels">
           <button id="channels" onClick={handleViewChannels}>View your channels</button>
-          <button id="videos">View your videos</button>
+          <button id="videos" onClick={handleViewVideos}>View your videos</button>
         </div>
     </div>
     </>

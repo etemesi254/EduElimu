@@ -113,10 +113,22 @@ class ChannelController extends Controller
         ];
         try {
             $request->validate($rules);
+            $id = $request->id;
+            $channel = Channel::FindOrFail($id);
+    
+            $videos = $channel->videos();
+    
+            if($videos){
+                foreach($videos as $video){
+                    $video->delete();
+                }
+            }
+            
             $deleteResp = Channel::destroy($request->id);
             $resp = [
                 "status" => 200,
                 "message" => "Successfully deleted channel",
+                "data"=>$deleteResp
             ];
             return response($resp, 200);
         } catch (Exception $e) {

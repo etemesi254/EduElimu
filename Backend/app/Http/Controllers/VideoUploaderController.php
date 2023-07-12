@@ -117,4 +117,133 @@ class VideoUploaderController extends Controller
                 ], status: 500);
         }
     }
+
+
+    public function getVideoChannel($video_id){
+        try {
+            $video = Videos::findOrFail($video_id);
+            $channel = $video->channel()->get()->first();
+            return response()->json(
+                [
+                    "status" => 200,
+                    "message" => 'channel retrieved successfully',
+                    "data" => $channel
+                ], status: 200);
+        } catch (\Exception $e) {
+            return response()->json(
+                [
+                    "status" => 500,
+                    "message" => $e->getMessage(),
+                    "data" => null
+                ], status: 500);
+        }
+    }
+
+    public function deleteVideo(Request $request)
+    {
+        $rules = [
+            "id" => "required|integer|exists:videos"
+        ];
+        try {
+            $request->validate($rules);
+            $deleteResp = Videos::destroy($request->id);
+            $resp = [
+                "status" => 200,
+                "message" => "Successfully deleted video",
+                "data"=>$deleteResp
+            ];
+            return response($resp, 200);
+        } catch (Exception $e) {
+            return response()->json([
+                'status' => 422,
+                'message' => $e->getMessage(),
+            ], 422);
+        }
+    }
+
+    function updateChannelDetails(Request $request)
+    {
+        $data = [];
+        $rules = [
+            "id" => "required|exists:videos",
+        ];
+        try {
+            $request->validate($rules);
+
+            if($request->name){
+                $data["name"] = $request->name;
+            }
+
+            if($request->category){
+                $data["category"] = $request->category;
+            }
+
+            if($request->channel_id){
+                $data["channel_id"] = $request->channel_id;
+            }
+
+            if($request->view_count){
+                $data["view_count"] = $request->view_count;
+            }
+
+            if($request->description){
+                $data["description"] = $request->description;
+            }
+
+            if($request->status){
+                $data["status"] = $request->status;
+            }
+
+            if($request->image_banner){
+                $bannerPath = $this->storeBanner($request);
+                
+
+                if (is_bool($bannerPath)) {
+                    // a boolean indicates an error
+                    return response()->json(
+                        [
+                            "status" => 500,
+                            "message" => "Could not store video banner",
+                            "data" => null
+                        ], status: 500);
+                }
+
+                $data["banner_url"] = $bannerPath;
+            }
+
+            if($request->video){
+                $filePath = $this->storeVideo($request);
+
+                if (is_bool($filePath)) {
+                    // a boolean indicates an error
+                    return response()->json(
+                        [
+                            "status" => 500,
+                            "message" => "Could not store video",
+                            "data" => null
+                        ], status: 500);
+                }
+
+                $data["file_url"] = $filePath;
+            }
+
+            $video = tap(Videos::whereId($request->id))->update($data)->first();
+
+            return response()->json([
+                'status' => 200,
+                'message' => "Successfully modified video",
+                "data" => $video,
+                "prev"=>$data
+
+            ], 201);
+
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 422,
+                'message' => $e->getMessage(),
+            ], 422);
+        }
+    }
+
 }

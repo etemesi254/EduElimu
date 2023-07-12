@@ -13,6 +13,7 @@ export function UserProvider ({ children }){
   const [firebaseId, setFirebaseId] = useState(null);
   const [channel, setChannel] = useState([]);
   const [userVideos, setUserVideos] = useState([]);
+  const [categories, setCategories] = useState([]);
 
 
   useEffect(() => {
@@ -39,6 +40,7 @@ export function UserProvider ({ children }){
           setFirebaseId(user.data.firebase_id);
           getUserChannel(user.data.id);
           getUserVideos(user.data.id);
+          getVideoCategories();
         } else {
           throw new Error("Failed to fetch current user");
         }
@@ -63,6 +65,7 @@ export function UserProvider ({ children }){
         if (response.status === 200) {
           const channels = await response.json();
           setChannel(channels.data);
+          console.log("channels",channel);
         } else {
           throw new Error("Failed to fetch users channels");
         }
@@ -87,8 +90,33 @@ export function UserProvider ({ children }){
           if (response.status === 200) {
             const videos = await response.json();
             setUserVideos(videos.data);
+            console.log("videos",userVideos);
           } else {
             throw new Error("Failed to fetch users videos");
+          }
+        } catch (error) {
+          console.error("Error:", error.message);
+        }
+      }
+
+      //get category deetails
+      async function getVideoCategories() {
+        try {
+          const url = `http://127.0.0.1:8000/api/categories/all`;
+  
+          const response = await fetch(url, {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          });
+          console.log(response);
+          if (response.status === 200) {
+            const categories = await response.json();
+            setCategories(categories.data);
+            console.log("categories",categories);
+          } else {
+            throw new Error("Failed to fetch video categories");
           }
         } catch (error) {
           console.error("Error:", error.message);
@@ -100,6 +128,58 @@ export function UserProvider ({ children }){
         getCurrentUser();
     }
   }, []);
+
+  async function getVideoChannel(channel_id) {
+    try {
+      const url = `http://127.0.0.1:8000/api/videos/channel/${channel_id}`;
+  
+      const response = await fetch(url, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+  
+      const result = await response.json();
+      console.log(result.message);
+      console.log(response);
+  
+      if (response.status === 200) {
+        return result.data; // Use the parsed JSON data from 'result' variable
+      } else {
+        throw new Error("Failed to fetch video's channel");
+      }
+    } catch (error) {
+      console.error("Error:", error.message);
+    }
+  }
+  
+
+  async function getCategoryDetails(category_id) {
+    try {
+      const url = `http://127.0.0.1:8000/api/categories/categoryDetails/${category_id}`;
+  
+      const response = await fetch(url, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+  
+      const result = await response.json();
+      console.log(result.message);
+      console.log(response);
+  
+      if (response.status === 201) {
+        return result.data; // Use the parsed JSON data from 'result' variable
+      } else {
+        throw new Error("Failed to fetch video category details");
+      }
+    } catch (error) {
+      console.error("Error:", error.message);
+    }
+  }
+  
 
   function formatDateTime(datetime) {
     const currentTime = new Date();
@@ -136,7 +216,10 @@ export function UserProvider ({ children }){
     user,
     channel,
     userVideos,
-    formatDateTime
+    categories,
+    formatDateTime,
+    getVideoChannel,
+    getCategoryDetails
   };
 
   return (

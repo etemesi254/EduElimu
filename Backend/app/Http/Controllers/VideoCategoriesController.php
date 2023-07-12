@@ -67,8 +67,22 @@ class VideoCategoriesController extends Controller
 
     public function listAllCategories(Request $request)
     {
-
-        return VideoCategories::all();
+        try {
+            $categories = VideoCategories::all();
+            return response()->json(
+                [
+                    "status" => 200,
+                    "message" => "Retieved Video Categories successfully",
+                    "data" => $categories
+                ], status: 200);
+        } catch (Exception $e) {
+            return response()->json(
+                [
+                    "status" => 500,
+                    "message" => "Could not retrieve video categories",
+                    "data" => null
+                ], status: 500);
+        }
     }
 
     public function listAllVideosForCategory(Request $request)
@@ -152,6 +166,26 @@ class VideoCategoriesController extends Controller
                 'status' => 200,
                 'message' => "Successfully updated video category",
                 "data" => $video,
+            ], 201);
+        } catch (Exception $e) {
+            return response()->json(
+                [
+                    "status" => 422,
+                    "message" => $e->getMessage(),
+                    "data" => null
+                ], status: 422);
+
+        }
+    }
+
+    public function getCategoryDetails($categories){
+        try {
+            $category = VideoCategories::findOrFail($categories);
+
+            return response()->json([
+                'status' => 200,
+                'message' => "Successfully retrieved video category",
+                "data" => $category,
             ], 201);
         } catch (Exception $e) {
             return response()->json(

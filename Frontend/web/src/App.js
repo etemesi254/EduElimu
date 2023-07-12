@@ -38,10 +38,14 @@ import GameWindow from './Interactive games/game_window';
 import { UserProvider } from './context/UserContext';
 import ViewChannelList from './Chanels/viewChannelList';
 import EditChannel from './Chanels/editChannels';
+import ViewVideosList from './Chanels/create chanel/viewVideoList';
+import EditVideos from './Chanels/create chanel/edit_video';
 
 
 function App() {
   const [showLogout, setShowLogout] = useState(false);
+  const [showDelete, setShowDelete] = useState(false);
+  const [showDeleteVideo, setShowDeleteVideo] = useState(false);
 
   const [hideSidebar,setHideSidebar] = useState(false);
 
@@ -69,6 +73,8 @@ function App() {
                 setCompleteProfile={setCompleteProfile}
                 showDeclinePrompt={showDeclinePrompt}
                 setShowDeclinePrompt={setShowDeclinePrompt}
+                setShowDelete={setShowDelete}
+                showDelete = {showDelete}
                 />}/>
                 <Route path="/settings" element={<UserSettings showLogout={showLogout} 
               setShowLogout={setShowLogout}/>}/>
@@ -76,8 +82,10 @@ function App() {
               setShowLogout={setShowLogout}/>}/>
               <Route path="/create_channel" element={<CreateChannel/>}/>
               <Route path="/edit_channel/:id/:channel" element={<EditChannel/>}/>
-              <Route path='/show_channel_list' element={<ViewChannelList/>}/>
+              <Route path="/edit_userVideos/:id/:video" element={<EditVideos/>}/>
+              <Route path='/show_channel_list' element={<ViewChannelList setShowDelete={setShowDelete} showDelete = {showDelete}/>}/>
               <Route path="/upload_videos" element={<UploadVideos/>}/>
+              <Route path='/show_video_list' element={<ViewVideosList setShowDeleteVideo={setShowDeleteVideo} showDeleteVideo = {showDeleteVideo}/>}/>
               <Route path='video_player' element={<VideoPlayer/>}/>
                 <Route path="/chanel/:id/:channel" element={<ChanelLayout/>}>
                   <Route exact path='/chanel/:id/:channel'element={<ChanelDashboard/>}/>

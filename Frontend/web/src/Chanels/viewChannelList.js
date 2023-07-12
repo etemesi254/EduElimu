@@ -4,11 +4,20 @@ import {MdDeleteOutline} from "react-icons/md";
 import {AiOutlineEye} from "react-icons/ai";
 import "./viewChannelList.css";
 import { Link } from "react-router-dom";
+import DeleteConfirmation from "./deleteConfirmation";
 
-function ViewChannelList(){
+function ViewChannelList({showDelete,setShowDelete}){
     const {channel} = useUserContext();
 
+    function handleShowDelete(channel_id){
+        setShowDelete(true);
+        localStorage.setItem("channel_id",channel_id);
+        console.log(showDelete);
+        console.log(localStorage.getItem("channel_id"));
+    }
+
     return <div className="home-image">
+        {showDelete && <DeleteConfirmation showDelete={showDelete} setShowDelete={setShowDelete}/>}
         <div className="view-channel-list">
             <h1>Your Channels Will Appear here!</h1>
             <div className="table-div">
@@ -67,7 +76,7 @@ function ViewChannelList(){
                             <BiEditAlt id="edit"/>
                             </Link>
                         </td>
-                        <td><MdDeleteOutline id="delete"/></td>
+                        <td onClick={()=>{handleShowDelete(channel.id)}}><MdDeleteOutline id="delete" /></td>
                         </tr>
                     ))}
                     
