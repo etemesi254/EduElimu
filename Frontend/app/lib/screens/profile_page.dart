@@ -94,7 +94,7 @@ class _ProfilePageScreenState extends State<ProfilePageScreen> {
           InkWell(
             onTap: () {
               Navigator.of(context).push(MaterialPageRoute(
-                  builder: (builder) => CreateVideoScreen(user: widget.user)));
+                  builder: (builder) => UploadVideoScreen(user: widget.user)));
             },
             child: Padding(
               padding:
