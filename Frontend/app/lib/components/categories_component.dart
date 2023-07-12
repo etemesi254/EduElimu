@@ -60,7 +60,7 @@ class _EduCategoriesComponentState extends State<EduCategoriesComponent> {
               return Text(snapshot.error!.toString());
             } else {
               return ListView(
-                children: const [
+                children:  [
                   ConnectionErrorComponent(),
                 ],
               );

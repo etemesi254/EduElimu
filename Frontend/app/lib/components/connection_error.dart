@@ -6,7 +6,9 @@ import '../screens/settings_page.dart';
 import '../themes/colors.dart';
 
 class ConnectionErrorComponent extends StatelessWidget {
-  const ConnectionErrorComponent({Key? key}) : super(key: key);
+  String? message;
+
+  ConnectionErrorComponent({Key? key, this.message}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -18,12 +20,12 @@ class ConnectionErrorComponent extends StatelessWidget {
           const SizedBox(
             height: 20,
           ),
-          const Text("No Internet",
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+           Text(message ?? "No Internet",
+              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
           InkWell(
-              onTap: (){
-                Navigator.of(context)
-                    .push(MaterialPageRoute(builder: (context) => const SettingsPage()));
+              onTap: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => const SettingsPage()));
               },
               child: SizedBox(
                 height: 50,
