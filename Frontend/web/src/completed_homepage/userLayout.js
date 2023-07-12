@@ -3,8 +3,9 @@ import LeftNavigation from "../left_navigation/left_navigation";
 import RightNavigation from "../right_navigation/right_navigation";
 import { Outlet } from "react-router-dom";
 import TopNavigation from "../top_navigation/top_navigation";
+import DeleteConfirmation from "../Chanels/deleteConfirmation";
 
-function UserLayout({showLogout,setShowLogout}){
+function UserLayout({showLogout,setShowLogout,showDelete, setShowDelete}){
     return (
         <section id='home'>  
             <div id="left-navigation">
