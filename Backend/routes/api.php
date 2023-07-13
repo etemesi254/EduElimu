@@ -89,4 +89,7 @@ Route::prefix("subscribers")->group(function () {
     Route::any("unsubscribe", [SubscribersController::class, "unsubscribe"]);
 });
 
-Route::any("/users/firebase_id", [UsersController::class, "getUserWithFirebaseId"]);
+Route::prefix("users")->group(function () {
+    Route::any("/firebase_id", [UsersController::class, "getUserWithFirebaseId"]);
+    Route::get("/all", [UsersController::class, "getAllUsers"]);
+});

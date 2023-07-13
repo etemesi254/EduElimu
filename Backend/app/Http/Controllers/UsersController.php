@@ -61,7 +61,7 @@ class UsersController extends Controller
                 'DOB' => request()->DOB,
                 'email' => request()->email,
                 'password' => Hash::make(request()->password),
-                "firebase_id"=>request()->firebase_id,
+                "firebase_id" => request()->firebase_id,
             ]);
             return response()->json([
                 'status' => 200,
@@ -87,7 +87,7 @@ class UsersController extends Controller
         }
 
         if (request()->profile_image) {
-            $updated_user['profile_image'] = request()->file("profile_image")->store("profile_image","public");
+            $updated_user['profile_image'] = request()->file("profile_image")->store("profile_image", "public");
         }
 
         if (request()->DOB) {
@@ -164,7 +164,8 @@ class UsersController extends Controller
         }
     }
 
-    public function deleteUser($user){
+    public function deleteUser($user)
+    {
         try {
             $user = User::findOrFail($user);
             $user->delete();
@@ -180,4 +181,16 @@ class UsersController extends Controller
         }
     }
 
+    public function getAllUsers(Request $request)
+    {
+        $allUsers = User::all();
+
+        return response()->json(
+            [
+                "status" => 200,
+                "message" => "Successfuly fetched users",
+                "data" => $allUsers
+            ]
+        );
+    }
 }
