@@ -3,11 +3,18 @@ import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:edu_elimu/themes/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:video_player/video_player.dart';
 
+import '../models/video_models.dart';
+
 class VideoComponent extends StatefulWidget {
-  const VideoComponent({super.key});
+  final VideoModel model;
+  final String endpoint;
+
+  const VideoComponent(
+      {super.key, required this.model, required this.endpoint});
 
   @override
   State<VideoComponent> createState() => _VideoComponentState();
@@ -16,29 +23,30 @@ class VideoComponent extends StatefulWidget {
 class _VideoComponentState extends State<VideoComponent> {
   @override
   Widget build(BuildContext context) {
+    print("${widget.endpoint}${widget.model.channelBanner}");
     return SafeArea(
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 0),
         child: Column(
           children: [
             ClipRRect(
-                borderRadius: BorderRadius.circular(20.0),
+                //borderRadius: BorderRadius.circular(20.0),
                 child: Container(
-                  //height: 50,
-                  //width: 50,
-                  child: CachedNetworkImage(
-                    imageUrl:
-                        "https://unsplash.com/photos/xVpdyF9Pn0g/download?ixid=MnwxMjA3fDB8MXxhbGx8NDR8fHx8fHwyfHwxNjgzNDgyNDU4&force=true&w=640",
-                    fit: BoxFit.contain,
-                  ),
-                )),
+              //height: 50,
+              //width: 50,
+              child: CachedNetworkImage(
+                imageUrl:
+                    "https://unsplash.com/photos/xVpdyF9Pn0g/download?ixid=MnwxMjA3fDB8MXxhbGx8NDR8fHx8fHwyfHwxNjgzNDgyNDU4&force=true&w=640",
+                fit: BoxFit.contain,
+              ),
+            )),
             const SizedBox(height: 10),
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Row(children: const [
+              child: Row(children: [
                 Flexible(
-                    child: Text("Apple ASMR - A calm rain at camp",
-                        style: TextStyle(
+                    child: Text(widget.model.videoName,
+                        style: GoogleFonts.inter(
                             fontWeight: FontWeight.bold, fontSize: 25))),
                 Icon(Icons.more_horiz)
               ]),
@@ -49,7 +57,7 @@ class _VideoComponentState extends State<VideoComponent> {
               child: Row(
                 children: [
                   Text(
-                    "242k views",
+                    "${widget.model.videoViews} views",
                     style: TextStyle(color: Colors.black.withOpacity(0.5)),
                   ),
                   const SizedBox(width: 20),
@@ -66,12 +74,11 @@ class _VideoComponentState extends State<VideoComponent> {
                 children: [
                   CircleAvatar(
                     backgroundColor: Colors.transparent,
-                    child: Image.network(
-                        "https://www.wikipedia.org/portal/wikipedia.org/assets/img/Wikipedia-logo-v2.png"),
+                    child: CachedNetworkImage(imageUrl:"${widget.endpoint}${widget.model.channelBanner}"),
                   ),
                   const SizedBox(width: 20),
-                  const Text(
-                    "Apple",
+                  Text(
+                    widget.model.channelName,
                     style: TextStyle(color: EduColors.blackColor),
                   ),
                   const Spacer(),
@@ -154,11 +161,11 @@ class _FileBasedVideoPlayerState extends State<FileBasedVideoPlayer> {
                         child: VideoPlayer(_controller)),
                   ),
                   SizedBox(
-                    height: 20,
+                      height: 20,
                       child: VideoProgressIndicator(_controller,
                           allowScrubbing: true,
                           padding: EdgeInsets.zero,
-                          colors:const  VideoProgressColors(
+                          colors: const VideoProgressColors(
                             backgroundColor: Colors.white,
                             playedColor: EduColors.appColor,
                             bufferedColor: EduColors.whiteColor,
