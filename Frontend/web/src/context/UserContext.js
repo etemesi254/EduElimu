@@ -16,118 +16,90 @@ export function UserProvider({children}) {
     const [categories, setCategories] = useState([]);
     const [allVideos, setAllVideos] = useState([])
 
-    useEffect(() => {
-        //get current user data from api
-        async function getCurrentUser() {
-            try {
-                const email = encodeURIComponent(currentUser.email);
-                const phoneNumber = currentUser.phoneNumber;
+  useEffect(() => {
+    if(currentUser){
+        getCurrentUser();
+    }
+  }, []);
 
-                const url = `http://127.0.0.1:8000/api/getCurrentUser?email=${email}&phone_number=${phoneNumber}`;
+  async function getCurrentUser() {
+    try {
+      const email = encodeURIComponent(currentUser.email);
+      const phoneNumber = currentUser.phoneNumber;
 
-                const response = await fetch(url, {
-                    // mode: 'no-cors',
-                    method: "GET",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                });
-                console.log(response);
+        const url = `http://127.0.0.1:8000/api/getCurrentUser?email=${email}&phone_number=${phoneNumber}`;
 
-                if (response.status === 201) {
-                    const user = await response.json();
-                    setUser(user.data); // Update the user state
-                    setFirebaseId(user.data.firebase_id);
-                    getUserChannel(user.data.id);
-                    getUserVideos(user.data.id);
-                    getVideoCategories();
-                } else {
-                    throw new Error("Failed to fetch current user");
-                }
-            } catch (error) {
-                console.error("Error:", error.message);
-            }
-        }
+        const response = await fetch(url, {
+          // mode: 'no-cors',
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+        console.log(response);
 
-        //get user channels
-        async function getUserChannel($user_id) {
-            try {
-                const url = `http://127.0.0.1:8000/api/channels/getUserChannels/${$user_id}`;
+      if (response.status === 201) {
+        const user = await response.json();
+        setUser(user.data); // Update the user state
+        setFirebaseId(user.data.firebase_id);
+        getUserChannel(user.data.id);
+        getUserVideos(user.data.id);
+        getVideoCategories();
+      } else {
+        throw new Error("Failed to fetch current user");
+      }
+    } catch (error) {
+      console.error("Error:", error.message);
+    }
+  }
 
-                const response = await fetch(url, {
-                    method: "GET",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                });
-                console.log(response);
+  async function getUserChannel($user_id) {
+    try {
+      const url = `http://127.0.0.1:8000/api/channels/getUserChannels/${$user_id}`;
 
-                if (response.status === 200) {
-                    const channels = await response.json();
-                    setChannel(channels.data);
-                    console.log("channels", channel);
-                } else {
-                    throw new Error("Failed to fetch users channels");
-                }
-            } catch (error) {
-                console.error("Error:", error.message);
-            }
-        }
+      const response = await fetch(url, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      console.log(response);
 
-        //get current user videos
-        async function getUserVideos($user_id) {
-            try {
-                const url = `http://127.0.0.1:8000/api/videos/${$user_id}`;
+      if (response.status === 200) {
+        const channels = await response.json();
+        setChannel(channels.data);
+        console.log("channels",channel);
+      } else {
+        throw new Error("Failed to fetch users channels");
+      }
+    } catch (error) {
+      console.error("Error:", error.message);
+    }
+  }
 
-                const response = await fetch(url, {
-                    method: "GET",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                });
-                console.log(response);
+  async function getUserVideos($user_id) {
+    try {
+      const url = `http://127.0.0.1:8000/api/videos/${$user_id}`;
 
-                if (response.status === 200) {
-                    const videos = await response.json();
-                    setUserVideos(videos.data);
-                    console.log("videos", userVideos);
-                } else {
-                    throw new Error("Failed to fetch users videos");
-                }
-            } catch (error) {
-                console.error("Error:", error.message);
-            }
-        }
+      const response = await fetch(url, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      console.log(response);
 
-        //get category deetails
-        async function getVideoCategories() {
-            try {
-                const url = `http://127.0.0.1:8000/api/categories/all`;
-
-                const response = await fetch(url, {
-                    method: "GET",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                });
-                console.log(response);
-                if (response.status === 200) {
-                    const categories = await response.json();
-                    setCategories(categories.data);
-                    console.log("categories", categories);
-                } else {
-                    throw new Error("Failed to fetch video categories");
-                }
-            } catch (error) {
-                console.error("Error:", error.message);
-            }
-        }
-
-
-        if (currentUser) {
-            getCurrentUser();
-        }
-    }, []);
+      if (response.status === 200) {
+        const videos = await response.json();
+        setUserVideos(videos.data);
+        console.log("videos",userVideos);
+      } else {
+        throw new Error("Failed to fetch users videos");
+      }
+    } catch (error) {
+      console.error("Error:", error.message);
+    }
+  }
 
     async function getVideoChannel(channel_id) {
         try {

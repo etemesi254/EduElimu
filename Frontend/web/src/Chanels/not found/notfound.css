@@ -1,0 +1,16 @@
+.not-found{
+    display: flex;
+    justify-content: center;
+}
+.not-found .not-found-container{
+    height: 200px;
+    width: 150px;
+}
+
+.not-found .not-found-container img{
+    height: 100%;
+}
+
+.not-found  h2{
+    margin: 20px 30px;
+}

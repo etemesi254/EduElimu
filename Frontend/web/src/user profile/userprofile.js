@@ -8,15 +8,30 @@ import { toast } from 'react-toastify';
 import LogoutConfirmationDialog from "../user_auth/logoutConfirmation";
 import { useUserContext } from "../context/UserContext";
 import { Link, useNavigate } from "react-router-dom";
+import Loading from "../Loading/loading";
+
 function UserProfile({showLogout,setShowLogout}){
-    const {user} = useUserContext();
+    const {user,channel,userVideos} = useUserContext();
     const navigate = useNavigate();
-    
+
+    const [isLoading,setIsLoading] = useState(true);
+
+    useEffect(() => {
+      if (user) {
+        setIsLoading(false);
+        console.log("user is here");
+      }
+    }, [user]);
+
+    if(isLoading){
+      return <Loading/>
+    }
+
     const displayName = user && user.name ? user.name : (user && user.email ? user.email.split('@')[0] : 'Default Name');
 
     const displayEmail = user && user.email ? user.email :'Default Email';
 
-    console.log(user);
+    const displaypic = user && user.profile_image ? `http://127.0.0.1:8000/storage/${user.profile_image}`:`${process.env.PUBLIC_URL}/assets/eduelimu.png`;
 
     function handleViewChannels(){
       navigate("/show_channel_list");
@@ -32,7 +47,7 @@ function UserProfile({showLogout,setShowLogout}){
               />}
     <div className="settings">
         <div className="img-divv">
-            <img src="https://res.cloudinary.com/diqqf3eq2/image/upload/v1595959131/person-2_ipcjws.jpg"/>
+            <img src={displaypic}/>
         </div>
         <div className="user_info">
             <h3>{displayName}</h3>
@@ -67,10 +82,11 @@ function UserProfile({showLogout,setShowLogout}){
               <GrFormNext className="prof-icons"/>
           </div>
         </Link>
-        <div className="user-channels">
+        {channel && <div className="user-channels">
           <button id="channels" onClick={handleViewChannels}>View your channels</button>
           <button id="videos" onClick={handleViewVideos}>View your videos</button>
-        </div>
+        </div>}
+        
     </div>
     </>
 
