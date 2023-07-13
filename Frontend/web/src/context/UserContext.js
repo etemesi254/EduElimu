@@ -202,8 +202,6 @@ export function UserProvider({children}) {
             throw new Error("Failed to fetch video details");
 
         }
-
-
     }
 
     function formatDateTime(datetime) {

@@ -40,8 +40,9 @@ import ViewChannelList from './Chanels/viewChannelList';
 import EditChannel from './Chanels/editChannels';
 import ViewVideosList from './Chanels/create chanel/viewVideoList';
 import EditVideos from './Chanels/create chanel/edit_video';
-import VideosTables from "./Admin/VideosTables";
-
+import VideosTables from "./Admin/Tables/VideosTables";
+import UsersTable from './Admin/Tables/usersTable';
+import VideoCategoriesTable from './Admin/Tables/VideoCategoriesTable';
 
 function App() {
     const [showLogout, setShowLogout] = useState(false);
@@ -116,7 +117,9 @@ function App() {
                                                                    setShowLogout={setShowLogout}/>}>
                             <Route exact path='/admin' element={<MainDash showLogout={showLogout}
                                                                           setShowLogout={setShowLogout}/>}/>
-                            <Route path="/admin/video-logs" Component={VideosTables}></Route>
+                            <Route path="/admin/video" Component={VideosTables}></Route>
+                            <Route path="/admin/users-table" Component={UsersTable}></Route>
+                            <Route path='/admin/video-categories' Component={VideoCategoriesTable}></Route>
                         </Route>
                         <Route path='/completeProfile' Component={CompleteProfileEmail}/>
                     </Routes>
