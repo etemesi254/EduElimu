@@ -119,7 +119,7 @@ const UsersTable = ({ }) => {
         highlightOnHover
         pointerOnHover
         subHeader
-        subHeaderComponent={subHeaderComponentMemo}
+        subHeaderComponent={[subHeaderComponentMemo,actionsMemo]}
 
     />
 }
