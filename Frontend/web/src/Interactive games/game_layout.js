@@ -1,8 +1,13 @@
 import {AiFillCloseSquare,AiOutlineHome} from 'react-icons/ai';
 import { Link, Outlet } from 'react-router-dom';
 import "./game_layout.css";
+import { useUserContext } from '../context/UserContext';
 
 function GameLayout(){
+    const {user} = useUserContext();
+
+    const displaypic = user && user.profile_image ? `http://127.0.0.1:8000/storage/${user.profile_image}`:`${process.env.PUBLIC_URL}/assets/eduelimu.png`;
+    
     return <>
         <section className="game-layout">
             <nav>
@@ -19,7 +24,7 @@ function GameLayout(){
                         </div>
                         <div className="stats-container">
                             <div>
-                                <img src={process.env.PUBLIC_URL+"/assets/poster (1).jpg"} id='img'/>
+                                <img src={displaypic} id='img'/>
                             </div>
                         </div>
                     </div>

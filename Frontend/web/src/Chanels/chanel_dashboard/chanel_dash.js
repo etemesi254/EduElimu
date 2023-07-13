@@ -7,23 +7,25 @@ import { BsArrowLeft, BsArrowRight } from 'react-icons/bs';
 import ChanelCourse from "./chanel_course";
 import ChanelVideos from "./chanel_videos";
 import { useUserContext } from "../../context/UserContext";
+import Loading from "../../Loading/loading";
+import NotFound from "../not found/notfound";
 
 function ChanelDashboard(){
   const {channel} = useParams();
   const {formatDateTime} = useUserContext();
     const data = JSON.parse(decodeURIComponent(channel));
-    const [videos,setVideoes] = useState([]);
+    const [videos,setVideos] = useState([]);
     const [loading,setLoading] = useState(true);
+    const [courses,setCourses] = useState(videoData);
 
-    const { id} = data;
+    const {id} = data;
 
     useEffect(() => {
       async function getChannelVideos() {
         try {
-          const url = `http://127.0.0.1:8000/api/channels/getChannelVideos/${id}`;
+          const url = `http://127.0.0.1:8000/api/channels/getChannelVideos/${id}}`;
     
           const response = await fetch(url, {
-            // mode: 'no-cors',
             method: "GET",
             headers: {
               "Content-Type": "application/json",
@@ -31,12 +33,9 @@ function ChanelDashboard(){
           });
     
           const result = await response.json();
-          console.log(result);
-          console.log(response.status);
-    
           if (response.status === 200) {
             console.log(result.data); // Verify the data from the response
-            setVideoes(result.data);
+            setVideos(result.data);
             setLoading(false);
           } else {
             throw new Error("Failed to fetch channel videos");
@@ -47,8 +46,7 @@ function ChanelDashboard(){
       }
     
       getChannelVideos();
-    }, []);
-    
+    }, []); 
   
   // State to track the scroll position and container dimensions
   const [scrollPosition, setScrollPosition] = useState(0);
@@ -67,28 +65,35 @@ function ChanelDashboard(){
     container.scrollBy({ left: -containerWidth, behavior: 'smooth' });
   };
 
-  // Function to handle scrolling and update scroll position and container dimensions
-  const handleScroll = () => {
-    const container = document.querySelector('.chanel-courses');
-    setScrollPosition(container.scrollLeft);
-    setContainerWidth(container.clientWidth);
-    setContainerScrollWidth(container.scrollWidth);
-  };
 
   useEffect(() => {
-    // Add event listener to track scroll position and container dimensions
     const container = document.querySelector('.chanel-courses');
-    container.addEventListener('scroll', handleScroll);
-    setContainerWidth(container.clientWidth);
-    setContainerScrollWidth(container.scrollWidth);
-    return () => {
-      // Clean up the event listener
-      container.removeEventListener('scroll', handleScroll);
-    };
+  
+    if (container) {
+      setContainerWidth(container.clientWidth);
+      setContainerScrollWidth(container.scrollWidth);
+  
+      // Add event listener to track scroll position and container dimensions
+      const handleScroll = () => {
+        setScrollPosition(container.scrollLeft);
+        setContainerWidth(container.clientWidth);
+        setContainerScrollWidth(container.scrollWidth);
+        console.log(containerWidth)
+        console.log(containerScrollWidth)
+        console.log(scrollPosition)
+      };
+  
+      container.addEventListener('scroll', handleScroll);
+  
+      return () => {
+        // Clean up the event listener
+        container.removeEventListener('scroll', handleScroll);
+      };
+    }
   }, []);
 
     const videoRef = useRef(null);
-    const [videoss, setVideos] = useState(videoData);
+    
     console.log(videos.length,"length of videos")
 
   const playMovie = () => {
@@ -99,8 +104,12 @@ function ChanelDashboard(){
     videoRef.current.pause();
     videoRef.current.currentTime = 0;
   }
+
+  if(loading){
+    return <Loading/>
+  }
     return <div className="chanel-page-content">
-      {!loading && videoss.length > 0 ? (
+      {videos && videos.length >= 1 ? (
          <div className="intro-video-div">
               <div className="video-div">
                   <video
@@ -126,10 +135,10 @@ function ChanelDashboard(){
               </div>
           </div>
     ) : (
-      <h2>No videos here</h2>
+      <NotFound/>
     )}
 
-{!loading && videoss.length > 0 ? (
+{videos && videos.length > 1 ? (
          <div className="scrollable-container">
          <div className="chanel-video-head">
              <h2>Videos</h2>
@@ -154,9 +163,9 @@ function ChanelDashboard(){
          )}
      </div>
     ) : (
-      <h2>No videos here</h2>
+      ""
     )}
-    <div className="scrollable-container">
+    {/* <div className="scrollable-container">
         <div className="chanel-video-head">
             <h2>Courses</h2>
             <BsFillPlayFill className="scroll-icons"/>
@@ -168,16 +177,18 @@ function ChanelDashboard(){
         </div>
         )}
         <div className="chanel-courses">
-        {videoss.map((video,index)=>{
+        {courses.map((video,index)=>{
             return <ChanelCourse video={video} key={video.id}/>
         })}
         </div>
-        {scrollPosition < containerScrollWidth - containerWidth && (
+        {scrollPosition+1  < containerScrollWidth - containerWidth && (
         <div className="scroll-button right-scroll" onClick={scrollRight}>
+          <div>{console.log(scrollPosition,"scroll")}</div>
             <BsArrowRight  className="scroll-icons"/>
         </div>
         )}
-    </div>
+
+    </div> */}
 </div>
 }
 export default ChanelDashboard;

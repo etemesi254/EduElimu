@@ -1,0 +1,65 @@
+.view-channel-display-div{ 
+    margin: 20px;
+    width: 520px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+    border-radius: 20px;
+    padding-right: 0;
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+}
+.view-channel-img-div {
+    height: 250px;
+    width: 500px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.view-channel-stats span{
+    display: flex;
+}
+.view-channel-info-div{
+    width: 500px;
+    margin: 14px 0;
+}
+.view-channel-img-div img{
+    height: 100%;
+    width: 100%;
+    border-radius: 20px;
+    object-fit: cover;
+}
+.view-channel-info-div p{
+    color: gray;
+    font-size: 16px;
+}
+.view-channel-info-div #para{
+    margin: 5px 0;
+}
+.view-channel-stats{
+    display: flex;
+    justify-content: space-between;
+}
+.view-channel-actions{
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-evenly;
+}
+.view-channel-actions>*{
+    font-size: 18px;
+
+}
+.view-channel-actions>*:hover{
+    cursor: pointer;
+}
+.view-channel-actions #edit{
+    color: green;
+}
+.view-channel-actions #delete{
+    color: red;
+}
+.view-channel-actions #view{
+    color: blue;
+}
+.view-channel-actions #share{
+    color: #FFC700;
+}

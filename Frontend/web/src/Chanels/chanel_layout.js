@@ -1,11 +1,17 @@
-import { Link, Outlet, useParams } from "react-router-dom";
+import { Link, Outlet, json, useParams } from "react-router-dom";
 import React, { useEffect, useState } from 'react';
+import Loading from "../Loading/loading";
+import { useUserContext } from "../context/UserContext";
 
 
 function ChanelLayout(){
     const {channel} = useParams();
     const data = JSON.parse(decodeURIComponent(channel));
     const [videos,setVideos] = useState();
+    const [isLoading,setIsLoading] = useState(true);
+    const {user} = useUserContext();
+
+    const displaypic = user && user.profile_image ? `http://127.0.0.1:8000/storage/${user.profile_image}`:`${process.env.PUBLIC_URL}/assets/eduelimu.png`;
 
     const { id, name, subscribers,description, banner } = data;
 
@@ -29,6 +35,8 @@ function ChanelLayout(){
             if (response.status === 200) {
               console.log(result.data); // Verify the data from the response
               setVideos(result.data);
+              setIsLoading(false);
+
             } else {
               throw new Error("Failed to fetch channel videos");
             }
@@ -41,12 +49,14 @@ function ChanelLayout(){
       }, []);
 
     return <div className="home-image">
-    <div className="chanel-dashboard-img">
+    {isLoading ? (<Loading/>): (
+      <>
+      <div className="chanel-dashboard-img">
     <img src={`http://127.0.0.1:8000/storage/${banner}`}/>
     </div>
     <div className="chanel-details">
         <div className="chanel-profile-pic">
-            <img src={process.env.PUBLIC_URL + '/assets/poster (2).jpg'} />
+            <img src={displaypic} />
         </div>
         <div className="chanel-dets">
             <h2>{name}</h2>
@@ -61,16 +71,14 @@ function ChanelLayout(){
     <div className="mini-nav-bar">
         <div className="mini-nav-bar-link">
             <li>
-                <Link to={`/chanel/${id}/${encodeURIComponent(
-                                JSON.stringify(channel)
-                            )}`} className="link">HOME</Link>
+              <Link to={`/chanel/${encodeURIComponent(
+                  JSON.stringify(data)
+              )}`} className="link">HOME</Link>
             </li>
             <li>
-                <Link to={`/chanel/${id}/${encodeURIComponent(
-                                JSON.stringify(channel)
-                            )}/videos/${encodeURIComponent(
-                                JSON.stringify(videos)
-                            )}`} className="link">VIDEOS</Link>
+            <Link to={`/chanel/${encodeURIComponent(
+                  JSON.stringify(data)
+              )}/videos/${encodeURIComponent(JSON.stringify(videos))}`}className="link" >VIDEOS</Link>
             </li>
             <li>
                 <Link to="" className="link">COURSES</Link>
@@ -81,6 +89,8 @@ function ChanelLayout(){
         </div>
     </div>
     <Outlet/>
+      </>
+    )}
     </div>
 }
 export default ChanelLayout;

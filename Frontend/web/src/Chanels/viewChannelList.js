@@ -5,83 +5,19 @@ import {AiOutlineEye} from "react-icons/ai";
 import "./viewChannelList.css";
 import { Link } from "react-router-dom";
 import DeleteConfirmation from "./deleteConfirmation";
+import ViewChannelDisplay from "./viewChannelDisplay";
 
 function ViewChannelList({showDelete,setShowDelete}){
     const {channel} = useUserContext();
 
-    function handleShowDelete(channel_id){
-        setShowDelete(true);
-        localStorage.setItem("channel_id",channel_id);
-        console.log(showDelete);
-        console.log(localStorage.getItem("channel_id"));
-    }
+   
 
     return <div className="home-image">
         {showDelete && <DeleteConfirmation showDelete={showDelete} setShowDelete={setShowDelete}/>}
         <div className="view-channel-list">
             <h1>Your Channels Will Appear here!</h1>
             <div className="table-div">
-            <table>
-                <thead>
-                    <tr>
-                    <th>Channel Banner</th>
-                    <th>Channel Info</th>
-                    <th>Channel Stats</th>
-                    <th>View Channel</th>
-                    <th>Edit Channel</th>
-                    <th>Delete Channel</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {channel.map((channel)=>(
-                        <tr key={channel.id}>
-                        <td>
-                            <div className="table-img-div">
-                                <img src={`http://127.0.0.1:8000/storage/${channel.banner}`}/>
-                            </div>
-                        </td>
-                        <td>
-                            <div className="table-info-div">
-                                <div className="table-flex">
-                                    <span>Name :</span>
-                                    <p>{channel.name}</p>
-                                </div>
-                                <div className="table-flex">
-                                    <span>Description :</span>
-                                    <p>{channel.description}</p>
-                                </div>
-                                
-                            </div>
-                        </td>
-                        <td>
-                            <div className="table-info-div">
-                                <div className="table-flex">
-                                    <span>Students :</span>
-                                    <p>{channel.subscribers}</p>
-                                </div>
-                                <div className="table-flex">
-                                    <span>Views :</span>
-                                    <p>0</p>
-                                </div>
-                                
-                            </div>
-                        </td>
-                        <td>
-                            <Link to={`/chanel/${channel.id}/${encodeURIComponent(
-                                JSON.stringify(channel)
-                            )}`} ><AiOutlineEye id="view"/></Link>
-                        </td>
-                        <td>
-                            <Link to={`/edit_channel/${channel.id}/${encodeURIComponent(JSON.stringify(channel))}`}>
-                            <BiEditAlt id="edit"/>
-                            </Link>
-                        </td>
-                        <td onClick={()=>{handleShowDelete(channel.id)}}><MdDeleteOutline id="delete" /></td>
-                        </tr>
-                    ))}
-                    
-                </tbody>
-            </table>
+            {channel.map((channel)=>(<ViewChannelDisplay channel={channel} showDelete={showDelete} setShowDelete={setShowDelete} />))}
             </div>
 
         </div>
