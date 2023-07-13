@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:edu_elimu/components/bottom_tab.dart';
 import 'package:edu_elimu/components/categories_component.dart';
 import 'package:edu_elimu/components/local_webview.dart';
@@ -26,11 +27,10 @@ class _LandingPageState extends State<LandingPage>
   late TabController controller;
   int index = 0;
 
-
   @override
   void initState() {
     super.initState();
-    controller = TabController(length: 3, vsync: this);
+    controller = TabController(length: 4, vsync: this);
 
     controller.addListener(() {
       setState(() {
@@ -46,7 +46,7 @@ class _LandingPageState extends State<LandingPage>
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0.1,
-        title: Text("EduElimu"),
+        title: const Text("EduElimu"),
         actions: [
           if (FirebaseAuth.instance.currentUser != null)
             InkWell(
@@ -63,8 +63,9 @@ class _LandingPageState extends State<LandingPage>
                   child: FirebaseAuth.instance.currentUser!.photoURL != null
                       ? ClipRRect(
                           borderRadius: BorderRadius.circular(100),
-                          child: Image.network(
-                              FirebaseAuth.instance.currentUser!.photoURL!),
+                          child: CachedNetworkImage(
+                              imageUrl:
+                                  FirebaseAuth.instance.currentUser!.photoURL!),
                         )
                       : const Text(""),
                 ),
@@ -118,7 +119,8 @@ class _LandingPageState extends State<LandingPage>
         child: TabBarView(controller: controller, children: [
           HomeScreen(),
           EduCategoriesComponent(),
-          LocalWebview(url: "http://192.168.100.8:3000/interactive_games/dashboard"),
+          LocalWebview(
+              url: "http://192.168.100.8:3000/interactive_games/dashboard"),
           LoginAndSignupBanner()
         ]),
       ),
@@ -135,8 +137,7 @@ class _LandingPageState extends State<LandingPage>
                 icon: Icon(Icons.home),
               ),
               Tab(text: "Categories", icon: Icon(Icons.category)),
-
-              Tab(text: "Games",icon:Icon(Icons.casino)),
+              Tab(text: "Games", icon: Icon(Icons.casino)),
               Tab(text: "Settings", icon: Icon(Icons.settings))
             ]),
       ),
