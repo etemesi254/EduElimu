@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\Videos;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class VideoController extends Controller
 {
@@ -88,12 +89,13 @@ class VideoController extends Controller
 
     public function getAllVideos(Request $request)
     {
-        $videos = Videos::all();
+        $data = DB::select("select videos.name as video_name,videos.view_count as video_views, videos.id as video_id,videos.banner_url as video_banner, videos.file_url as video_file,c.id as channel_id, c.name as channel_name,c.banner as channel_banner,u.name as user_name, u.profile_image as user_profile,u.id as user_id,videos.created_at as created from videos inner join channels c on videos.channel_id = c.id inner  join  users u on c.user_id = u.id ");
+        //$videos = Videos::all();
         return response()->json(
             [
                 "status" => 200,
                 "message" => 'videos retrieved successfully',
-                "data" => $videos
+                "data" => ["videos" => $data]
             ], status: 200);
     }
 
