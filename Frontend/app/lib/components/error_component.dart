@@ -14,19 +14,21 @@ class ErrorComponent extends StatefulWidget {
 class _ErrorComponentState extends State<ErrorComponent> {
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        Lottie.asset("assets/lottie/error.json", height: 300),
-        const SizedBox(height: 20),
-        Text(
-          widget.message ?? "Uuh oh, this is an error",
-          textAlign: TextAlign.center,
-          style: GoogleFonts.poppins(
-            fontWeight: FontWeight.w500,
-          ),
-        )
-      ],
+    return Center(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Lottie.asset("assets/lottie/error.json", height: 300),
+          const SizedBox(height: 20),
+          Text(
+            widget.message ?? "Uuh oh, this is an error",
+            textAlign: TextAlign.center,
+            style: GoogleFonts.poppins(
+              fontWeight: FontWeight.w500,
+            ),
+          )
+        ],
+      ),
     );
   }
 }

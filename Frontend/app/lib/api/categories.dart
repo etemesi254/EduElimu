@@ -16,7 +16,7 @@ Future<List<VideoCategory>> getAllCategories() async {
   if (resp.statusCode == 200) {
     var json = jsonDecode(resp.body);
     print(json);
-    return (json as List).map((e) => VideoCategory.fromJson(e)).toList();
+    return (json["data"] as List).map((e) => VideoCategory.fromJson(e)).toList();
   }
-  throw Exception("ertewr");
+  throw Exception("Error fetching categories");
 }
