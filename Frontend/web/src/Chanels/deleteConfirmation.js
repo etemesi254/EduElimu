@@ -1,10 +1,12 @@
-import { useEffect, useRef,useState } from 'react';
+import { useContext, useEffect, useRef,useState } from 'react';
 import { useNavigate } from 'react-router-dom'; 
 import lottie from 'lottie-web';
 import { toast } from 'react-toastify';
+import { useUserContext } from '../context/UserContext';
 
 function DeleteConfirmation ({setShowDelete}){
     const container = useRef(null);
+    const {getCurrentUser} = useUserContext();
     
     async function onConfirm(){
         try {
@@ -22,8 +24,9 @@ function DeleteConfirmation ({setShowDelete}){
             });
             setShowDelete(false);
             const result = await response.json();
-            console.log(result);
+            console.log(result.message);
             if(result.status === 200) {
+              getCurrentUser();
                 return toast.success('Channel deleted successfully');
             }
             toast.error('Error deleting channel');

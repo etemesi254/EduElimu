@@ -10,8 +10,6 @@ import ViewChannelDisplay from "./viewChannelDisplay";
 function ViewChannelList({showDelete,setShowDelete}){
     const {channel} = useUserContext();
 
-   
-
     return <div className="home-image">
         {showDelete && <DeleteConfirmation showDelete={showDelete} setShowDelete={setShowDelete}/>}
         <div className="view-channel-list">

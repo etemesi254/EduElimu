@@ -8,12 +8,13 @@ function EditChannel(){
     const container = useRef(null);
     const {channel} = useParams();
     const data = JSON.parse(decodeURIComponent(channel));
+    const [disabled,setDisabled] = useState(false);
 
     const [name,setName] = useState('');
     const [description,setDescription] = useState('');
     const [channel_banner,setChannelBanner] = useState('');
     
-    const {user} = useUserContext();
+    const {user,getCurrentUser} = useUserContext();
 
     const handleNameInput = (e)=>setName(e.target.value);
     const handleDescriptionInput = (e)=>setDescription(e.target.value);
@@ -21,6 +22,7 @@ function EditChannel(){
     
     async function handleSubmit(e){
         e.preventDefault();
+        setDisabled(true);
         const formData = new FormData();
         formData.append("id", data.id);
         formData.append('name', name);
@@ -36,15 +38,17 @@ function EditChannel(){
                     body: formData
                 }
             );
-            console.log(result);
             
             const response = await result.json();
-            console.log(response);
             if(result.status === 201) {
+                getCurrentUser();
+                setDisabled(false);
                 return toast.success('Your channel has been modified');
             }
+            setDisabled(false);
             toast.error('Error updating channel');
         } catch (error) {
+            setDisabled(false);
             return toast.error(error.message);
         }
     }
@@ -89,7 +93,7 @@ function EditChannel(){
                 </div>
                 <br/>
                 <div className="button-div">
-                <button type="submit">Edit Channel</button>
+                <button type="submit" disabled={disabled}>Edit Channel</button>
                 </div>
             </div>
         </form>

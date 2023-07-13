@@ -65,7 +65,7 @@ function ChanelLayout(){
                 <p>637 Videos</p>
                 <p>78 Courses</p>
             </div>
-            <p>{description}</p>
+            <p>{description.slice(0,60)}...</p>
         </div>
     </div>
     <div className="mini-nav-bar">

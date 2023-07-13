@@ -2,10 +2,11 @@ import { useEffect, useRef,useState } from 'react';
 import { useNavigate } from 'react-router-dom'; 
 import lottie from 'lottie-web';
 import { toast } from 'react-toastify';
+import { useUserContext } from '../../context/UserContext';
 
 function DeleteConfirmation ({setShowDeleteVideo}){
     const container = useRef(null);
-    
+    const {getCurrentUser} = useUserContext();
     async function onConfirm(){
         try {
             const url = `http://127.0.0.1:8000/api/videos/delete`;
@@ -22,8 +23,8 @@ function DeleteConfirmation ({setShowDeleteVideo}){
             });
             setShowDeleteVideo(false);
             const result = await response.json();
-            console.log(result);
             if(result.status === 200) {
+              getCurrentUser();
                 return toast.success('Video deleted successfully');
             }
             toast.error('Error deleting video');

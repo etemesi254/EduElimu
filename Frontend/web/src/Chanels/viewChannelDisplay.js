@@ -29,7 +29,7 @@ function ViewChannelDisplay({channel,showDelete,setShowDelete}){
         </div>
         <div className="view-channel-info-div">
             <h3>{channel.name}</h3>
-            <p id="para">{channel.description}</p>
+            <p id="para">{channel.description.slice(0,40)} ...</p>
             <div className="view-channel-stats">
                 <span><b>Students</b>:&nbsp; <p>{channel.subsrcibers} Students</p></span>
                 <span><b>Views</b>:&nbsp; <p>{channel.subsrcibers} Views</p></span>

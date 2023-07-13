@@ -10,8 +10,9 @@ function CreateChannel(){
     const [name,setName] = useState('');
     const [description,setDescription] = useState('');
     const [channel_banner,setChannelBanner] = useState('');
+    const [disabled,setDisabled] = useState(false);
     
-    const {user} = useUserContext();
+    const {user,getCurrentUser} = useUserContext();
 
     const handleNameInput = (e)=>setName(e.target.value);
     const handleDescriptionInput = (e)=>setDescription(e.target.value);
@@ -19,6 +20,7 @@ function CreateChannel(){
     
     async function handleSubmit(e){
         e.preventDefault();
+        setDisabled(true);
         const formData = new FormData();
         formData.append('name', name);
         formData.append('description', description);
@@ -35,15 +37,19 @@ function CreateChannel(){
                     body: formData
                 }
             );
-            console.log(result);
+           
             
             const response = await result.json();
-            console.log(response);
+       
             if(result.status === 201) {
+                getCurrentUser();
+                setDisabled(false)
                 return toast.success('Your channel has been created');
             }
+            setDisabled(false)
             toast.error('Error creating channel');
         } catch (error) {
+            setDisabled(false)
             return toast.error(error.message);
         }
     }
@@ -89,7 +95,7 @@ function CreateChannel(){
                 </div>
                 <br/>
                 <div className="button-div">
-                    <button type="submit">Create Channel</button>
+                    <button type="submit" disabled={disabled}>Create Channel</button>
                 </div>
             </div>
         </form>

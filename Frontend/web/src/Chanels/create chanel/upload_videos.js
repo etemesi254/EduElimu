@@ -13,7 +13,7 @@ function UploadVideos(){
     const [bannerUrl, setBannerUrl] = useState('');
     const [disabled,setDisabled] = useState(false);
     const [userChannel,setUserChannel] = useState('');
-    const {channel} = useUserContext();
+    const {channel,getCurrentUser} = useUserContext();
 
     const handleNameInput = (e)=> setVideoName(e.target.value);
     const handleDescriptionInput = (e)=> setVideoDescription(e.target.value);
@@ -39,9 +39,9 @@ function UploadVideos(){
         });
 
             const response = await result.json();
-            console.log(response);
-            console.log(response.message);
             if(result.status === 201) {
+                getCurrentUser();
+                setDisabled(false);
                 return toast.success('Your Video was successfully uploaded');
             }
             toast.error('Error creating channel');
@@ -108,7 +108,7 @@ function UploadVideos(){
                 </div>
                 <br/>
                 <div className="button-div">
-                    <button type="submit">Upload Video</button>
+                    <button type="submit" disabled={disabled}>Upload Video</button>
                 </div>
             </div>
         </form>

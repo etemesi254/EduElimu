@@ -14,7 +14,7 @@ export function UserProvider({children}) {
     const [channel, setChannel] = useState([]);
     const [userVideos, setUserVideos] = useState([]);
     const [categories, setCategories] = useState([]);
-    const [allVideos, setAllVideos] = useState([])
+    const [allVideos, setAllVideos] = useState([]);
 
   useEffect(() => {
     if(currentUser){
@@ -36,15 +36,13 @@ export function UserProvider({children}) {
             "Content-Type": "application/json",
           },
         });
-        console.log(response);
 
       if (response.status === 201) {
         const user = await response.json();
         setUser(user.data); // Update the user state
-        setFirebaseId(user.data.firebase_id);
         getUserChannel(user.data.id);
         getUserVideos(user.data.id);
-        getVideoCategories();
+        // getVideoCategories();
       } else {
         throw new Error("Failed to fetch current user");
       }
@@ -63,7 +61,6 @@ export function UserProvider({children}) {
           "Content-Type": "application/json",
         },
       });
-      console.log(response);
 
       if (response.status === 200) {
         const channels = await response.json();
@@ -87,7 +84,6 @@ export function UserProvider({children}) {
           "Content-Type": "application/json",
         },
       });
-      console.log(response);
 
       if (response.status === 200) {
         const videos = await response.json();
@@ -113,8 +109,6 @@ export function UserProvider({children}) {
             });
 
             const result = await response.json();
-            console.log(result.message);
-            console.log(response);
 
             if (response.status === 200) {
                 return result.data; // Use the parsed JSON data from 'result' variable
@@ -163,8 +157,6 @@ export function UserProvider({children}) {
         });
 
         const result = await response.json();
-        console.log(result.message);
-        console.log(response);
         if (response.status === 200) {
             setAllVideos(result.data);
 
@@ -214,8 +206,10 @@ export function UserProvider({children}) {
         formatDateTime,
         getVideoChannel,
         getCategoryDetails,
+        getUserChannel,
         getAllVideos,
         allVideos,
+        getCurrentUser
 
     };
 

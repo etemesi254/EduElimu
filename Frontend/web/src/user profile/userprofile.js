@@ -19,7 +19,6 @@ function UserProfile({showLogout,setShowLogout}){
     useEffect(() => {
       if (user) {
         setIsLoading(false);
-        console.log("user is here");
       }
     }, [user]);
 
@@ -82,9 +81,10 @@ function UserProfile({showLogout,setShowLogout}){
               <GrFormNext className="prof-icons"/>
           </div>
         </Link>
-        {channel && <div className="user-channels">
+        {channel && channel.length > 0 &&<div className="user-channels">
           <button id="channels" onClick={handleViewChannels}>View your channels</button>
-          <button id="videos" onClick={handleViewVideos}>View your videos</button>
+          {userVideos && userVideos.length > 0 && <button id="videos" onClick={handleViewVideos}>View your videos</button>}
+          
         </div>}
         
     </div>

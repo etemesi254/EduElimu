@@ -19,7 +19,7 @@ function EditVideos(){
     const [channelDeets,setChannelDeets] = useState('');
     const [categoryDeets,setCategoryDeets] = useState('');
     const [category,setCategory] = useState('');
-    const {channel,getVideoChannel,categories,getCategoryDetails} = useUserContext();
+    const {channel,getVideoChannel,categories,getCategoryDetails,getCurrentUser} = useUserContext();
 
     const handleNameInput = (e)=> setVideoName(e.target.value);
     const handleDescriptionInput = (e)=> setVideoDescription(e.target.value);
@@ -35,8 +35,6 @@ function EditVideos(){
             const categoryDetails = await getCategoryDetails(data.category);
             setChannelDeets(channelDetails);
             setCategoryDeets(categoryDetails)
-            console.log(channelDetails,"channel_deets");
-            console.log(categoryDeets,"category_deets")
           } catch (error) {
             toast.error(error.message);
           }
@@ -66,9 +64,8 @@ function EditVideos(){
         });
 
             const response = await result.json();
-            console.log(response);
-            console.log(response.message);
             if(result.status === 201) {
+                getCurrentUser();
                 return toast.success('Your Video was successfully updated');
             }
             toast.error('Error updating video');

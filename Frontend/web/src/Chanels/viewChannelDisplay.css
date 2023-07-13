@@ -1,6 +1,6 @@
 .view-channel-display-div{ 
-    margin: 20px;
-    width: 520px;
+    margin: 10px;
+    width: 350px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
     border-radius: 20px;
     padding-right: 0;
@@ -9,8 +9,8 @@
     padding: 20px;
 }
 .view-channel-img-div {
-    height: 250px;
-    width: 500px;
+    height: 200px;
+    width: 330px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -19,7 +19,7 @@
     display: flex;
 }
 .view-channel-info-div{
-    width: 500px;
+    width: 330px;
     margin: 14px 0;
 }
 .view-channel-img-div img{
