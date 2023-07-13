@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:edu_elimu/api/categories.dart';
 import 'package:edu_elimu/components/connection_error.dart';
+import 'package:edu_elimu/components/loading_component.dart';
 import 'package:edu_elimu/themes/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -47,7 +48,7 @@ class _EduCategoriesComponentState extends State<EduCategoriesComponent> {
           builder: (context, snapshot) {
             if (snapshot.connectionState != ConnectionState.done &&
                 shouldRefresh) {
-              return const Center(child: CircularProgressIndicator());
+              return LoadingComponent();
             }
             if (snapshot.hasData) {
               return ListView(
@@ -60,7 +61,7 @@ class _EduCategoriesComponentState extends State<EduCategoriesComponent> {
               return Text(snapshot.error!.toString());
             } else {
               return ListView(
-                children:  [
+                children: [
                   ConnectionErrorComponent(),
                 ],
               );
@@ -74,7 +75,7 @@ class _EduCategoriesComponentState extends State<EduCategoriesComponent> {
     CachedNetworkImage img = CachedNetworkImage(
       imageUrl: url,
       // width: 200,
-      height: 300,
+      //height: 300,
     );
     return InkWell(
       onTap: () {
@@ -90,7 +91,10 @@ class _EduCategoriesComponentState extends State<EduCategoriesComponent> {
                   heightFactor: 0.6,
                   child: Column(
                     children: [
-                      Text(category.name,style: const TextStyle(fontWeight: FontWeight.bold),),
+                      Text(
+                        category.name,
+                        style: const TextStyle(fontWeight: FontWeight.bold),
+                      ),
                       Expanded(child: img),
                       Container(
                           color: Colors.white,
@@ -104,18 +108,19 @@ class _EduCategoriesComponentState extends State<EduCategoriesComponent> {
                                 fontWeight: FontWeight.normal, fontSize: 16),
                           )),
                       OutlinedButton(
-                        style: OutlinedButton.styleFrom(
-                          backgroundColor: EduColors.appColor,
-                        ),
-                          onPressed: () {
-
-                          },
+                          style: OutlinedButton.styleFrom(
+                            backgroundColor: EduColors.appColor,
+                          ),
+                          onPressed: () {},
                           child: const SizedBox(
                               width: double.infinity,
                               child: Text(
                                 "Go",
                                 textAlign: TextAlign.center,
-                                style: TextStyle(color: Colors.white,fontSize: 20,fontWeight: FontWeight.w500),
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.w500),
                               )))
                     ],
                   ),
@@ -124,21 +129,46 @@ class _EduCategoriesComponentState extends State<EduCategoriesComponent> {
             });
       },
       child: Container(
-        decoration: BoxDecoration(border: Border.all(color: Colors.black)),
+        decoration: BoxDecoration(
+            color: Colors.white, borderRadius: BorderRadius.circular(10)),
+        padding:
+            const EdgeInsets.only(bottom: 10, top: 10, left: 10, right: 10),
         child: Column(
           children: [
             img,
-            Container(
-                color: Colors.white,
-                width: double.infinity,
-                padding: const EdgeInsets.only(top: 10),
-                height: 50,
-                child: Text(
-                  category.name,
-                  textAlign: TextAlign.center,
-                  style: GoogleFonts.poppins(
-                      fontWeight: FontWeight.w500, fontSize: 20),
-                ))
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                        padding: const EdgeInsets.only(top: 10),
+                        child: Text(
+                          category.name,
+                          textAlign: TextAlign.start,
+                          style: GoogleFonts.poppins(
+                              fontWeight: FontWeight.w500, fontSize: 20),
+                        )),
+                    Container(
+                        padding: const EdgeInsets.only(top: 10),
+                        child: Text(
+                          category.description,
+                          textAlign: TextAlign.start,
+                          style: GoogleFonts.poppins(
+                              fontWeight: FontWeight.normal, fontSize: 14),
+                        )),
+                  ],
+                ),
+                const Spacer(),
+                const CircleAvatar(
+                    backgroundColor: EduColors.blackColor,
+                    child: Icon(
+                      Icons.north_east,
+                      color: Colors.white,
+                    )),
+              ],
+            ),
           ],
         ),
       ),

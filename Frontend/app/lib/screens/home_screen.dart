@@ -37,24 +37,34 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<List<VideoModel>>(
-        future: getVideos(),
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            return ListView.builder(
-              itemCount: snapshot.data!.length,
-              itemBuilder: (BuildContext context, int index) {
-                return VideoComponent(
-                  model: snapshot.data![index],
-                  endpoint: endpoint!,
-                );
-              },
-            );
-          } else if (snapshot.hasError) {
-            return ErrorComponent(message: snapshot.error!.toString());
-          } else {
-            return LoadingComponent();
-          }
-        });
+    return RefreshIndicator(
+      onRefresh: () async{
+        shouldReload=true;
+        setState(() {});
+      },
+      child: FutureBuilder<List<VideoModel>>(
+          future: getVideos(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState != ConnectionState.done &&
+                shouldReload) {
+              return  LoadingComponent();
+            }
+            if (snapshot.hasData) {
+              return ListView.builder(
+                itemCount: snapshot.data!.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return VideoComponent(
+                    model: snapshot.data![index],
+                    endpoint: endpoint!,
+                  );
+                },
+              );
+            } else if (snapshot.hasError) {
+              return ErrorComponent(message: snapshot.error!.toString());
+            } else {
+              return LoadingComponent();
+            }
+          }),
+    );
   }
 }

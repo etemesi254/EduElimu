@@ -19,7 +19,7 @@ class _ErrorComponentState extends State<ErrorComponent> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Lottie.asset("assets/lottie/error.json", height: 300),
-          const SizedBox(height: 20),
+          //const SizedBox(height: 20),
           Text(
             widget.message ?? "Uuh oh, this is an error",
             textAlign: TextAlign.center,

@@ -17,8 +17,9 @@ class _LoadingComponentState extends State<LoadingComponent> {
     return Center(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
+        //mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Lottie.asset("assets/lottie/loading.json", height: 300),
+          Lottie.asset("assets/lottie/loading.json", height: 200),
           const SizedBox(height: 20),
           Text(
             widget.message ?? "Hold on, something great is coming",
