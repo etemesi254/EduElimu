@@ -9,13 +9,13 @@ import SlidingForm from './user_auth/register';
 import RegisterUser from './user_auth/register';
 import Loginuser from './user_auth/login';
 import Watchlist from './watchlist/watchlist';
-import { AuthProvider } from './context/AuthContext';
+import {AuthProvider} from './context/AuthContext';
 import {BrowserRouter as Router, Routes, Route} from "react-router-dom";
 import PrivateRoute from './context/privateRoute';
 import ForgotPassword from './user_auth/forgot_password';
 import SignInWithPhone from './user_auth/signinwithno';
 import CustomReset from './user_auth/customResetPass';
-import { useState } from 'react';
+import {useState} from 'react';
 import AdminLayout from './Admin/AdminLayout';
 import MainDash from './Admin/mainDash';
 import CompleteProfileEmail from './user_auth/completeProfile';
@@ -35,29 +35,30 @@ import CreateChannel from './Chanels/create chanel/create_chanel';
 import UploadVideos from './Chanels/create chanel/upload_videos';
 import GameCategoryDash from './Interactive games/game_category_dash';
 import GameWindow from './Interactive games/game_window';
-import { UserProvider } from './context/UserContext';
+import {UserProvider} from './context/UserContext';
 import ViewChannelList from './Chanels/viewChannelList';
 import EditChannel from './Chanels/editChannels';
 import ViewVideosList from './Chanels/create chanel/viewVideoList';
 import EditVideos from './Chanels/create chanel/edit_video';
 import NotFound from './Chanels/not found/notfound';
 import ViewChannelDisplay from './Chanels/viewChannelDisplay';
+import VideosTables from "./Admin/VideosTables";
 
 
 function App() {
-  const [showLogout, setShowLogout] = useState(false);
-  const [showDelete, setShowDelete] = useState(false);
-  const [showDeleteVideo, setShowDeleteVideo] = useState(false);
+    const [showLogout, setShowLogout] = useState(false);
+    const [showDelete, setShowDelete] = useState(false);
+    const [showDeleteVideo, setShowDeleteVideo] = useState(false);
 
-  const [hideSidebar,setHideSidebar] = useState(false);
+    const [hideSidebar, setHideSidebar] = useState(false);
 
-  const [showDeclinePrompt,setShowDeclinePrompt] = useState(false);
+    const [showDeclinePrompt, setShowDeclinePrompt] = useState(false);
 
-  const hideSideBar = ()=>{
-      return setHideSidebar(!hideSidebar);
-  }
+    const hideSideBar = () => {
+        return setHideSidebar(!hideSidebar);
+    }
 
-  const [completeProfile,setCompleteProfile] = useState(false);
+    const [completeProfile, setCompleteProfile] = useState(false);
 
   
   return (
@@ -89,14 +90,13 @@ function App() {
               <Route path="/upload_videos" element={<UploadVideos/>}/>
               <Route path='/show_video_list' element={<ViewVideosList setShowDeleteVideo={setShowDeleteVideo} showDeleteVideo = {showDeleteVideo}/>}/>
               <Route path='video_player' element={<VideoPlayer/>}/>
-                <Route path="/chanel/:channel" element={<ChanelLayout/>}>
-                  <Route  index  element={<ChanelDashboard/>}/>
+                <Route path="/chanel/:id/:channel" element={<ChanelLayout/>}>
+                  <Route exact path='/chanel/:id/:channel'element={<ChanelDashboard/>}/>
                   <Route path='videos/:videos' element={<ChanelVideoPage/>}/>
                   <Route path='courses' element={<ChanelCoursesPage/>}/>
                   <Route path='about/:about' element={<ChanelAbout/>}/>
                 </Route>
             </Route>
-            <Route path='/notfound' element={<ViewChannelDisplay/>}/>
             <Route path='/interactive_games' element={<GameSplashScreen/>}/>
             <Route path='/interactive_games/dashboard' element={<GameLayout/>}>
                 <Route exact path='/interactive_games/dashboard' element={<GameDashboard/>}/>

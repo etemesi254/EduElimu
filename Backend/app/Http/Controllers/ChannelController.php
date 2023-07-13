@@ -71,9 +71,6 @@ class ChannelController extends Controller
         // store the video
         return $request->file("channel_banner")->store("channel_banners", "public");
     }
-
-    //
-
     public function addChannelWithFirebaseId(Request $request)
     {
         $rules = [
@@ -168,15 +165,15 @@ class ChannelController extends Controller
             $request->validate($rules);
             $id = $request->id;
             $channel = Channel::FindOrFail($id);
-    
+
             $videos = $channel->videos();
-    
+
             if($videos){
                 foreach($videos as $video){
                     $video->delete();
                 }
             }
-            
+
             $deleteResp = Channel::destroy($request->id);
             $resp = [
                 "status" => 200,

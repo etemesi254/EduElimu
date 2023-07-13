@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Videos;
 use App\Models\User;
+use App\Models\Videos;
 use Illuminate\Http\Request;
 
-class VideoUploaderController extends Controller
+class VideoController extends Controller
 {
     //
     public function addVideo(Request $request)
@@ -22,7 +22,7 @@ class VideoUploaderController extends Controller
 
         try {
             $request->validate($rules);
-            
+
             // store banner image and video
             $imagePath = $this->storeBanner($request);
             if (is_bool($imagePath)) {
@@ -77,22 +77,29 @@ class VideoUploaderController extends Controller
     public function storeBanner(Request $request): bool|string
     {
         // store the video
-        return $request->file("image_banner")->store("image_banner","public");
+        return $request->file("image_banner")->store("image_banner", "public");
     }
 
     public function storeVideo(Request $request): bool|string
     {
         // store the video
-        return $request->file("video")->store("videos","public");
+        return $request->file("video")->store("videos", "public");
     }
 
     public function getAllVideos(Request $request)
     {
-        return response()->json(data: Videos::all(), status: 200);
+        $videos = Videos::all();
+        return response()->json(
+            [
+                "status" => 200,
+                "message" => 'videos retrieved successfully',
+                "data" => $videos
+            ], status: 200);
     }
 
-    public function getUserVideos($user){
-        
+    public function getUserVideos($user)
+    {
+
         try {
             $user = User::findOrFail($user);
             $channels = $user->channels()->with('videos')->get();
@@ -119,7 +126,8 @@ class VideoUploaderController extends Controller
     }
 
 
-    public function getVideoChannel($video_id){
+    public function getVideoChannel($video_id)
+    {
         try {
             $video = Videos::findOrFail($video_id);
             $channel = $video->channel()->get()->first();
@@ -150,7 +158,7 @@ class VideoUploaderController extends Controller
             $resp = [
                 "status" => 200,
                 "message" => "Successfully deleted video",
-                "data"=>$deleteResp
+                "data" => $deleteResp
             ];
             return response($resp, 200);
         } catch (Exception $e) {
@@ -170,33 +178,33 @@ class VideoUploaderController extends Controller
         try {
             $request->validate($rules);
 
-            if($request->name){
+            if ($request->name) {
                 $data["name"] = $request->name;
             }
 
-            if($request->category){
+            if ($request->category) {
                 $data["category"] = $request->category;
             }
 
-            if($request->channel_id){
+            if ($request->channel_id) {
                 $data["channel_id"] = $request->channel_id;
             }
 
-            if($request->view_count){
+            if ($request->view_count) {
                 $data["view_count"] = $request->view_count;
             }
 
-            if($request->description){
+            if ($request->description) {
                 $data["description"] = $request->description;
             }
 
-            if($request->status){
+            if ($request->status) {
                 $data["status"] = $request->status;
             }
 
-            if($request->image_banner){
+            if ($request->image_banner) {
                 $bannerPath = $this->storeBanner($request);
-                
+
 
                 if (is_bool($bannerPath)) {
                     // a boolean indicates an error
@@ -211,7 +219,7 @@ class VideoUploaderController extends Controller
                 $data["banner_url"] = $bannerPath;
             }
 
-            if($request->video){
+            if ($request->video) {
                 $filePath = $this->storeVideo($request);
 
                 if (is_bool($filePath)) {
@@ -233,7 +241,7 @@ class VideoUploaderController extends Controller
                 'status' => 200,
                 'message' => "Successfully modified video",
                 "data" => $video,
-                "prev"=>$data
+                "prev" => $data
 
             ], 201);
 
