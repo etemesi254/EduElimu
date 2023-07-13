@@ -39,3 +39,21 @@ Future<String> uploadVideo(VideoUploaderCtx ctx) async {
         status: decodedResp["status"], message: decodedResp["message"]);
   }
 }
+
+Future<List<VideoModel>> getHomePageVideos() async {
+  var box = await Hive.box("settings");
+  // default is normal localhost
+  String url = await box.get("base_url", defaultValue: "10.0.2.2:8000") +
+      "/api/videos/all";
+
+
+  final uri = Uri.parse(url);
+  var response = await http.get(uri);
+  var json = jsonDecode(response.body);
+
+  if (response.statusCode == 200) {
+    return (json["data"]["videos"] as List).map((e) => VideoModel.fromJson(e)).toList();
+  }
+  throw NetworkException(status: json["status"], message: json["message"]);
+
+}

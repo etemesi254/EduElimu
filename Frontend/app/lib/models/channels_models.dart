@@ -13,6 +13,19 @@ class ChannelUploadCtx {
       required this.firebaseId});
 }
 
+class ChannelUpdateCtx {
+  final Uint8List? data;
+  final String name;
+  final String id;
+  final String description;
+
+  ChannelUpdateCtx(
+      {required this.description,
+      required this.data,
+      required this.name,
+      required this.id});
+}
+
 class SingleChannelDetails {
   final int id;
   final String name;

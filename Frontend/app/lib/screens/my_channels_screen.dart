@@ -2,8 +2,11 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:edu_elimu/api/channels.dart';
 import 'package:edu_elimu/components/empty_component.dart';
 import 'package:edu_elimu/components/error_component.dart';
+import 'package:edu_elimu/screens/edit_channel_screen.dart';
+import 'package:edu_elimu/utils.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hive/hive.dart';
 import 'package:local_auth/local_auth.dart';
@@ -124,7 +127,7 @@ class _MyChannelsScreenState extends State<MyChannelsScreen> {
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
       margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
       decoration: BoxDecoration(
-          color: Colors.black.withOpacity(0.04),
+          color: Colors.black.withOpacity(0.01),
           borderRadius: BorderRadius.circular(10)),
       child: Column(
         children: [
@@ -155,12 +158,33 @@ class _MyChannelsScreenState extends State<MyChannelsScreen> {
               Row(
                 children: [
                   IconButton(
+                      onPressed: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (builder) => EditChannelScreen(
+                                user: widget.user, channel: details)));
+                      },
+                      icon: const Icon(Icons.edit, color: Colors.green)),
+                  IconButton(
                     icon: const Icon(Icons.delete, color: Colors.red),
                     onPressed: () async {
                       final bool didAuthenticate = await localAuth.authenticate(
                           localizedReason:
                               "This is a potentially dangerous action, are you sure you want to permanently delete your channel?");
-                      if (didAuthenticate) {}
+                      if (didAuthenticate) {
+                        try {
+                          EasyLoading.show(status: "Loading");
+                          await deleteChannel(details.id);
+                          setState(() {
+                            shouldRefresh = true;
+                          });
+                        } on Exception catch (e) {
+                          showOverlayError(e.toString());
+                        } finally {
+                          EasyLoading.dismiss();
+                        }
+                      } else {
+                        showOverlayError("Could not initiate delete request");
+                      }
                     },
                   ),
                   const SizedBox(width: 10),
@@ -174,6 +198,7 @@ class _MyChannelsScreenState extends State<MyChannelsScreen> {
               )
             ],
           ),
+          const Divider()
         ],
       ),
     );
