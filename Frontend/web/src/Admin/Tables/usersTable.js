@@ -43,7 +43,31 @@ const tableColumns = [
         name: "Firebase ID",
         selector: row => row.firebase_id,
     },
+    {
+        name: "Actions",
+        cell: (row) => (
+          <div>
+            <button onClick={() => handleDelete(row.id)}>Delete</button>
+            <button onClick={() => handleEdit(row.id)}>Edit</button>
+          </div>
+        ),
+        button: true,
+      },
 ];
+
+const handleDelete = (userId) => {
+    // Perform the delete action using the userId
+    // Update the users state after successful deletion
+    // const updatedUsers = users.filter((user) => user.id !== userId);
+    // setUsers(updatedUsers);
+  };
+  
+  const handleEdit = (userId) => {
+    // Perform the edit action using the userId
+    // Redirect to the edit page or open a modal for editing the user
+    // Implement your desired logic here
+  };
+  
 
 
 async function getAllUsers() {
@@ -91,7 +115,8 @@ const UsersTable = ({ }) => {
 
     const actionsMemo = <Export onExport={() => downloadCSV(users, csvKeys,"users.csv")} />;
 
-    return <DataTable
+    return <>
+    <DataTable
         pagination
         columns={tableColumns}
         data={users}
@@ -101,6 +126,7 @@ const UsersTable = ({ }) => {
         pointerOnHover
 
     />
+    </>
 }
 
 export default UsersTable;
