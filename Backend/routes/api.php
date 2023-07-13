@@ -44,6 +44,7 @@ Route::prefix("videos")->group(function () {
     Route::post("/delete", [VideoController::class, "deleteVideo"]);
     Route::post("/update", [VideoController::class, "updateChannelDetails"]);
 
+    Route::any("/front", [VideoController::class, "getFrontVideos"]);
     Route::any("/all", [VideoController::class, "getAllVideos"]);
     Route::get("/channel/{id}", [VideoController::class, "getVideoChannel"]);
     Route::any("/like", [VideoLikesController::class, "likeVideo"]);

@@ -44,7 +44,7 @@ Future<List<VideoModel>> getHomePageVideos() async {
   var box = await Hive.box("settings");
   // default is normal localhost
   String url = await box.get("base_url", defaultValue: "10.0.2.2:8000") +
-      "/api/videos/all";
+      "/api/videos/front";
 
 
   final uri = Uri.parse(url);

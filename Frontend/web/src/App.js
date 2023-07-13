@@ -46,6 +46,7 @@ import VideosTables from "./Admin/Tables/VideosTables";
 import UsersTable from './Admin/Tables/usersTable';
 import VideoCategoriesTable from './Admin/Tables/VideoCategoriesTable';
 import AddVideoCategory from './Admin/Forms/addVideoCategories';
+import VideoChannelsTable from "./Admin/Tables/ChannelsTable";
 
 function App() {
     const [showLogout, setShowLogout] = useState(false);

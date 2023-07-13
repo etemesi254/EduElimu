@@ -1,7 +1,7 @@
 
 import DataTable from 'react-data-table-component';
 import React, { useEffect, useState } from 'react';
-import { downloadCSV,customStyles } from "./tableUtils.js"
+import {downloadCSV, customStyles, FilterComponent} from "./tableUtils.js"
 
 
 
@@ -110,6 +110,25 @@ const UsersTable = ({ }) => {
     }, [])
 
 
+    const [filterText, setFilterText] = React.useState('');
+    const [resetPaginationToggle, setResetPaginationToggle] = React.useState(false);
+
+    const filteredItems = users.filter(
+        item => item.name && item.name.toLowerCase().includes(filterText.toLowerCase()),
+    );
+    const subHeaderComponentMemo = React.useMemo(() => {
+        const handleClear = () => {
+            if (filterText) {
+                setResetPaginationToggle(!resetPaginationToggle);
+                setFilterText('');
+            }
+        };
+
+        return (
+            <FilterComponent onFilter={e => setFilterText(e.target.value)} onClear={handleClear}
+                             filterText={filterText}/>
+        );
+    }, [filterText, resetPaginationToggle]);
 
     const Export = ({onExport}) => <button onClick={e => onExport(e.target, csvKeys)}>Export</button>;
 
@@ -124,6 +143,8 @@ const UsersTable = ({ }) => {
         customStyles={customStyles}
         highlightOnHover
         pointerOnHover
+        subHeader
+        subHeaderComponent={[subHeaderComponentMemo,actionsMemo]}
 
     />
     </>

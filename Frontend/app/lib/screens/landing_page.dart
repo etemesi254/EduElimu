@@ -1,5 +1,6 @@
 import 'package:edu_elimu/components/bottom_tab.dart';
 import 'package:edu_elimu/components/categories_component.dart';
+import 'package:edu_elimu/components/local_webview.dart';
 import 'package:edu_elimu/screens/account_page.dart';
 import 'package:edu_elimu/screens/default_screen.dart';
 import 'package:edu_elimu/screens/home_screen.dart';
@@ -25,6 +26,7 @@ class _LandingPageState extends State<LandingPage>
   late TabController controller;
   int index = 0;
 
+
   @override
   void initState() {
     super.initState();
@@ -40,7 +42,7 @@ class _LandingPageState extends State<LandingPage>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Color.fromRGBO(248, 248, 248, 1.0),
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0.1,
@@ -50,8 +52,8 @@ class _LandingPageState extends State<LandingPage>
             InkWell(
               onTap: () {
                 Navigator.of(context).push(MaterialPageRoute(
-                    builder: (BuildContext context) =>
-                        ProfilePageScreen(user: FirebaseAuth.instance.currentUser!)));
+                    builder: (BuildContext context) => ProfilePageScreen(
+                        user: FirebaseAuth.instance.currentUser!)));
               },
               child: Padding(
                 padding: const EdgeInsets.only(right: 18.0),
@@ -74,7 +76,8 @@ class _LandingPageState extends State<LandingPage>
                 InkWell(
                   onTap: () {
                     Navigator.of(context).push(MaterialPageRoute(
-                        builder: (BuildContext context) => const LoginScreen()));
+                        builder: (BuildContext context) =>
+                            const LoginScreen()));
                   },
                   child: Center(
                       child: Container(
@@ -91,19 +94,20 @@ class _LandingPageState extends State<LandingPage>
                 InkWell(
                   onTap: () {
                     Navigator.of(context).push(MaterialPageRoute(
-                        builder: (BuildContext context) => const SignupScreen()));
+                        builder: (BuildContext context) =>
+                            const SignupScreen()));
                   },
                   child: Center(
                       child: Container(
-                        color: EduColors.appColor,
-                        padding:
+                    color: EduColors.appColor,
+                    padding:
                         const EdgeInsets.symmetric(horizontal: 18, vertical: 9),
-                        margin: const EdgeInsets.only(right: 10),
-                        child: const Text(
-                          "Sign Up",
-                          style: TextStyle(color: EduColors.blackColor),
-                        ),
-                      )),
+                    margin: const EdgeInsets.only(right: 10),
+                    child: const Text(
+                      "Sign Up",
+                      style: TextStyle(color: EduColors.blackColor),
+                    ),
+                  )),
                 ),
               ],
             )
@@ -114,6 +118,7 @@ class _LandingPageState extends State<LandingPage>
         child: TabBarView(controller: controller, children: [
           HomeScreen(),
           EduCategoriesComponent(),
+          LocalWebview(url: "http://192.168.100.8:3000/interactive_games/dashboard"),
           LoginAndSignupBanner()
         ]),
       ),
@@ -121,33 +126,18 @@ class _LandingPageState extends State<LandingPage>
         height: 60,
         child: TabBar(
             //isScrollable: true,
-            indicatorColor: Colors.transparent,
+            indicatorColor: EduColors.appColor,
             controller: controller,
-            tabs: [
-              BottomTabComponent(
-                icon: Icons.home,
+            indicatorWeight: 4,
+            tabs: const [
+              Tab(
                 text: "Home",
-                textColor: index == 0 ? EduColors.appColor : Colors.grey,
-                iconColor: index == 0 ? EduColors.appColor : Colors.grey,
-                expand: index == 0,
-                color: index == 0 ? Colors.black.withOpacity(0.05) : null,
+                icon: Icon(Icons.home),
               ),
-              BottomTabComponent(
-                icon: Icons.face,
-                text: "Live",
-                textColor: index == 1 ? EduColors.appColor : Colors.grey,
-                iconColor: index == 1 ? EduColors.appColor : Colors.grey,
-                expand: index == 1,
-                color: index == 1 ? Colors.black.withOpacity(0.05) : null,
-              ),
-              BottomTabComponent(
-                icon: Icons.home,
-                text: "Settings",
-                textColor: index == 2 ? EduColors.appColor : Colors.grey,
-                iconColor: index == 2 ? EduColors.appColor : Colors.grey,
-                expand: index == 2,
-                color: index == 2 ? Colors.black.withOpacity(0.05) : null,
-              ),
+              Tab(text: "Categories", icon: Icon(Icons.category)),
+
+              Tab(text: "Games",icon:Icon(Icons.casino)),
+              Tab(text: "Settings", icon: Icon(Icons.settings))
             ]),
       ),
     );
