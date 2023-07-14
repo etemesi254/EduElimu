@@ -17,6 +17,7 @@ export function UserProvider({children}) {
     const [allVideos, setAllVideos] = useState([]);
 
   useEffect(() => {
+    getAllVideos();
     if(currentUser){
         getCurrentUser();
     }
@@ -147,6 +148,7 @@ export function UserProvider({children}) {
     }
 
 
+
     async function getAllVideos() {
         const url = `http://127.0.0.1:8000/api/videos/all`;
         const response = await fetch(url, {
@@ -158,9 +160,13 @@ export function UserProvider({children}) {
 
         const result = await response.json();
         if (response.status === 200) {
-            setAllVideos(result.data);
+          const videos = result.data.videos;
 
-            return result.data;
+          const shuffledVideos = videos.sort(() => Math.random() - 0.5);
+
+          setAllVideos(shuffledVideos);
+        
+          return shuffledVideos;
 
         } else {
             throw new Error("Failed to fetch video details");

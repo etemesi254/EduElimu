@@ -78,7 +78,7 @@ function UploadVideos(){
                     <div className='form-group-flex'>
                         <div className="settings_input">
                             <label>Video Title</label>
-                            <input type="text" name="name" placeholder='Channel Name' value={videoName} onChange={handleNameInput}/>
+                            <input type="text" name="name" placeholder='Video Name' value={videoName} onChange={handleNameInput}/>
                         </div>
                         <div className="settings_input">
                             <label>Poster Image</label>
@@ -87,7 +87,7 @@ function UploadVideos(){
                     </div>
                     <div className="settings_input">
                         <label>Description</label>
-                        <textarea placeholder="Enter channel description here" value={videoDescription} onChange={handleDescriptionInput}></textarea>
+                        <textarea placeholder="Enter video description here" value={videoDescription} onChange={handleDescriptionInput}></textarea>
                     </div>
                     <div className='form-group-flex'>
                         <div className="settings_input">

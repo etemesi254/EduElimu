@@ -45,6 +45,7 @@ import ViewChannelDisplay from './Chanels/viewChannelDisplay';
 import VideosTables from "./Admin/Tables/VideosTables";
 import UsersTable from './Admin/Tables/usersTable';
 import VideoCategoriesTable from './Admin/Tables/VideoCategoriesTable';
+import AddVideoCategory from './Admin/Forms/addVideoCategories';
 import VideoChannelsTable from "./Admin/Tables/ChannelsTable";
 
 function App() {
@@ -63,137 +64,72 @@ function App() {
     const [completeProfile, setCompleteProfile] = useState(false);
 
   
-  // return (
-  //   <Router>
-  //     <AuthProvider>
-  //       <UserProvider>
-  //         <Routes showLogout={showLogout}
-  //             setShowLogout={setShowLogout}>
-  //           <Route path="/" element={<UserLayout  showLogout={showLogout}
-  //               setShowLogout={setShowLogout}/>}>
-  //             <Route exact path='/' element={<HomePage
-  //             showLogout={showLogout}
-  //             setShowLogout={setShowLogout}
-  //               completeProfile={completeProfile}
-  //               setCompleteProfile={setCompleteProfile}
-  //               showDeclinePrompt={showDeclinePrompt}
-  //               setShowDeclinePrompt={setShowDeclinePrompt}
-  //               setShowDelete={setShowDelete}
-  //               showDelete = {showDelete}
-  //               />}/>
-  //               <Route path="/settings" element={<UserSettings showLogout={showLogout}
-  //             setShowLogout={setShowLogout}/>}/>
-  //             <Route path="/profile" element={<UserProfile showLogout={showLogout}
-  //             setShowLogout={setShowLogout}/>}/>
-  //             <Route path="/create_channel" element={<CreateChannel/>}/>
-  //             <Route path="/edit_channel/:id/:channel" element={<EditChannel/>}/>
-  //             <Route path="/edit_userVideos/:id/:video" element={<EditVideos/>}/>
-  //             <Route path='/show_channel_list' element={<ViewChannelList setShowDelete={setShowDelete} showDelete = {showDelete}/>}/>
-  //             <Route path="/upload_videos" element={<UploadVideos/>}/>
-  //             <Route path='/show_video_list' element={<ViewVideosList setShowDeleteVideo={setShowDeleteVideo} showDeleteVideo = {showDeleteVideo}/>}/>
-  //             <Route path='video_player' element={<VideoPlayer/>}/>
-  //               <Route path="/chanel/:channel" element={<ChanelLayout/>}>
-  //                 <Route index element={<ChanelDashboard/>}/>
-  //                 <Route path='videos/:videos' element={<ChanelVideoPage/>}/>
-  //                 <Route path='courses' element={<ChanelCoursesPage/>}/>
-  //                 <Route path='about/:about' element={<ChanelAbout/>}/>
-  //               </Route>
-  //           </Route>
-  //           <Route path='/interactive_games' element={<GameSplashScreen/>}/>
-  //           <Route path='/interactive_games/dashboard' element={<GameLayout/>}>
-  //               <Route exact path='/interactive_games/dashboard' element={<GameDashboard/>}/>
-  //               <Route path='/interactive_games/dashboard/:category/:color/:icon' element={<GameCategoryDash/>}/>
-  //               <Route path='/interactive_games/dashboard/:quiz' element={<GameWindow/>}/>
-  //           </Route>
-  //           <Route path='/register' element={<RegisterUser  completeProfile={completeProfile}
-  //               setCompleteProfile={setCompleteProfile}/>}/>
-  //           <Route path='/login' Component={Loginuser}/>
-  //           <Route path='/forgotPassword' Component={ForgotPassword}/>
-  //           <Route path='/signupwithphone' Component={SignInWithPhone}/>
-  //           <Route path='/resetPassword' Component={CustomReset}/>
-  //           <Route path='/adminLogin' Component={LoginAdmin}/>
-  //           <Route path='/admin' element={<AdminLayout showLogout={showLogout}
-  //               setShowLogout={setShowLogout}/>}>
-  //             <Route exact path='/admin' element={<MainDash showLogout={showLogout}
-  //             setShowLogout={setShowLogout}/>}/>
-  //           </Route>
-  //           <Route path='/completeProfile' Component={CompleteProfileEmail}/>
-  //         </Routes>
-  //       </UserProvider>
-  //     </AuthProvider>
-  //   </Router>
-  //
-  // );
-
-    return (
-        <Router>
-            <AuthProvider>
-                <UserProvider>
-                    <Routes showLogout={showLogout}
-                            setShowLogout={setShowLogout}>
-                        <Route path="/" element={<UserLayout showLogout={showLogout}
-                                                             setShowLogout={setShowLogout}/>}>
-                            <Route exact path='/' element={<HomePage
-                                showLogout={showLogout}
-                                setShowLogout={setShowLogout}
-                                completeProfile={completeProfile}
-                                setCompleteProfile={setCompleteProfile}
-                                showDeclinePrompt={showDeclinePrompt}
-                                setShowDeclinePrompt={setShowDeclinePrompt}
-                                setShowDelete={setShowDelete}
-                                showDelete={showDelete}
-                            />}/>
-                            <Route path="/settings" element={<UserSettings showLogout={showLogout}
-                                                                           setShowLogout={setShowLogout}/>}/>
-                            <Route path="/profile" element={<UserProfile showLogout={showLogout}
-                                                                         setShowLogout={setShowLogout}/>}/>
-                            <Route path="/create_channel" element={<CreateChannel/>}/>
-                            <Route path="/edit_channel/:id/:channel" element={<EditChannel/>}/>
-                            <Route path="/edit_userVideos/:id/:video" element={<EditVideos/>}/>
-                            <Route path='/show_channel_list'
-                                   element={<ViewChannelList setShowDelete={setShowDelete} showDelete={showDelete}/>}/>
-                            <Route path="/upload_videos" element={<UploadVideos/>}/>
-                            <Route path='/show_video_list'
-                                   element={<ViewVideosList setShowDeleteVideo={setShowDeleteVideo}
-                                                            showDeleteVideo={showDeleteVideo}/>}/>
-                            <Route path='video_player' element={<VideoPlayer/>}/>
-                            <Route path="/chanel/:id/:channel" element={<ChanelLayout/>}>
-                                <Route exact path='/chanel/:id/:channel' element={<ChanelDashboard/>}/>
-                                <Route path='videos/:videos' element={<ChanelVideoPage/>}/>
-                                <Route path='courses' element={<ChanelCoursesPage/>}/>
-                                <Route path='about/:about' element={<ChanelAbout/>}/>
-                            </Route>
-                        </Route>
-                        <Route path='/interactive_games' element={<GameSplashScreen/>}/>
-                        <Route path='/interactive_games/dashboard' element={<GameLayout/>}>
-                            <Route exact path='/interactive_games/dashboard' element={<GameDashboard/>}/>
-                            <Route path='/interactive_games/dashboard/:category/:color/:icon'
-                                   element={<GameCategoryDash/>}/>
-                            <Route path='/interactive_games/dashboard/:quiz' element={<GameWindow/>}/>
-                        </Route>
-                        <Route path='/register' element={<RegisterUser completeProfile={completeProfile}
-                                                                       setCompleteProfile={setCompleteProfile}/>}/>
-                        <Route path='/login' Component={Loginuser}/>
-                        <Route path='/forgotPassword' Component={ForgotPassword}/>
-                        <Route path='/signupwithphone' Component={SignInWithPhone}/>
-                        <Route path='/resetPassword' Component={CustomReset}/>
-                        <Route path='/adminLogin' Component={LoginAdmin}/>
-                        <Route path='/admin' element={<AdminLayout showLogout={showLogout}
+  return (
+    <Router>
+      <AuthProvider>
+        <UserProvider>
+          <Routes showLogout={showLogout}
+              setShowLogout={setShowLogout}>
+            <Route path="/" element={<UserLayout  showLogout={showLogout} 
+                setShowLogout={setShowLogout}/>}>
+              <Route exact path='/' element={<HomePage 
+              showLogout={showLogout} 
+              setShowLogout={setShowLogout}
+                completeProfile={completeProfile}
+                setCompleteProfile={setCompleteProfile}
+                showDeclinePrompt={showDeclinePrompt}
+                setShowDeclinePrompt={setShowDeclinePrompt}
+                setShowDelete={setShowDelete}
+                showDelete = {showDelete}
+                />}/>
+                <Route path="/settings" element={<UserSettings showLogout={showLogout} 
+              setShowLogout={setShowLogout}/>}/>
+              <Route path="/profile" element={<UserProfile showLogout={showLogout} 
+              setShowLogout={setShowLogout}/>}/>
+              <Route path="/create_channel" element={<CreateChannel/>}/>
+              <Route path="/edit_channel/:id/:channel" element={<EditChannel/>}/>
+              <Route path="/edit_userVideos/:id/:video" element={<EditVideos/>}/>
+              <Route path='/show_channel_list' element={<ViewChannelList setShowDelete={setShowDelete} showDelete = {showDelete}/>}/>
+              <Route path="/upload_videos" element={<UploadVideos/>}/>
+              <Route path='/show_video_list' element={<ViewVideosList setShowDeleteVideo={setShowDeleteVideo} showDeleteVideo = {showDeleteVideo}/>}/>
+              <Route path='video_player/:video/' element={<VideoPlayer/>}/>
+                <Route path="/chanel/:channel" element={<ChanelLayout/>}>
+                  <Route index element={<ChanelDashboard/>}/>
+                  <Route path='videos/:videos' element={<ChanelVideoPage/>}/>
+                  <Route path='courses' element={<ChanelCoursesPage/>}/>
+                  <Route path='about/:about' element={<ChanelAbout/>}/>
+                </Route>
+            </Route>
+            <Route path='/interactive_games' element={<GameSplashScreen/>}/>
+            <Route path='/interactive_games/dashboard' element={<GameLayout/>}>
+                <Route exact path='/interactive_games/dashboard' element={<GameDashboard/>}/>
+                <Route path='/interactive_games/dashboard/:category/:color/:icon' element={<GameCategoryDash/>}/>
+                <Route path='/interactive_games/dashboard/:quiz' element={<GameWindow/>}/>
+            </Route>
+            <Route path='/register' element={<RegisterUser  completeProfile={completeProfile}
+                setCompleteProfile={setCompleteProfile}/>}/>
+            <Route path='/login' Component={Loginuser}/>
+            <Route path='/forgotPassword' Component={ForgotPassword}/>
+            <Route path='/signupwithphone' Component={SignInWithPhone}/>
+            <Route path='/resetPassword' Component={CustomReset}/>
+            <Route path='/adminLogin' Component={LoginAdmin}/>
+            <Route path='/admin' element={<AdminLayout showLogout={showLogout}
                                                                    setShowLogout={setShowLogout}/>}>
-                            <Route exact path='/admin' element={<MainDash showLogout={showLogout}
-                                                                          setShowLogout={setShowLogout}/>}/>
-                            <Route path="/admin/video" Component={VideosTables}></Route>
-                            <Route path="/admin/users-table" Component={UsersTable}></Route>
-                            <Route path='/admin/video-categories' Component={VideoCategoriesTable}></Route>
-                            <Route path='/admin/channels' Component={VideoChannelsTable}></Route>
-                        </Route>
-                        <Route path='/completeProfile' Component={CompleteProfileEmail}/>
-                    </Routes>
-                </UserProvider>
-            </AuthProvider>
-        </Router>
+                <Route index  element={<MainDash showLogout={showLogout}
+                                                              setShowLogout={setShowLogout}/>}/>
+                <Route path="video" Component={VideosTables}></Route>
+                <Route path="users-table" Component={UsersTable}></Route>
+                <Route path='video-categories' Component={VideoCategoriesTable}></Route>
+                <Route path='add-category' Component={AddVideoCategory}></Route>
+            </Route>
+            <Route path='/completeProfile' Component={CompleteProfileEmail}/>
+          </Routes>
+        </UserProvider>
+      </AuthProvider>
+    </Router>
+   
+  );
 
-    );
 }
 
 export default App;

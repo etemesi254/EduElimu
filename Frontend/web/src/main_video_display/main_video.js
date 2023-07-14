@@ -1,6 +1,5 @@
 import React from "react";
 import { useRef, useState } from "react";
-import videoData from "../data/video_data";
 import {BsCollectionPlayFill} from "react-icons/bs";
 import {GiClick} from "react-icons/gi";
 import {BiLike} from "react-icons/bi";
@@ -8,9 +7,15 @@ import {HiSaveAs} from "react-icons/hi";
 import ChanelVideos from "../Chanels/chanel_dashboard/chanel_videos";
 
 import "./main_video.css";
+import { useParams } from "react-router-dom";
+import { useUserContext } from "../context/UserContext";
+import OtherVideos from "./otherVideos";
 
 function VideoPlayer() {
-    const [videos, setVideos] = useState(videoData);
+    const {video} = useParams();
+    const videoData = JSON.parse(decodeURIComponent(video));
+    const {formatDateTime,allVideos} = useUserContext();
+
     let src = `${process.env.PUBLIC_URL}/assets/video (4).mp4`;
     let posterImage = `${process.env.PUBLIC_URL}/assets/poster (8).jpg`;
     const videoRef = useRef(null);
@@ -20,41 +25,17 @@ function VideoPlayer() {
     const [videoTime, setVideoTime] = useState(0);
     const [progress, setProgress] = useState(0);
 
-    const paragraphContent =
-    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed interdum vestibulum turpis, eget eleifend eros fermentum ac. Sed quis mauris sit amet ante feugiat lacinia vel vel massa. Duis consectetur, ipsum ut condimentum efficitur, nulla eros consequat lectus, ac pellentesque elit mauris ac lectus. Integer fermentum magna non magna tincidunt, ac eleifend nisl finibus. Cras consectetur ligula vel lectus varius, vel euismod tortor semper. Phasellus luctus ligula sit amet erat suscipit, vel commodo ligula lacinia. Ut ullamcorper iaculis diam, at hendrerit nisl aliquet ac. In hac habitasse platea dictumst. Nulla at turpis orci. Curabitur vulputate magna eu nisl fringilla, vitae scelerisque lacus ultrices.";
+    const paragraphContent = videoData?.video_desc || '';
 
-  const truncatedContent = readMore
-    ? paragraphContent.slice(0, 250) + "..."
-    : paragraphContent;
+    const truncatedContent = readMore
+      ? paragraphContent.slice(0, 250) + "..."
+      : paragraphContent;
+    
 
   const toggleReadMore = () => {
     setReadMore((prevReadMore) => !prevReadMore);
   };
   
-    const videoHandler = (control) => {
-      if (control === "play") {
-        videoRef.current.play();
-        setPlaying(true);
-        var vid = document.getElementById("video1");
-        setVideoTime(vid.duration);
-      } else if (control === "pause") {
-        videoRef.current.pause();
-        setPlaying(false);
-      }
-    };
-  
-    const fastForward = () => {
-      videoRef.current.currentTime += 5;
-    };
-  
-    const revert = () => {
-      videoRef.current.currentTime -= 5;
-    };
-  
-    window.setInterval(function () {
-      setCurrentTime(videoRef.current?.currentTime);
-      setProgress((videoRef.current?.currentTime / videoTime) * 100);
-    }, 1000);
   
     return (
       <>
@@ -73,18 +54,18 @@ function VideoPlayer() {
             </div>
           </div>
           <div className="video-info-div">
-            <h3>Videography: Learn how to take cool videos</h3>
+            <h3>{videoData.video_name}</h3>
             <div className="video-meta-data">
               <div className="meta-description">
                 <div className="meta-chanel-pic">
-                  <img src={posterImage}/>
+                  <img src={videoData.channel_banner}/>
                 </div>
                 <div className="meta-chanel-info">
                   <div className="meta-chanel-name">
-                    <h4>The Why Files</h4>
+                    <h4>{videoData.channel_name}</h4>
                   </div>
                   <div className="meta-chanel-students">
-                    <p>245K Students</p>
+                    <p>0 Students</p>
                   </div>
                 </div>
               </div>
@@ -105,8 +86,8 @@ function VideoPlayer() {
             </div>
             <div className="viideo-description-div">
               <div className="stats-meta-data">
-                <h5>256 views</h5>
-                <h5>2 weeks ago</h5>
+                <h5>{videoData.video_views} views</h5>
+                <h5>{formatDateTime(videoData.created)}</h5>
               </div>
               <div className="desc-div">
                 <p id="read-more">{truncatedContent}</p>
@@ -121,8 +102,8 @@ function VideoPlayer() {
             <p>Videos you might like</p>
           </div>
           <div className="videos-container-column">
-          {videos.map((video,index)=>{
-            return <ChanelVideos video={video} key={video.id}/>
+          {allVideos.map((video,index)=>{
+            return <OtherVideos video={video} key={video.id}/>
         })}
           </div>
         </div>
