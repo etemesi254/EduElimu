@@ -66,7 +66,7 @@ function EditVideoCategories(){
             <h1>Video Categories</h1>
             <ul class="breadcrumb">
                 <li>
-                    <a href="#">Video Categories Edit</a>
+                    <a href="#">Video Categories </a>
                 </li>
                 <li><i class='bx bx-chevron-right' ></i></li>
                 <Link to={"/admin/video-categories"}>
