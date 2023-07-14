@@ -7,6 +7,7 @@ import {IoBookSharp} from "react-icons/io5";
 import { RiShoppingBag2Fill } from "react-icons/ri";
 import { AiFillDollarCircle } from "react-icons/ai";
 import LogoutConfirmationDialog from "../user_auth/logoutConfirmation";
+import { Link } from "react-router-dom";
 
 const MainDash = ({setHideSidebar,hideSidebar,showLogout,setShowLogout})=>{
     return  <>
@@ -33,13 +34,16 @@ const MainDash = ({setHideSidebar,hideSidebar,showLogout,setShowLogout})=>{
 			</div>
 
 			<ul class="box-info">
+				<Link to={"/admin/users-table"}>
 				<li>
 					<HiUsers className="bx"/>
 					<span class="text">
-						<h3>1020</h3>
-						<p>New Users</p>
+						<h3>2</h3>
+						<p>Users</p>
 					</span>
 				</li>
+				</Link>
+				<Link to={""}>
 				<li>
 					<ImBooks className="bx"/>
 					<span class="text">
@@ -47,6 +51,8 @@ const MainDash = ({setHideSidebar,hideSidebar,showLogout,setShowLogout})=>{
 						<p>Courses</p>
 					</span>
 				</li>
+				</Link>
+				<Link to={"/admin/video"}>
 				<li>
 					<ImFilm className="bx"/>
 					<span class="text">
@@ -54,6 +60,8 @@ const MainDash = ({setHideSidebar,hideSidebar,showLogout,setShowLogout})=>{
 						<p>Videos</p>
 					</span>
 				</li>
+				</Link>
+				<Link to={"/admin/channel-table"}>
 				<li>
 					<ImPlay className="bx"/>
 					<span class="text">
@@ -61,6 +69,7 @@ const MainDash = ({setHideSidebar,hideSidebar,showLogout,setShowLogout})=>{
 						<p>Chanels</p>
 					</span>
 				</li>
+				</Link>
 			</ul>
 
 
