@@ -145,7 +145,6 @@ const VideoCategoriesTable = ({}) => {
             </ul>
         </div>
         <a href="#" class="btn-download">
-            <BsDownload/>
             <span class="text">Download PDF</span>
         </a>
     </div>
@@ -160,6 +159,7 @@ const VideoCategoriesTable = ({}) => {
         pointerOnHover
 
     />
+    </>
 };
 
 export default VideoCategoriesTable;

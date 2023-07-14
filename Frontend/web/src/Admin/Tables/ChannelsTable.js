@@ -1,6 +1,7 @@
 import DataTable from 'react-data-table-component';
 import React, {useEffect, useState} from 'react';
 import {downloadCSV, customStyles, FilterComponent} from "./tableUtils.js"
+import {BsDownload} from "react-icons/bs";
 
 
 const HOST = "http://127.0.0.1:8000"
@@ -149,35 +150,35 @@ const VideoChannelsTable = ({}) => {
 
 
     return <>
-    <div class="head-title">
-				<div class="left">
-					<h1>Channels</h1>
-					<ul class="breadcrumb">
-						<li>
-							<a href="#">Dashboard</a>
-						</li>
-						<li><i class='bx bx-chevron-right' ></i></li>
-						<li>
-							<a class="active" href="#">Home</a>
-						</li>
-					</ul>
-				</div>
-				<a href="#" class="btn-download">
-					<BsDownload/>
-					<span class="text">Download PDF</span>
-				</a>
-			</div>
+        <div class="head-title">
+            <div class="left">
+                <h1>Channels</h1>
+                <ul class="breadcrumb">
+                    <li>
+                        <a href="#">Dashboard</a>
+                    </li>
+                    <li><i class='bx bx-chevron-right'></i></li>
+                    <li>
+                        <a class="active" href="#">Home</a>
+                    </li>
+                </ul>
+            </div>
+            <a href="#" class="btn-download">
+                <span class="text">Download PDF</span>
+            </a>
+        </div>
 
-     <DataTable
-        pagination
-        columns={tableColumns}
-        data={channels}
-        actions={actionsMemo}
-        customStyles={customStyles}
-        highlightOnHover
-        pointerOnHover
+        <DataTable
+            pagination
+            columns={tableColumns}
+            data={channels}
+            actions={actionsMemo}
+            customStyles={customStyles}
+            highlightOnHover
+            pointerOnHover
 
-    />
+        />
+    </>
 };
 
 export default VideoChannelsTable;
