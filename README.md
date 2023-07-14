@@ -1,6 +1,5 @@
 # EduElimu
-Here be the demons
-
+Edi Elimu is a video based learning platform to help students learn
 
 ## Building
 ### On Arch linux
