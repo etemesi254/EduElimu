@@ -18,6 +18,7 @@ export function UserProvider({children}) {
 
   useEffect(() => {
     getAllVideos();
+    getAllVideosFunction();
     if(currentUser){
         getCurrentUser();
     }
@@ -147,6 +148,30 @@ export function UserProvider({children}) {
         }
     }
 
+    async function getAllVideosFunction() {
+      const url = `http://127.0.0.1:8000/api/videos/front`;
+      const response = await fetch(url, {
+          method: "GET",
+          headers: {
+              "Content-Type": "application/json",
+          },
+      });
+
+      const result = await response.json();
+      if (response.status === 200) {
+        const videos = result.data.videos;
+
+        const shuffledVideos = videos.sort(() => Math.random() - 0.5);
+
+        setAllVideos(shuffledVideos);
+      
+        return shuffledVideos;
+
+      } else {
+          throw new Error("Failed to fetch video details");
+
+      }
+  }
 
 
     async function getAllVideos() {
@@ -160,13 +185,9 @@ export function UserProvider({children}) {
 
         const result = await response.json();
         if (response.status === 200) {
-          const videos = result.data.videos;
-
-          const shuffledVideos = videos.sort(() => Math.random() - 0.5);
-
-          setAllVideos(shuffledVideos);
+          const videos = result.data;
         
-          return shuffledVideos;
+          return videos;
 
         } else {
             throw new Error("Failed to fetch video details");

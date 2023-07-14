@@ -26,6 +26,7 @@ function VideoPlayer() {
     const [progress, setProgress] = useState(0);
 
     const paragraphContent = videoData?.video_desc || '';
+    console.log(videoData);
 
     const truncatedContent = readMore
       ? paragraphContent.slice(0, 250) + "..."
