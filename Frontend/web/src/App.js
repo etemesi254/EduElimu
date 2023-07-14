@@ -47,6 +47,7 @@ import UsersTable from './Admin/Tables/usersTable';
 import VideoCategoriesTable from './Admin/Tables/VideoCategoriesTable';
 import AddVideoCategory from './Admin/Forms/addVideoCategories';
 import VideoChannelsTable from "./Admin/Tables/ChannelsTable";
+import EditVideoCategories from './Admin/Forms/editVideoCategories';
 
 function App() {
     const [showLogout, setShowLogout] = useState(false);
@@ -121,6 +122,7 @@ function App() {
                 <Route path="users-table" Component={UsersTable}></Route>
                 <Route path='video-categories' Component={VideoCategoriesTable}></Route>
                 <Route path='add-category' Component={AddVideoCategory}></Route>
+                <Route path='edit-category/:category' Component={EditVideoCategories}></Route>
                 <Route path='channel-table' Component={VideoChannelsTable}></Route>
             </Route>
             <Route path='/completeProfile' Component={CompleteProfileEmail}/>

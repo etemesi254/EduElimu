@@ -77,25 +77,25 @@ const VideoCategoriesTable = ({ }) => {
 
     return <>
     <div class="head-title">
-				<div class="left">
-					<h1>Video Categories</h1>
-					<ul class="breadcrumb">
-						<li>
-							<a href="#">Video Categories</a>
-						</li>
-						<li><i class='bx bx-chevron-right' ></i></li>
-                        <Link to={"/admin/add-category"}>
-						<li>
-                            <a class="active" href="#">Add Category</a>
-						</li>
-                        </Link>
-					</ul>
-				</div>
-				<a href="#" class="btn-download">
-					<BsDownload/>
-					<span class="text">Download PDF</span>
-				</a>
-			</div>
+        <div class="left">
+            <h1>Video Categories</h1>
+            <ul class="breadcrumb">
+                <li>
+                    <a href="#">Video Categories</a>
+                </li>
+                <li><i class='bx bx-chevron-right' ></i></li>
+                <Link to={"/admin/add-category"}>
+                <li>
+                    <a class="active" href="#">Add Category</a>
+                </li>
+                </Link>
+            </ul>
+        </div>
+        <a href="#" class="btn-download">
+            <BsDownload/>
+            <span class="text">Download PDF</span>
+        </a>
+    </div>
 
     <DataTable
         pagination

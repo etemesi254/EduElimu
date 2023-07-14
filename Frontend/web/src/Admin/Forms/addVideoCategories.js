@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
 import lottie from 'lottie-web';
 import { toast } from 'react-toastify';
+import { Link } from 'react-router-dom';
+import { BsDownload } from 'react-icons/bs';
 
 function AddVideoCategory(){
     const container = useRef(null);
@@ -59,6 +61,26 @@ function AddVideoCategory(){
     }
 
     return <>
+     <div class="head-title">
+        <div class="left">
+            <h1>Video Categories</h1>
+            <ul class="breadcrumb">
+                <li>
+                    <a href="#">Video Categories Add</a>
+                </li>
+                <li><i class='bx bx-chevron-right' ></i></li>
+                <Link to={"/admin/video-categories"}>
+                <li>
+                    <a class="active" href="#">View Categories</a>
+                </li>
+                </Link>
+            </ul>
+        </div>
+        <a href="#" class="btn-download">
+            <BsDownload/>
+            <span class="text">Download PDF</span>
+        </a>
+    </div>
     <div className="create-channels-container">
             <div className="lottie_container" ref={container}></div>
             <div className="create-channel-head">
