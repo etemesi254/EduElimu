@@ -1,6 +1,7 @@
 
 import DataTable from 'react-data-table-component';
 import React, { useEffect, useState } from 'react';
+import { BsDownload } from 'react-icons/bs';
 import {downloadCSV, customStyles, FilterComponent} from "./tableUtils.js"
 
 
@@ -135,6 +136,25 @@ const UsersTable = ({ }) => {
     const actionsMemo = <Export onExport={() => downloadCSV(users, csvKeys,"users.csv")} />;
 
     return <>
+     <div class="head-title">
+				<div class="left">
+					<h1>Users</h1>
+					<ul class="breadcrumb">
+						<li>
+							<a href="#">Dashboard</a>
+						</li>
+						<li><i class='bx bx-chevron-right' ></i></li>
+						<li>
+							<a class="active" href="#">Home</a>
+						</li>
+					</ul>
+				</div>
+				<a href="#" class="btn-download">
+					<BsDownload/>
+					<span class="text">Download PDF</span>
+				</a>
+			</div>
+
     <DataTable
         pagination
         columns={tableColumns}

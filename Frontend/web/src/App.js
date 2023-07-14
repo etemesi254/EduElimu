@@ -47,6 +47,7 @@ import UsersTable from './Admin/Tables/usersTable';
 import VideoCategoriesTable from './Admin/Tables/VideoCategoriesTable';
 import AddVideoCategory from './Admin/Forms/addVideoCategories';
 import VideoChannelsTable from "./Admin/Tables/ChannelsTable";
+import EditVideoCategories from './Admin/Forms/editVideoCategories';
 
 function App() {
     const [showLogout, setShowLogout] = useState(false);
@@ -114,13 +115,15 @@ function App() {
             <Route path='/resetPassword' Component={CustomReset}/>
             <Route path='/adminLogin' Component={LoginAdmin}/>
             <Route path='/admin' element={<AdminLayout showLogout={showLogout}
-                                                                   setShowLogout={setShowLogout}/>}>
+                      setShowLogout={setShowLogout}/>}>
                 <Route index  element={<MainDash showLogout={showLogout}
-                                                              setShowLogout={setShowLogout}/>}/>
+                        setShowLogout={setShowLogout}/>}/>
                 <Route path="video" Component={VideosTables}></Route>
                 <Route path="users-table" Component={UsersTable}></Route>
                 <Route path='video-categories' Component={VideoCategoriesTable}></Route>
                 <Route path='add-category' Component={AddVideoCategory}></Route>
+                <Route path='edit-category/:category' Component={EditVideoCategories}></Route>
+                <Route path='channel-table' Component={VideoChannelsTable}></Route>
             </Route>
             <Route path='/completeProfile' Component={CompleteProfileEmail}/>
           </Routes>

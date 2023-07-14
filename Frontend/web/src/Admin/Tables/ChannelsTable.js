@@ -148,16 +148,34 @@ const VideoChannelsTable = ({}) => {
     const actionsMemo = <Export onExport={() => downloadCSV(channels, csvKeys, "videos.csv")}/>;
 
 
-    return <DataTable
+    return <>
+    <div class="head-title">
+				<div class="left">
+					<h1>Channels</h1>
+					<ul class="breadcrumb">
+						<li>
+							<a href="#">Dashboard</a>
+						</li>
+						<li><i class='bx bx-chevron-right' ></i></li>
+						<li>
+							<a class="active" href="#">Home</a>
+						</li>
+					</ul>
+				</div>
+				<a href="#" class="btn-download">
+					<BsDownload/>
+					<span class="text">Download PDF</span>
+				</a>
+			</div>
+
+     <DataTable
         pagination
         columns={tableColumns}
-        data={filteredItems}
+        data={channels}
         actions={actionsMemo}
         customStyles={customStyles}
         highlightOnHover
         pointerOnHover
-        subHeader
-        subHeaderComponent={subHeaderComponentMemo}
 
     />
 };

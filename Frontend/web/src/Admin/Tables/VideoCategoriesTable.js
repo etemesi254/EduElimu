@@ -1,6 +1,6 @@
 import DataTable from 'react-data-table-component';
-import React, {useEffect, useState} from 'react';
-import {downloadCSV, customStyles} from "./tableUtils.js"
+import React, { useEffect, useState } from 'react';
+import { downloadCSV, customStyles } from "./tableUtils.js"
 
 
 const HOST = "http://127.0.0.1:8000"
@@ -123,12 +123,34 @@ const VideoCategoriesTable = ({}) => {
 
     const csvKeys = ["id", "name", "description", "banner"];
 
-    const Export = ({onExport}) => <button onClick={e => onExport(e.target, csvKeys)}>Export</button>;
+    const Export = ({ onExport }) => <button onClick={e => onExport(e.target, csvKeys)}>Export</button>;
 
-    const actionsMemo = <Export onExport={() => downloadCSV(videoCategories, csvKeys, "videos.csv")}/>;
+    const actionsMemo = <Export onExport={() => downloadCSV(videoCategories, csvKeys, "videos.csv")} />;
 
 
-    return <DataTable
+    return <>
+    <div class="head-title">
+        <div class="left">
+            <h1>Video Categories</h1>
+            <ul class="breadcrumb">
+                <li>
+                    <a href="#">Video Categories</a>
+                </li>
+                <li><i class='bx bx-chevron-right' ></i></li>
+                <Link to={"/admin/add-category"}>
+                <li>
+                    <a class="active" href="#">Add Category</a>
+                </li>
+                </Link>
+            </ul>
+        </div>
+        <a href="#" class="btn-download">
+            <BsDownload/>
+            <span class="text">Download PDF</span>
+        </a>
+    </div>
+
+    <DataTable
         pagination
         columns={tableColumns}
         data={videoCategories}
