@@ -160,13 +160,13 @@ export function UserProvider({children}) {
 
         const result = await response.json();
         if (response.status === 200) {
-          const videos = result.data.videos;
+          const videos = result.data;
 
-          const shuffledVideos = videos.sort(() => Math.random() - 0.5);
+          //const shuffledVideos = videos.sort(() => Math.random() - 0.5);
 
-          setAllVideos(shuffledVideos);
+          setAllVideos(videos);
         
-          return shuffledVideos;
+          return videos;
 
         } else {
             throw new Error("Failed to fetch video details");

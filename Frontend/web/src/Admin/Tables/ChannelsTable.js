@@ -1,10 +1,31 @@
 import DataTable from 'react-data-table-component';
 import React, {useEffect, useState} from 'react';
-import {downloadCSV, customStyles} from "./tableUtils.js"
+import {downloadCSV, customStyles, FilterComponent} from "./tableUtils.js"
 
 
 const HOST = "http://127.0.0.1:8000"
 
+
+async function setStatus(id, status) {
+    const url = `http://127.0.0.1:8000/api/channels/update-status?id=` + id + "&status=" + status;
+    const response = await fetch(url, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+        },
+    });
+
+    const result = await response.json();
+    console.log(result.message);
+    console.log(response);
+    if (response.status === 200) {
+        return result.data;
+
+    } else {
+        throw new Error("Failed to fetch user details");
+
+    }
+}
 
 const tableColumns = [
     {
@@ -38,8 +59,32 @@ const tableColumns = [
         sortable: true,
         wrap: true,
     },
+    {
+        name: "Enable",
+        cell: row => <div>
+            <button onClick={() => {
+                setStatus(row.id, '1')
+            }}>Enable
+            </button>
+        </div>,
+        width: "100px"
+    }, {
+        name: "Disable",
+        cell: row => <div>
+            <button onClick={() => {
+                setStatus(row.id, '0')
+            }}>Disable
+            </button>
+        </div>,
+        width: "100px"
+    },
 
 
+    {
+        name: 'Status',
+        selector: row => row.status,
+        width: "330px"
+    },
 ];
 
 //get category deetails
@@ -65,6 +110,26 @@ async function getChannels() {
 const VideoChannelsTable = ({}) => {
     const [channels, setChannels] = useState([])
 
+    const [filterText, setFilterText] = React.useState('');
+    const [resetPaginationToggle, setResetPaginationToggle] = React.useState(false);
+
+    const filteredItems = channels.filter(
+        item => item.name && item.name.toLowerCase().includes(filterText.toLowerCase()),
+    );
+    const subHeaderComponentMemo = React.useMemo(() => {
+        const handleClear = () => {
+            if (filterText) {
+                setResetPaginationToggle(!resetPaginationToggle);
+                setFilterText('');
+            }
+        };
+
+        return (
+            <FilterComponent onFilter={e => setFilterText(e.target.value)} onClear={handleClear}
+                             filterText={filterText}/>
+        );
+    }, [filterText, resetPaginationToggle]);
+
     const fetchData = () => {
         getChannels()
             .then(data => {
@@ -86,11 +151,13 @@ const VideoChannelsTable = ({}) => {
     return <DataTable
         pagination
         columns={tableColumns}
-        data={channels}
+        data={filteredItems}
         actions={actionsMemo}
         customStyles={customStyles}
         highlightOnHover
         pointerOnHover
+        subHeader
+        subHeaderComponent={subHeaderComponentMemo}
 
     />
 };
