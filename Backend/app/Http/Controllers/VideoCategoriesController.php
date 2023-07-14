@@ -68,11 +68,11 @@ class VideoCategoriesController extends Controller
     public function listAllCategories(Request $request)
     {
         try {
-            $categories = VideoCategories::all();
+            $categories = DB::select("select * from video_categories where status=1");
             return response()->json(
                 [
                     "status" => 200,
-                    "message" => "Retieved Video Categories successfully",
+                    "message" => "Retrieved Video Categories successfully",
                     "data" => $categories
                 ], status: 200);
         } catch (Exception $e) {
@@ -178,7 +178,8 @@ class VideoCategoriesController extends Controller
         }
     }
 
-    public function getCategoryDetails($categories){
+    public function getCategoryDetails($categories)
+    {
         try {
             $category = VideoCategories::findOrFail($categories);
 
@@ -196,5 +197,32 @@ class VideoCategoriesController extends Controller
                 ], status: 422);
 
         }
+    }
+
+    public function updateCategoryStatus(Request $request)
+    {
+        $rules = [
+            "status" => "required",
+            "id" => "required|exists:video_categories"
+        ];
+        try {
+            $request->validate($rules);
+            $category = VideoCategories::findOrFail($request->id);
+            $category->status = $request->status();
+            $category->save();
+            return response()->json([
+                "status" => 200,
+                "message" => "Successfully modified category status"
+            ]);
+
+        } catch (Exception $e) {
+            return response()->json(
+                [
+                    "status" => 422,
+                    "message" => $e->getMessage(),
+                    "data" => null
+                ], status: 422);
+        }
+
     }
 }

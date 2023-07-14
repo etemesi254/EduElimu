@@ -43,6 +43,7 @@ Route::post("/uploads/upload_video", [VideoController::class, "addVideo"]);
 Route::prefix("videos")->group(function () {
     Route::post("/delete", [VideoController::class, "deleteVideo"]);
     Route::post("/update", [VideoController::class, "updateChannelDetails"]);
+    Route::any("/update-status", [VideoController::class, "updateStatus"]);
 
     Route::any("/front", [VideoController::class, "getFrontVideos"]);
     Route::any("/all", [VideoController::class, "getAllVideos"]);
@@ -59,6 +60,7 @@ Route::prefix("channels")->group(function () {
     Route::post("/create", [ChannelController::class, "addChannel"]);
     Route::post("/create/firebase_id", [ChannelController::class, "addChannelWithFirebaseId"]);
 
+    Route::any("/update-status", [ChannelController::class, "updateStatus"]);
     Route::any("/firebase_id", [ChannelController::class, "getChannelsWithFirebaseId"]);
     Route::any("/all", [ChannelController::class, "getAllChannels"]);
     Route::any("/delete", [ChannelController::class, "deleteChannel"]);
@@ -75,6 +77,8 @@ Route::prefix("categories")->group(
         Route::post("/create", [VideoCategoriesController::class, "createCategory"]);
         Route::post("/update", [VideoCategoriesController::class, "updateVideoCategory"]);
         Route::post("/update", [VideoCategoriesController::class, "updateVideoCategory"]);
+
+        Route::any("/update-status", [VideoCategoriesController::class, "updateCategoryStatus"]);
 
         Route::get("/all", [VideoCategoriesController::class, "listAllCategories"]);
         Route::get("/categoryDetails/{category}", [VideoCategoriesController::class, "getCategoryDetails"]);
