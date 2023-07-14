@@ -4,7 +4,7 @@ Edi Elimu is a video based learning platform to help students learn
 ## Building
 ### On Arch linux
 
-If you are on arch linux, you can run `./install.sh` to install
+If you are on arch linux, you can run [`./install.sh`](./install.sh) to install
 
 Other Linux operating systems
 
