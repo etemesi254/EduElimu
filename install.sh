@@ -1,8 +1,7 @@
 #/bin/sh 
 
 echo "Installing dependencies";
-
-yay php apache mysql 
+sudo pacman -S php apache mysql npm flutter 
 echo "Finished installing"
 
 echo " Downloading composer";
