@@ -157,15 +157,15 @@ export function UserProvider({children}) {
           },
       });
 
-      const result = await response.json();
-      if (response.status === 200) {
-        const videos = result.data.videos;
+        const result = await response.json();
+        if (response.status === 200) {
+          const videos = result.data;
 
-        const shuffledVideos = videos.sort(() => Math.random() - 0.5);
+          //const shuffledVideos = videos.sort(() => Math.random() - 0.5);
 
-        setAllVideos(shuffledVideos);
-      
-        return shuffledVideos;
+          setAllVideos(videos);
+        
+          return videos;
 
       } else {
           throw new Error("Failed to fetch video details");

@@ -208,7 +208,7 @@ class VideoCategoriesController extends Controller
         try {
             $request->validate($rules);
             $category = VideoCategories::findOrFail($request->id);
-            $category->status = $request->status();
+            $category->status = $request->status;
             $category->save();
             return response()->json([
                 "status" => 200,

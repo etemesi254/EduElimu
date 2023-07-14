@@ -6,28 +6,74 @@ import { BsDownload } from 'react-icons/bs';
 import {downloadCSV, customStyles, FilterComponent} from './tableUtils';
 
 
+async function setStatus(id, status) {
+    const url = `http://127.0.0.1:8000/api/videos/update-status?id=` + id + "&status=" + status;
+    const response = await fetch(url, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+        },
+    });
+
+    const result = await response.json();
+    console.log(result.message);
+    console.log(response);
+    if (response.status === 200) {
+        return result.data;
+
+    } else {
+        throw new Error("Failed to fetch user details");
+
+    }
+}
+
 const columns = [
     {
         name: "Id",
         selector: row => row.id,
-        width:"100px"
+        width: "100px"
     },
+    {
+        name: "Enable",
+        cell: row => <div>
+            <button onClick={() => {
+                setStatus(row.id, '1')
+            }}>Enable
+            </button>
+        </div>,
+        width: "100px"
+    }, {
+        name: "Disable",
+        cell: row => <div>
+            <button onClick={() => {
+                setStatus(row.id, '0')
+            }}>Disable
+            </button>
+        </div>,
+        width: "100px"
+    },
+
     {
         name: 'Name',
         selector: row => row.name,
-        width:"330px"
+        width: "330px"
 
+    },
+    {
+        name: 'Status',
+        selector: row => row.status,
+        width: "330px"
     },
     {
         name: 'Channel ID',
         selector: row => row.channel_id,
-        width:"140px"
+        width: "140px"
 
     },
     {
         name: "View Count",
         selector: row => row.view_count,
-        width:"140px"
+        width: "140px"
 
     },
     {
@@ -146,7 +192,7 @@ const VideosTables = ({}) => {
     <DataTable
         pagination
         columns={columns}
-        data={filteredItems}
+        data={videos}
         actions={actionsMemo}
         expandableRows
         expandableRowsComponent={ExpandedComponent}
@@ -155,7 +201,7 @@ const VideosTables = ({}) => {
         highlightOnHover
         pointerOnHover
         subHeader
-		subHeaderComponent={subHeaderComponentMemo}
+        subHeaderComponent={subHeaderComponentMemo}
 
     />
     </>

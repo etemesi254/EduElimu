@@ -1,12 +1,31 @@
 import DataTable from 'react-data-table-component';
 import React, { useEffect, useState } from 'react';
-import { BsDownload } from 'react-icons/bs';
 import { downloadCSV, customStyles } from "./tableUtils.js"
-import { Link } from 'react-router-dom';
 
 
 const HOST = "http://127.0.0.1:8000"
 
+
+async function setStatus(id, status) {
+    const url = `http://127.0.0.1:8000/api/categories/update-status?id=` + id + "&status=" + status;
+    const response = await fetch(url, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+        },
+    });
+
+    const result = await response.json();
+    console.log(result.message);
+    console.log(response);
+    if (response.status === 200) {
+        return result.data;
+
+    } else {
+        throw new Error("Failed to fetch user details");
+
+    }
+}
 
 const tableColumns = [
     {
@@ -16,7 +35,8 @@ const tableColumns = [
 
     },
     {
-        cell: row => <div><img style={{ borderRadius: "10%", width: "150px" }} src={HOST+"/storage/" + row.banner} /></div>,
+        cell: row => <div><img style={{borderRadius: "10%", width: "150px"}} src={HOST + "/storage/" + row.banner}/>
+        </div>,
         name: 'Banner',
     },
     {
@@ -31,30 +51,63 @@ const tableColumns = [
         sortable: true,
 
     },
+    {
+        name: "Enable",
+        cell: row => <div>
+            <button onClick={() => {
+                setStatus(row.id, '1')
+            }}>Enable
+            </button>
+        </div>,
+        width: "100px"
+    }, {
+        name: "Disable",
+        cell: row => <div>
+            <button onClick={() => {
+                setStatus(row.id, '0')
+            }}>Disable
+            </button>
+        </div>,
+        width: "100px"
+    },
+
+    {
+        name: 'Status',
+        selector: row => row.status,
+        width: "330px"
+    },
+    {
+        name: "Edit",
+        cell: row => <div>
+            <a href={"/admin/edit-category/" + row.id}>Edit
+            </a>
+        </div>,
+        width: "100px"
+    },
 
 ];
 
 //get category deetails
 async function getVideoCategories() {
-        const url = `http://127.0.0.1:8000/api/categories/all`;
+    const url = `http://127.0.0.1:8000/api/categories/all`;
 
-        const response = await fetch(url, {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-            },
-        });
-        console.log(response);
-        if (response.status === 200) {
-            const jsonResp = await response.json();
-            return jsonResp.data;
-        } else {
-            throw new Error("Failed to fetch video categories");
-        }
-    
+    const response = await fetch(url, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+        },
+    });
+    console.log(response);
+    if (response.status === 200) {
+        const jsonResp = await response.json();
+        return jsonResp.data;
+    } else {
+        throw new Error("Failed to fetch video categories");
+    }
+
 }
 
-const VideoCategoriesTable = ({ }) => {
+const VideoCategoriesTable = ({}) => {
     const [videoCategories, setVideoCategories] = useState([])
 
     const fetchData = () => {
@@ -92,7 +145,6 @@ const VideoCategoriesTable = ({ }) => {
             </ul>
         </div>
         <a href="#" class="btn-download">
-            <BsDownload/>
             <span class="text">Download PDF</span>
         </a>
     </div>
