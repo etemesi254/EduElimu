@@ -23,10 +23,9 @@ class VideoComponent extends StatefulWidget {
 class _VideoComponentState extends State<VideoComponent> {
   @override
   Widget build(BuildContext context) {
-    print("${widget.endpoint}${widget.model.channelBanner}");
     return SafeArea(
       child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 0),
+        padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 0),
         child: Column(
           children: [
             ClipRRect(
@@ -38,7 +37,6 @@ class _VideoComponentState extends State<VideoComponent> {
                     url: '${widget.endpoint}${widget.model.videoFile}'),
               ),
             ),
-            const SizedBox(height: 10),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 8.0),
               child: Row(

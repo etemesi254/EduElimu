@@ -13,6 +13,30 @@ class ChannelController extends Controller
 {
 
 
+    public function updateStatus(Request $request){
+        $rules = [
+            "status" => "required",
+            "id" => "required|exists:channels"
+        ];
+        try {
+            $request->validate($rules);
+            $category = Channel::findOrFail($request->id);
+            $category->status = $request->status();
+            $category->save();
+            return response()->json([
+                "status" => 200,
+                "message" => "Successfully modified channel status"
+            ]);
+
+        } catch (Exception $e) {
+            return response()->json(
+                [
+                    "status" => 422,
+                    "message" => $e->getMessage(),
+                    "data" => null
+                ], status: 422);
+        }
+    }
     public function addChannel(Request $request)
     {
         $rules = [
