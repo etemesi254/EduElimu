@@ -26,7 +26,7 @@ class CoursesController extends Controller
                 return response()->json(
                     [
                         "status" => 500,
-                        "message" => "Could not store video",
+                        "message" => "Could not store course banner",
                         "data" => null
                     ], status: 500);
             }
@@ -58,5 +58,58 @@ class CoursesController extends Controller
     {
         // store the video
         return $request->file("course_banner")->store("course_banners", "public");
+    }
+
+    function editCourses(Request $request)
+    {
+        $data = [];
+        $rules = [
+            "id" => "required|exists:courses",
+        ];
+        try {
+            $request->validate($rules);
+
+            if($request->name){
+                $data["name"] = $request->name;
+            }
+
+            if($request->description){
+                $data["description"] = $request->description;
+            }
+
+            if($request->channel_id){
+                $data["channel_id"] = $request->channel_id;
+            }
+
+            if($request->course_banner){
+                $bannerPath = $this->storeCourseBanner($request->course_banner);
+
+                if (is_bool($bannerPath)) {
+                    // a boolean indicates an error
+                    return response()->json(
+                        [
+                            "status" => 500,
+                            "message" => "Could not store course banner",
+                            "data" => null
+                        ], status: 500);
+                }
+            }
+
+            $course = tap(Courses::whereId($request->id))->update($data)->first();
+
+            return response()->json([
+                'status' => 200,
+                'message' => "Successfully modified course",
+                "data" => $course,
+
+            ], 201);
+
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 422,
+                'message' => $e->getMessage(),
+            ], 422);
+        }
     }
 }

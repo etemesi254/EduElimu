@@ -104,5 +104,6 @@ Route::prefix("users")->group(function () {
 Route::prefix("courses")->group(
     function () {
         Route::post("/create", [CoursesController::class,"createCourse"]);
+        Route::post("/edit", [CoursesController::class,"editCourses"]);
     }
 );
