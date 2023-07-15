@@ -105,7 +105,18 @@ Route::prefix("courses")->group(
     function () {
         Route::post("/create", [CoursesController::class,"createCourse"]);
         Route::post("/edit", [CoursesController::class,"editCourses"]);
+        Route::get("all", [CoursesController::class,"getAllCourses"]);
         Route::get("/getChannelCourses/{id}", [CoursesController::class,"getChannelCourses"]);
         Route::get("/getUserCourses/{id}", [CoursesController::class,"getUserCourses"]);
+        Route::post("addStudentsToCourse", [CoursesController::class,"addStudentsToCourse"]);
+        Route::get("getStudentsInCourse/{id}", [CoursesController::class,"getStudentsInCourse"]);
+        Route::post("removeStudent", [CoursesController::class,"removeStudentFromCourse"]);
+        Route::post("addVideo", [CoursesController::class,"addVideosToCourse"]);
+        Route::post("removeVideo", [CoursesController::class,"removeVideoFromCourse"]);
+        Route::get('{courseId}/videos', [CoursesController::class, 'getCourseVideos']);
+        Route::post("markAsDone", [CoursesController::class, 'markAsDone']);
+        Route::post("markNotDone", [CoursesController::class, 'markNotDone']);
+        Route::post("getUsersProgress", [CoursesController::class, 'getUsersProgress']);
+
     }
 );

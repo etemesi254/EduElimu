@@ -24,4 +24,10 @@ class Videos extends Model
         return $this->belongsTo(Channel::class, 'channel_id');
     }
 
+    public function courses()
+    {
+        return $this->belongsToMany(Course::class, 'courses_videos', 'video_id', 'course_id');
+    }
+
+
 }
