@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ChannelController;
+use App\Http\Controllers\CoursesController;
 use App\Http\Controllers\SubscribersController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\VideoCategoriesController;
@@ -98,3 +99,10 @@ Route::prefix("users")->group(function () {
     Route::any("/firebase_id", [UsersController::class, "getUserWithFirebaseId"]);
     Route::get("/all", [UsersController::class, "getAllUsers"]);
 });
+
+
+Route::prefix("courses")->group(
+    function () {
+        Route::post("/create", [CoursesController::class,"createCourse"]);
+    }
+);
