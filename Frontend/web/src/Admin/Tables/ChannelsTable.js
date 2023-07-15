@@ -2,6 +2,7 @@ import DataTable from 'react-data-table-component';
 import React, {useEffect, useState} from 'react';
 import {downloadCSV, customStyles, FilterComponent} from "./tableUtils.js"
 import {BsDownload} from "react-icons/bs";
+import { toast } from 'react-toastify';
 
 
 const HOST = "http://127.0.0.1:8000"
@@ -20,6 +21,7 @@ async function setStatus(id, status) {
     console.log(result.message);
     console.log(response);
     if (response.status === 200) {
+        toast.success('Status Changed successfully');
         return result.data;
 
     } else {
@@ -46,35 +48,32 @@ const tableColumns = [
         name: 'Name',
         selector: row => row.name,
         sortable: true,
-        width: "330px"
+        width: "130px"
     },
     {
         name: 'Subscribers',
         selector: row => row.subscribers,
         sortable: true,
-        width: "200px"
+        width: "130px"
     },
     {
         name: 'Description',
-        selector: row => row.description,
+        selector: row => row.description.slice(0,50),
         sortable: true,
         wrap: true,
     },
+
     {
-        name: "Enable",
-        cell: row => <div>
-            <button onClick={() => {
-                setStatus(row.id, '1')
-            }}>Enable
-            </button>
-        </div>,
-        width: "100px"
-    }, {
-        name: "Disable",
-        cell: row => <div>
+        name: "Enabling",
+        cell: row => row.status == 1 ?  <div>
             <button onClick={() => {
                 setStatus(row.id, '0')
             }}>Disable
+            </button>
+        </div> : <div>
+            <button onClick={() => {
+                setStatus(row.id, '1')
+            }}>Enable
             </button>
         </div>,
         width: "100px"
@@ -146,7 +145,7 @@ const VideoChannelsTable = ({}) => {
 
     const Export = ({onExport}) => <button onClick={e => onExport(e.target, csvKeys)}>Export</button>;
 
-    const actionsMemo = <Export onExport={() => downloadCSV(channels, csvKeys, "videos.csv")}/>;
+    const actionsMemo = <Export onExport={() => downloadCSV(channels, csvKeys, "channel.csv")}/>;
 
 
     return <>
@@ -171,11 +170,13 @@ const VideoChannelsTable = ({}) => {
         <DataTable
             pagination
             columns={tableColumns}
-            data={channels}
+            data={filteredItems}
             actions={actionsMemo}
             customStyles={customStyles}
             highlightOnHover
             pointerOnHover
+            subHeader
+            subHeaderComponent={[subHeaderComponentMemo]}
 
         />
     </>

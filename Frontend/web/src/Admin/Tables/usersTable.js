@@ -2,6 +2,7 @@
 import DataTable from 'react-data-table-component';
 import React, { useEffect, useState } from 'react';
 import { BsDownload } from 'react-icons/bs';
+import { toast } from 'react-toastify';
 import {downloadCSV, customStyles, FilterComponent} from "./tableUtils.js"
 
 
@@ -44,16 +45,6 @@ const tableColumns = [
         name: "Firebase ID",
         selector: row => row.firebase_id,
     },
-    {
-        name: "Actions",
-        cell: (row) => (
-          <div>
-            <button onClick={() => handleDelete(row.id)}>Delete</button>
-            <button onClick={() => handleEdit(row.id)}>Edit</button>
-          </div>
-        ),
-        button: true,
-      },
 ];
 
 const handleDelete = (userId) => {
@@ -84,6 +75,8 @@ async function getAllUsers() {
     console.log(result.message);
     console.log(response);
     if (response.status === 200) {
+        toast.success('Status Changed successfully');
+        
         return result.data;
 
     } else {
@@ -158,13 +151,13 @@ const UsersTable = ({ }) => {
     <DataTable
         pagination
         columns={tableColumns}
-        data={users}
+        data={filteredItems}
         actions={actionsMemo}
         customStyles={customStyles}
         highlightOnHover
         pointerOnHover
         subHeader
-        subHeaderComponent={[subHeaderComponentMemo,actionsMemo]}
+        subHeaderComponent={[subHeaderComponentMemo]}
 
     />
     </>
