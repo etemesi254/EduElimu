@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Courses;
 use App\Models\Channel;
+use App\Models\CourseResources;
 use App\Models\CoursesVideos;
 use App\Models\User;
 use App\Models\Videos;
@@ -443,6 +444,164 @@ class CoursesController extends Controller
             ], 201);
 
 
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 422,
+                'message' => $e->getMessage(),
+            ], 422);
+        }
+    }
+
+    public function addCourseResourse(Request $request){
+        $rules = [
+            "name" => "required",
+            "course_id" => "required",
+            "resource" => "required",
+        ];
+        try {
+            $request->validate($rules);
+
+            $data = $request->only("course_id", "name");
+
+            $bannerPath = $this->storeCourseResourses($request);
+
+            if (is_bool($bannerPath)) {
+                // a boolean indicates an error
+                return response()->json(
+                    [
+                        "status" => 500,
+                        "message" => "Could not store course resource",
+                        "data" => null
+                    ], status: 500);
+            }
+
+            $resource = CourseResources::create([
+                "name" => $data["name"],
+                "course_id" => $data["course_id"],
+                "resource" => $bannerPath
+            ]);
+
+            return response()->json([
+                'status' => 201,
+                'message' => "Successfully added course resource",
+                "data" => $resource,
+
+            ], 201);
+            
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 422,
+                'message' => $e->getMessage(),
+            ], 422);
+        }
+    }
+
+    public function updateCourseResourse(Request $request){
+        $rules = [
+            "id" => "required",
+        ];
+        $data = [];
+        try {
+            $request->validate($rules);
+
+            if($request->name){
+                $data["name"] = $request->name;
+            }
+
+            if($request->course_id){
+                $data["course_id"] = $request->course_id;
+            }
+
+            if($request->resource){
+                $bannerPath = $this->storeCourseResourses($request->resource);
+
+                if (is_bool($bannerPath)) {
+                    // a boolean indicates an error
+                    return response()->json(
+                        [
+                            "status" => 500,
+                            "message" => "Could not store course resoursce",
+                            "data" => null
+                        ], status: 500);
+                }
+            }
+
+            $resource = tap(CourseResources::whereId($request->id))->update($data)->first();
+
+            return response()->json([
+                'status' => 201,
+                'message' => "Successfully modified course resource",
+                "data" => $resource,
+
+            ], 201);
+            
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 422,
+                'message' => $e->getMessage(),
+            ], 422);
+        }
+    }
+
+    public function deleteCourseResourse(Request $request){
+        $rules = [
+            "id" => "required",
+        ];
+
+        try {
+            $request->validate($rules);
+            CourseResources::whereId($request->id)
+                    ->delete();
+            return response()->json([
+                'status' => 201,
+                'message' => "Successfully deleted course resource",
+
+            ], 201);
+            
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 422,
+                'message' => $e->getMessage(),
+            ], 422);
+        }
+    }
+
+    public function storeCourseResourses(Request $request): bool|string
+    {
+        // store the video
+        return $request->file("resource")->store("course_resources", "public");
+    }
+
+    public function getCourseResources($id){
+        try {
+            $resources = CourseResources::where("course_id",$id)->get();
+
+            return response()->json([
+                'status' => 201,
+                'message' => "Successfully retrieved course resources",
+                "data" => $resources,
+
+            ], 201);
+            
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 422,
+                'message' => $e->getMessage(),
+            ], 422);
+        }
+    }
+
+    public function getAllResources() {
+        try {
+            $resources = CourseResources::all();
+
+            return response()->json([
+                'status' => 201,
+                'message' => "Successfully retrieved all resources",
+                "data" => $resources,
+
+            ], 201);
+            
         } catch (\Exception $e) {
             return response()->json([
                 'status' => 422,
