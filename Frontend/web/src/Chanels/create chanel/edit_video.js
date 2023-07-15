@@ -8,8 +8,8 @@ import { useParams } from 'react-router-dom';
 
 function EditVideos(){
     const container = useRef(null);
-    const {video} = useParams();
-    const data = JSON.parse(decodeURIComponent(video));
+const {video} = useParams();
+const data = JSON.parse(decodeURIComponent(video));
     const [videoName, setVideoName] = useState('');
     const [videoDescription, setVideoDescription] = useState('');
     const [fileUrl, setFileUrl] = useState('');

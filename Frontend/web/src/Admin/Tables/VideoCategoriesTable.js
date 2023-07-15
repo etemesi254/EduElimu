@@ -1,6 +1,8 @@
 import DataTable from 'react-data-table-component';
 import React, { useEffect, useState } from 'react';
 import { downloadCSV, customStyles } from "./tableUtils.js"
+import { Link } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 
 const HOST = "http://127.0.0.1:8000"
@@ -15,10 +17,12 @@ async function setStatus(id, status) {
         },
     });
 
+
     const result = await response.json();
     console.log(result.message);
     console.log(response);
     if (response.status === 200) {
+        toast.success('Status Changed successfully');
         return result.data;
 
     } else {
@@ -52,20 +56,17 @@ const tableColumns = [
 
     },
     {
-        name: "Enable",
-        cell: row => <div>
-            <button onClick={() => {
-                setStatus(row.id, '1')
-            }}>Enable
-            </button>
-        </div>,
-        width: "100px"
-    }, {
-        name: "Disable",
-        cell: row => <div>
+        name: "Enabling",
+        cell: row => row.status == 1 ?  <div>
             <button onClick={() => {
                 setStatus(row.id, '0')
             }}>Disable
+            </button>
+        </div> : <div>
+            <button onClick={() => {
+                setStatus(row.id, '1')
+
+            }}>Enable
             </button>
         </div>,
         width: "100px"
@@ -79,8 +80,23 @@ const tableColumns = [
     {
         name: "Edit",
         cell: row => <div>
-            <a href={"/admin/edit-category/" + row.id}>Edit
+            <a href={`/admin/edit-category/${encodeURIComponent(JSON.stringify(row))}`}>Edit
             </a>
+        </div>,
+        width: "100px"
+    },
+    {
+        name: "Enabling",
+        cell: row => row.status == 1 ?  <div>
+            <button onClick={() => {
+                setStatus(row.id, '0')
+            }}>Disable
+            </button>
+        </div> : <div>
+            <button onClick={() => {
+                setStatus(row.id, '1')
+            }}>Enable
+            </button>
         </div>,
         width: "100px"
     },
@@ -125,7 +141,7 @@ const VideoCategoriesTable = ({}) => {
 
     const Export = ({ onExport }) => <button onClick={e => onExport(e.target, csvKeys)}>Export</button>;
 
-    const actionsMemo = <Export onExport={() => downloadCSV(videoCategories, csvKeys, "videos.csv")} />;
+    const actionsMemo = <Export onExport={() => downloadCSV(videoCategories, csvKeys, "video_categories.csv")} />;
 
 
     return <>

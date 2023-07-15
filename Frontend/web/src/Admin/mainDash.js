@@ -8,6 +8,7 @@ import { RiShoppingBag2Fill } from "react-icons/ri";
 import { AiFillDollarCircle } from "react-icons/ai";
 import LogoutConfirmationDialog from "../user_auth/logoutConfirmation";
 import { Link } from "react-router-dom";
+import UsersTable from "./Tables/usersTable";
 
 const MainDash = ({setHideSidebar,hideSidebar,showLogout,setShowLogout})=>{
     return  <>
@@ -47,7 +48,7 @@ const MainDash = ({setHideSidebar,hideSidebar,showLogout,setShowLogout})=>{
 				<li>
 					<ImBooks className="bx"/>
 					<span class="text">
-						<h3>2834</h3>
+						<h3>0</h3>
 						<p>Courses</p>
 					</span>
 				</li>
@@ -56,7 +57,7 @@ const MainDash = ({setHideSidebar,hideSidebar,showLogout,setShowLogout})=>{
 				<li>
 					<ImFilm className="bx"/>
 					<span class="text">
-						<h3>2543</h3>
+						<h3>10</h3>
 						<p>Videos</p>
 					</span>
 				</li>
@@ -65,7 +66,7 @@ const MainDash = ({setHideSidebar,hideSidebar,showLogout,setShowLogout})=>{
 				<li>
 					<ImPlay className="bx"/>
 					<span class="text">
-						<h3>2543</h3>
+						<h3>4</h3>
 						<p>Chanels</p>
 					</span>
 				</li>
@@ -75,12 +76,13 @@ const MainDash = ({setHideSidebar,hideSidebar,showLogout,setShowLogout})=>{
 
 			<div class="table-data">
 				<div class="order">
-					<div class="head">
+					{/* <div class="head">
 						<h3>New Users</h3>
 						<i class='bx bx-search' ></i>
 						<i class='bx bx-filter' ></i>
-					</div>
-					<table>
+					</div> */}
+					<UsersTable/>
+					{/* <table>
 						<thead>
 							<tr>
 								<th>User</th>
@@ -130,9 +132,9 @@ const MainDash = ({setHideSidebar,hideSidebar,showLogout,setShowLogout})=>{
 								<td><span class="status completed">Completed</span></td>
 							</tr>
 						</tbody>
-					</table>
+					</table> */}
 				</div>
-				<div class="todo">
+				{/* <div class="todo">
 					<div class="head">
 						<h3>Todos</h3>
 						<i class='bx bx-plus' ></i>
@@ -160,7 +162,7 @@ const MainDash = ({setHideSidebar,hideSidebar,showLogout,setShowLogout})=>{
 							<i class='bx bx-dots-vertical-rounded' ></i>
 						</li>
 					</ul>
-				</div>
+				</div> */}
 			</div>
     </>
 }

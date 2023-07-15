@@ -2,6 +2,7 @@ import DataTable from 'react-data-table-component';
 import React, {useEffect, useState} from 'react';
 import {useUserContext} from "../../context/UserContext";
 import ReactPlayer from "react-player";
+import { toast } from 'react-toastify';
 import { BsDownload } from 'react-icons/bs';
 import {downloadCSV, customStyles, FilterComponent} from './tableUtils';
 
@@ -19,6 +20,7 @@ async function setStatus(id, status) {
     console.log(result.message);
     console.log(response);
     if (response.status === 200) {
+        toast.success('Status Changed successfully');
         return result.data;
 
     } else {
@@ -33,37 +35,14 @@ const columns = [
         selector: row => row.id,
         width: "100px"
     },
-    {
-        name: "Enable",
-        cell: row => <div>
-            <button onClick={() => {
-                setStatus(row.id, '1')
-            }}>Enable
-            </button>
-        </div>,
-        width: "100px"
-    }, {
-        name: "Disable",
-        cell: row => <div>
-            <button onClick={() => {
-                setStatus(row.id, '0')
-            }}>Disable
-            </button>
-        </div>,
-        width: "100px"
-    },
 
     {
         name: 'Name',
         selector: row => row.name,
-        width: "330px"
+        width: "130px"
 
     },
-    {
-        name: 'Status',
-        selector: row => row.status,
-        width: "330px"
-    },
+   
     {
         name: 'Channel ID',
         selector: row => row.channel_id,
@@ -79,6 +58,29 @@ const columns = [
     {
         name: "Description",
         selector: row => row.description,
+        wrap:true
+    },
+
+    {
+        name: "Enabling",
+        cell: row => row.status == 1 ?  <div>
+            <button onClick={() => {
+                setStatus(row.id, '0')
+            }}>Disable
+            </button>
+        </div> : <div>
+            <button onClick={() => {
+                setStatus(row.id, '1')
+
+            }}>Enable
+            </button>
+        </div>,
+        width: "100px"
+    },
+    {
+        name: 'Status',
+        selector: row => row.status,
+        width: "130px"
     },
 
 ];
@@ -90,19 +92,7 @@ const ExpandedComponent = ({data}) => {
 
         margin: "10px 20px"
     }}>
-        <div style={{height: "50px"}}>
-            <div style={{display: "flex", height: "40px", justifyContent: "end"}}>
-                <button>
-                    Disable
-                </button>
-                <div style={{width: "50px"}}></div>
-                <button>
-                    Disable
-                </button>
-
-            </div>
-
-        </div>
+       
         <div style={{
             display: "flex",
             alignContent: "center",
@@ -192,7 +182,7 @@ const VideosTables = ({}) => {
     <DataTable
         pagination
         columns={columns}
-        data={videos}
+        data={filteredItems}
         actions={actionsMemo}
         expandableRows
         expandableRowsComponent={ExpandedComponent}
