@@ -67,5 +67,11 @@ class User extends Authenticatable
         return $this->hasManyThrough(Courses::class, Channel::class);
     }
 
+    public function coursesStudents()
+    {
+        return $this->belongsToMany(Course::class, 'userscourses', 'user_id', 'course_id');
+    }
+
+
 
 }

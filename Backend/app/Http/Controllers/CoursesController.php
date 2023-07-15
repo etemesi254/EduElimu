@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Courses;
 use App\Models\Channel;
 use App\Models\User;
+use App\Models\UsersCourses;
 use Illuminate\Http\Request;
 
 class CoursesController extends Controller
@@ -120,7 +121,7 @@ class CoursesController extends Controller
             $courses = Courses::all();
             return response()->json([
                 'status' => 200,
-                'message' => "Successfully modified course",
+                'message' => "Successfully retrieved course",
                 "data" => $courses,
 
             ], 201);
@@ -175,4 +176,79 @@ class CoursesController extends Controller
             ], 422);
         }
     }
+
+    public function addStudentsToCourse(Request $request){
+        $rules = [
+            "user_id" => "required",
+            "course_id" => "required",
+        ];
+
+        try {
+            $request->validate($rules);
+            $student = UsersCourses::create([
+                "user_id" => $request->user_id,
+                "course_id" => $request->course_id,
+            ]);
+
+            return response()->json([
+                'status' => 200,
+                'message' => "Student successfully added to course",
+                "data" => $student,
+
+            ], 201);
+
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 422,
+                'message' => $e->getMessage(),
+            ], 422);
+        }
+    }
+
+    public function getStudentsInCourse($courseId)
+{
+    try {
+        $course = Courses::findOrFail($courseId);
+        $users = $course->usersCourses()->get();
+
+        return response()->json([
+            'status' => 200,
+            'message' => "Retrieved users in the course successfully",
+            'data' => $users,
+        ], 200);
+    } catch (\Exception $e) {
+        return response()->json([
+            'status' => 422,
+            'message' => $e->getMessage(),
+        ], 422);
+    }
+}
+    public function removeStudentFromCourse(Request $request)
+    {
+        $rules = [
+            "user_id" => "required",
+            "course_id" => "required",
+        ];
+        try {
+            $request->validate($rules);
+            $userId = $request->input('user_id');
+            $courseId = $request->input('course_id');
+
+            UsersCourses::where('user_id', $userId)
+                    ->where('course_id', $courseId)
+                    ->delete();
+
+            return response()->json([
+                'status' => 200,
+                'message' => "Student removed from course successfully",
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 422,
+                'message' => $e->getMessage(),
+            ], 422);
+        }
+    }
+
 }

@@ -105,7 +105,11 @@ Route::prefix("courses")->group(
     function () {
         Route::post("/create", [CoursesController::class,"createCourse"]);
         Route::post("/edit", [CoursesController::class,"editCourses"]);
+        Route::get("all", [CoursesController::class,"getAllCourses"]);
         Route::get("/getChannelCourses/{id}", [CoursesController::class,"getChannelCourses"]);
         Route::get("/getUserCourses/{id}", [CoursesController::class,"getUserCourses"]);
+        Route::post("addStudentsToCourse", [CoursesController::class,"addStudentsToCourse"]);
+        Route::get("getStudentsInCourse/{id}", [CoursesController::class,"getStudentsInCourse"]);
+        Route::post("removeStudent", [CoursesController::class,"removeStudentFromCourse"]);
     }
 );

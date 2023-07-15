@@ -19,4 +19,10 @@ class Courses extends Model
     {
         return $this->belongsTo(Channel::class, 'channel_id');
     }
+
+    public function usersCourses()
+    {
+        return $this->belongsToMany(User::class, 'userscourses', 'course_id', 'user_id');
+    }
+
 }
