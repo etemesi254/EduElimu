@@ -126,5 +126,7 @@ Route::prefix("courses")->group(
         Route::post("resources/delete", [CoursesController::class, 'deleteCourseResourse']); 
         Route::get("resources/{id}", [CoursesController::class, 'getCourseResources']);
         Route::get("resources/get/all", [CoursesController::class, 'getAllResources']);
+        Route::get('resource/download/{resourceId}', [CoursesController::class,"downloadFile"]);
+
     }
 );

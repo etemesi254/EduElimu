@@ -7,7 +7,8 @@ use App\Models\Channel;
 use App\Models\CourseResources;
 use App\Models\CoursesVideos;
 use App\Models\User;
-use App\Models\Videos;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Response;
 use App\Models\UsersCourses;
 use App\Models\UsersVideos;
 use Illuminate\Http\Request;
@@ -610,5 +611,34 @@ class CoursesController extends Controller
         }
     }
 
+    public function downloadFile($resourceId)
+    {
+        $resource = CourseResources::findOrFail($resourceId);
+
+        if (!$resource) {
+            return response()->json([
+                'status' => 404,
+                'message' => 'Resource not found',
+            ], 404);
+        }
+
+        // Get the file path and original file name
+        $filePath = $resource->resource;
+        $originalFileName = $resource->name;
+
+        if (!Storage::exists('public/' . $filePath)) {
+            return response()->json([
+                'status' => 404,
+                'message' => 'File not found',
+            ], 404);
+        }
+
+        $customFileName = $resourceId . '_' . $originalFileName; 
+        $headers = [
+            'Content-Disposition' => 'attachment; filename="' . $customFileName . '"',
+        ];
+
+        return Response::download(storage_path('app/public/' . $filePath), $customFileName, $headers);
+    }
 
 }
