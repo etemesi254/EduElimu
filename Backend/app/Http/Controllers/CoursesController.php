@@ -8,6 +8,7 @@ use App\Models\CoursesVideos;
 use App\Models\User;
 use App\Models\Videos;
 use App\Models\UsersCourses;
+use App\Models\UsersVideos;
 use Illuminate\Http\Request;
 
 class CoursesController extends Controller
@@ -320,6 +321,128 @@ class CoursesController extends Controller
                 'message' => "Retrieved videos in the course successfully",
                 'data' => $videos,
             ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 422,
+                'message' => $e->getMessage(),
+            ], 422);
+        }
+    }
+
+    public function markAsDone(Request $request){
+        $rules = [
+            "user_id" => "required",
+            "course_id" => "required",
+            "video_id" => "required",
+        ];
+
+        try {
+            $request->validate($rules);
+            $video = UsersVideos::create([
+                "video_id" => $request->video_id,
+                "course_id" => $request->course_id,
+                "user_id" => $request->user_id,
+                "completed" => 1,
+            ]);
+
+            //update progress in course
+            $total_videos = CoursesVideos::where('course_id', $request->course_id)->get()->count();
+
+            $completed_videos = UsersVideos::where('course_id', $request->course_id)
+            ->where('user_id', $request->user_id)
+            ->where("completed",1)
+            ->get()->count();
+
+            $progress = intval(($completed_videos / $total_videos) * 100);
+
+            UsersCourses::where('user_id', $request->user_id)
+            ->where('course_id', $request->course_id)
+            ->update([
+                "videos_total"=> $total_videos,
+                "videos_completed"=> $completed_videos,
+                "progress"=> $progress
+            ]);
+
+            return response()->json([
+                'status' => 200,
+                'message' => "Video marked as completed",
+                "data" => $video,
+            ], 201);
+
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 422,
+                'message' => $e->getMessage(),
+            ], 422);
+        }
+    }
+
+    public function markNotDone(Request $request){
+        $rules = [
+            "video_id" => "required",
+            "course_id" => "required",
+            "user_id" => "required",
+        ];
+        try {
+            $request->validate($rules);
+            $videoId = $request->input('video_id');
+            $courseId = $request->input('course_id');
+            $userId = $request->input('user_id');
+
+            UsersVideos::where('video_id', $videoId)
+                    ->where('course_id', $courseId)
+                    ->where('user_id', $userId)
+                    ->delete();
+
+            //update progress in course
+            $total_videos = CoursesVideos::where('course_id', $request->course_id)->get()->count();
+
+            $completed_videos = UsersVideos::where('course_id', $request->course_id)
+            ->where('user_id', $request->user_id)
+            ->where("completed",1)
+            ->get()->count();
+
+            $progress = intval(($completed_videos / $total_videos) * 100);
+
+            UsersCourses::where('user_id', $request->user_id)
+            ->where('course_id', $request->course_id)
+            ->update([
+                "videos_total"=> $total_videos,
+                "videos_completed"=> $completed_videos,
+                "progress"=> $progress
+            ]);
+
+            return response()->json([
+                'status' => 200,
+                'message' => "Video marked as not done",
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 422,
+                'message' => $e->getMessage(),
+            ], 422);
+        }
+    }
+
+    public function getUsersProgress(Request $request){
+        $rules = [
+            "user_id" => "required",
+            "course_id" => "required",
+        ];
+        try {
+            $request->validate($rules);
+            $progressRecord = UsersCourses::where('user_id', $request->user_id)
+            ->where('course_id', $request->course_id)
+            ->first();
+            return response()->json([
+                'status' => 200,
+                'message' => "User's course progress retrieved",
+                "data" => $progressRecord,
+
+            ], 201);
+
+
         } catch (\Exception $e) {
             return response()->json([
                 'status' => 422,
