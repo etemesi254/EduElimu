@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Courses;
 use App\Models\Channel;
+use App\Models\CoursesVideos;
 use App\Models\User;
+use App\Models\Videos;
 use App\Models\UsersCourses;
 use Illuminate\Http\Request;
 
@@ -250,5 +252,81 @@ class CoursesController extends Controller
             ], 422);
         }
     }
+
+    public function addVideosToCourse(Request $request){
+        $rules = [
+            "video_id" => "required",
+            "course_id" => "required",
+        ];
+
+        try {
+            $request->validate($rules);
+            $student = CoursesVideos::create([
+                "video_id" => $request->video_id,
+                "course_id" => $request->course_id,
+            ]);
+
+            return response()->json([
+                'status' => 200,
+                'message' => "Video successfully added to course",
+                "data" => $student,
+
+            ], 201);
+
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 422,
+                'message' => $e->getMessage(),
+            ], 422);
+        }
+    }
+
+    public function removeVideoFromCourse(Request $request)
+    {
+        $rules = [
+            "video_id" => "required",
+            "course_id" => "required",
+        ];
+        try {
+            $request->validate($rules);
+            $videoId = $request->input('video_id');
+            $courseId = $request->input('course_id');
+
+            CoursesVideos::where('video_id', $videoId)
+                    ->where('course_id', $courseId)
+                    ->delete();
+
+            return response()->json([
+                'status' => 200,
+                'message' => "Video removed from course successfully",
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 422,
+                'message' => $e->getMessage(),
+            ], 422);
+        }
+    }
+
+    public function getCourseVideos($courseId)
+    {
+        try {
+            $course = Courses::findOrFail($courseId);
+            $videos = $course->videos()->get();
+
+            return response()->json([
+                'status' => 200,
+                'message' => "Retrieved videos in the course successfully",
+                'data' => $videos,
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 422,
+                'message' => $e->getMessage(),
+            ], 422);
+        }
+    }
+
 
 }
