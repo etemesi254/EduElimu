@@ -14,4 +14,9 @@ class Courses extends Model
         'description',
     ];
     use HasFactory;
+
+    public function channel(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(Channel::class, 'channel_id');
+    }
 }

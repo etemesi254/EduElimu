@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Courses;
+use App\Models\Channel;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class CoursesController extends Controller
@@ -101,6 +103,67 @@ class CoursesController extends Controller
                 'status' => 200,
                 'message' => "Successfully modified course",
                 "data" => $course,
+
+            ], 201);
+
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 422,
+                'message' => $e->getMessage(),
+            ], 422);
+        }
+    }
+
+    public function getAllCourses(){
+        try {
+            $courses = Courses::all();
+            return response()->json([
+                'status' => 200,
+                'message' => "Successfully modified course",
+                "data" => $courses,
+
+            ], 201);
+
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 422,
+                'message' => $e->getMessage(),
+            ], 422);
+        }
+    }
+
+    public function getChannelCourses($channel){
+        try {
+            $channel = Channel::findOrFail($channel);
+            $courses = $channel->courses()->get();
+            
+            return response()->json([
+                'status' => 200,
+                'message' => "Retrieved Channel's Courses successfully",
+                "data" => $courses,
+
+            ], 201);
+
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 422,
+                'message' => $e->getMessage(),
+            ], 422);
+        }
+    }
+
+    public function getUserCourses($user){
+        try {
+            $user = User::find($user);
+            $courses = $user->courses;
+
+            return response()->json([
+                'status' => 200,
+                'message' => "Retrieved User's Courses successfully",
+                "data" => $courses,
 
             ], 201);
 
