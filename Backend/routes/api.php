@@ -114,9 +114,19 @@ Route::prefix("courses")->group(
         Route::post("addVideo", [CoursesController::class,"addVideosToCourse"]);
         Route::post("removeVideo", [CoursesController::class,"removeVideoFromCourse"]);
         Route::get('{courseId}/videos', [CoursesController::class, 'getCourseVideos']);
+
+        //progress
         Route::post("markAsDone", [CoursesController::class, 'markAsDone']);
         Route::post("markNotDone", [CoursesController::class, 'markNotDone']);
         Route::post("getUsersProgress", [CoursesController::class, 'getUsersProgress']);
+
+        //resources
+        Route::post("resources/add", [CoursesController::class, 'addCourseResourse']);
+        Route::post("resources/edit", [CoursesController::class, 'updateCourseResourse']); 
+        Route::post("resources/delete", [CoursesController::class, 'deleteCourseResourse']); 
+        Route::get("resources/{id}", [CoursesController::class, 'getCourseResources']);
+        Route::get("resources/get/all", [CoursesController::class, 'getAllResources']);
+        Route::get('resource/download/{resourceId}', [CoursesController::class,"downloadFile"]);
 
     }
 );
