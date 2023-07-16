@@ -8,45 +8,25 @@ function ChanelLayout(){
     const {channel} = useParams();
     const data = JSON.parse(decodeURIComponent(channel));
     const [videos,setVideos] = useState();
+    const [courses,setCourses] = useState([]);
     const [isLoading,setIsLoading] = useState(true);
-    const {user} = useUserContext();
+    const {user,getChannelVideos,getChannelCourses} = useUserContext();
 
     const displaypic = user && user.profile_image ? `http://127.0.0.1:8000/storage/${user.profile_image}`:`${process.env.PUBLIC_URL}/assets/eduelimu.png`;
 
     const { id, name, subscribers,description, banner } = data;
 
     useEffect(() => {
-        async function getChannelVideos() {
-          try {
-            const url = `http://127.0.0.1:8000/api/channels/getChannelVideos/${id}`;
-      
-            const response = await fetch(url, {
-              // mode: 'no-cors',
-              method: "GET",
-              headers: {
-                "Content-Type": "application/json",
-              },
-            });
-      
-            const result = await response.json();
-            console.log(result);
-            console.log(response.status);
-      
-            if (response.status === 200) {
-              console.log(result.data); // Verify the data from the response
-              setVideos(result.data);
-              setIsLoading(false);
-
-            } else {
-              throw new Error("Failed to fetch channel videos");
-            }
-          } catch (error) {
-            console.error("Error:", error.message);
-          }
-        }
-      
-        getChannelVideos();
-      }, []);
+      const fetchData = async () => {
+        const channelVideos = await getChannelVideos(id);
+        const channelCourses = await getChannelCourses(id);
+        setVideos(channelVideos);
+        setCourses(channelCourses);
+        setIsLoading(false);
+      };
+    
+      fetchData();
+    }, []);
 
     return <div className="home-image">
     {isLoading ? (<Loading/>): (
@@ -81,7 +61,9 @@ function ChanelLayout(){
               )}/videos/${encodeURIComponent(JSON.stringify(videos))}`}className="link" >VIDEOS</Link>
             </li>
             <li>
-                <Link to="" className="link">COURSES</Link>
+                <Link to={`/chanel/${encodeURIComponent(
+                  JSON.stringify(data)
+              )}/courses/${encodeURIComponent(JSON.stringify(courses))}`} className="link">COURSES</Link>
             </li>
             <li>
                 <Link to="" className="link">ABOUT</Link>

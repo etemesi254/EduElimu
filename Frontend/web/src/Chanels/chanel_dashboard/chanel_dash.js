@@ -1,7 +1,6 @@
 import { Link, useParams } from "react-router-dom";
 import React, { useEffect, useRef, useState } from 'react';
 import {BsFillPlayFill} from 'react-icons/bs';
-import videoData from "../../data/video_data";
 import "./chanel_dash.css"
 import { BsArrowLeft, BsArrowRight } from 'react-icons/bs';
 import ChanelCourse from "./chanel_course";
@@ -12,41 +11,28 @@ import NotFound from "../not found/notfound";
 
 function ChanelDashboard(){
   const {channel} = useParams();
-  const {formatDateTime} = useUserContext();
+  const {formatDateTime,getChannelVideos,getChannelCourses} = useUserContext();
     const data = JSON.parse(decodeURIComponent(channel));
     const [videos,setVideos] = useState([]);
     const [loading,setLoading] = useState(true);
-    const [courses,setCourses] = useState(videoData);
+    const [courses,setCourses] = useState([]);
+    const [noOfVideos,setNoOfVideos] = useState(0);
 
     const {id} = data;
 
     useEffect(() => {
-      async function getChannelVideos() {
-        try {
-          const url = `http://127.0.0.1:8000/api/channels/getChannelVideos/${id}}`;
+      const fetchData = async () => {
+        const channelVideos = await getChannelVideos(id);
+        const channelCourses = await getChannelCourses(id);
+        setVideos(channelVideos);
+        setCourses(channelCourses);
+        setNoOfVideos(channelCourses.length);
+        setLoading(false);
+      };
     
-          const response = await fetch(url, {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-            },
-          });
+      fetchData();
+    }, []);
     
-          const result = await response.json();
-          if (response.status === 200) {
-            console.log(result.data); // Verify the data from the response
-            setVideos(result.data);
-            setLoading(false);
-          } else {
-            throw new Error("Failed to fetch channel videos");
-          }
-        } catch (error) {
-          console.error("Error:", error.message);
-        }
-      }
-    
-      getChannelVideos();
-    }, []); 
   
   // State to track the scroll position and container dimensions
   const [scrollPosition, setScrollPosition] = useState(0);
@@ -165,7 +151,7 @@ function ChanelDashboard(){
     ) : (
       ""
     )}
-    {/* <div className="scrollable-container">
+    {courses && courses.length > 0 ?( <div className="scrollable-container">
         <div className="chanel-video-head">
             <h2>Courses</h2>
             <BsFillPlayFill className="scroll-icons"/>
@@ -177,8 +163,8 @@ function ChanelDashboard(){
         </div>
         )}
         <div className="chanel-courses">
-        {courses.map((video,index)=>{
-            return <ChanelCourse video={video} key={video.id}/>
+        {courses.map((course,index)=>{
+            return <ChanelCourse course={course} key={course.id} noOfVideos={noOfVideos}/>
         })}
         </div>
         {scrollPosition+1  < containerScrollWidth - containerWidth && (
@@ -188,7 +174,7 @@ function ChanelDashboard(){
         </div>
         )}
 
-    </div> */}
+    </div>): ("")}
 </div>
 }
 export default ChanelDashboard;
