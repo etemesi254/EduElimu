@@ -28,7 +28,7 @@ class _VideoComponentState extends State<VideoComponent> {
   void initState() {
     // TODO: implement initState
     component = NetworkBasedVideoPlayer(
-        url: '${widget.endpoint}${widget.model.videoFile}');
+        url: widget.model.videoFile);
   }
 
   @override
@@ -88,8 +88,9 @@ class _VideoComponentState extends State<VideoComponent> {
                           child: CachedNetworkImage(
                               width: 30,
                               height: 30,
+                              fit: BoxFit.fill,
                               imageUrl:
-                                  "${widget.endpoint}${widget.model.channelBanner}"),
+                                  widget.model.channelBanner),
                         ),
                         const SizedBox(width: 20),
                         Text(
@@ -278,6 +279,7 @@ class _NetworkBasedVideoPlayerState extends State<NetworkBasedVideoPlayer> {
     _controller = VideoPlayerController.networkUrl(Uri.parse(widget.url));
 
     _initializeVideoPlayerFuture = _controller.initialize();
+    //_controller.seekTo(Duration(seconds: 1));
 
     _controller.addListener(() {
       if (showVeil) {

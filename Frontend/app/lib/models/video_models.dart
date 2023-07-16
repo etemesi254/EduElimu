@@ -48,7 +48,6 @@ class HomeVideoModel {
   });
 
   factory HomeVideoModel.fromJson(Map<String, dynamic> json) {
-    print(json);
     return HomeVideoModel(
         channelId: json["channel_id"] ?? 0,
         userId: json["user_id"] ?? 0,
@@ -67,18 +66,19 @@ class HomeVideoModel {
 }
 
 class SingleVideoModel {
-  int id;
   String name;
-  int channelId;
   String description;
-  int viewCount;
   String fileUrl;
   String bannerUrl;
   String? category;
+  String? courseId;
+
+  int pivotvideoId;
   int likes;
   int dislikes;
-  String? courseId;
-  String pivotvideoId;
+  int channelId;
+  int viewCount;
+  int id;
 
   SingleVideoModel(
       {required this.id,
