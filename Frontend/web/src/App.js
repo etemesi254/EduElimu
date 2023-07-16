@@ -49,6 +49,10 @@ import AddVideoCategory from './Admin/Forms/addVideoCategories';
 import VideoChannelsTable from "./Admin/Tables/ChannelsTable";
 import EditVideoCategories from './Admin/Forms/editVideoCategories';
 import CoursePlayer from './main_video_display/main_course';
+import ViewCourseList from './Chanels/create chanel/viewCourseList';
+import EditCourses from './Chanels/create chanel/editCourse';
+import CreateCourse from './Chanels/create chanel/create_course';
+import AddToCourse from './Chanels/create chanel/add_to_course';
 
 function App() {
     const [showLogout, setShowLogout] = useState(false);
@@ -89,12 +93,16 @@ function App() {
               <Route path="/profile" element={<UserProfile showLogout={showLogout} 
               setShowLogout={setShowLogout}/>}/>
               <Route path="/create_channel" element={<CreateChannel/>}/>
+              <Route path="/create_course" element={<CreateCourse/>}/>
+              <Route path="/add_to_course" element={<AddToCourse/>}/>
               <Route path='/course/:course' element={<CoursePlayer/>}/>
               <Route path="/edit_channel/:id/:channel" element={<EditChannel/>}/>
               <Route path="/edit_userVideos/:id/:video" element={<EditVideos/>}/>
+              <Route path="/edit_userCourses/:id/:course" element={<EditCourses/>}/>
               <Route path='/show_channel_list' element={<ViewChannelList setShowDelete={setShowDelete} showDelete = {showDelete}/>}/>
               <Route path="/upload_videos" element={<UploadVideos/>}/>
               <Route path='/show_video_list' element={<ViewVideosList setShowDeleteVideo={setShowDeleteVideo} showDeleteVideo = {showDeleteVideo}/>}/>
+              <Route path='/show_course_list' element={<ViewCourseList setShowDeleteVideo={setShowDeleteVideo} showDeleteVideo = {showDeleteVideo}/>}/>
               <Route path='video_player/:video/' element={<VideoPlayer/>}/>
                 <Route path="/chanel/:channel" element={<ChanelLayout/>}>
                   <Route index element={<ChanelDashboard/>}/>
