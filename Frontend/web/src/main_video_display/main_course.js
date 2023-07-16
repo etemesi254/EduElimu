@@ -22,6 +22,9 @@ function CoursePlayer() {
     const [loading,setLoading] = useState(true);
     const [channel,setChannel] = useState([]);
     const [resources,setResources] = useState([]);
+    const [selectedVideo, setSelectedVideo] = useState("");
+    const [selectedVideoIndex, setSelectedVideoIndex] = useState(0);
+
 
     useEffect(() => {
         const fetchData = async () => {
@@ -30,6 +33,7 @@ function CoursePlayer() {
           const courseResources = await getCourseResources(id);
           setChannel(courseChannel);
           setVideos(courseVideos);
+          setSelectedVideo(courseVideos[0]);
           setResources(courseResources);
           setLoading(false);
         };
@@ -89,9 +93,6 @@ function CoursePlayer() {
       console.error('An error occurred while downloading the resource:', error);
     }
   }
-
-  const [selectedVideo, setSelectedVideo] = useState(videos[0]);
-
     return (
       <>
       {loading ? <Loading/> : <div className="home-image video-dis">
@@ -99,17 +100,17 @@ function CoursePlayer() {
           <div className="video-container">
             <div className="video-play-container">
               <video
-                src={`http://127.0.0.1:8000/storage/${videos[0].file_url}`}
+                src={`http://127.0.0.1:8000/storage/${selectedVideo.file_url}`}
                 controls
                 autoPlay
-                poster={`http://127.0.0.1:8000/storage/${videos[0].banner_url}`}
+                poster={`http://127.0.0.1:8000/storage/${selectedVideo.banner_url}`}
                 preload="metadata"
                 loop
               />
             </div>
           </div>
           <div className="video-info-div">
-            <h3>{name}</h3>
+            <h3>{selectedVideo.name}</h3>
             <div className="video-meta-data">
               <div className="meta-description">
                 <div className="meta-chanel-pic">
@@ -141,13 +142,13 @@ function CoursePlayer() {
             </div>
             <div className="viideo-description-div">
               <div className="stats-meta-data">
+                <h5>{name}</h5>
                 <h5>{formatDateTime(created_at)}</h5>
               </div>
               <div className="desc-div">
                 <p id="read-more">{truncatedContent}</p>
                 <span onClick={toggleReadMore}>{readMore?"Read More" : "Read Less"}</span>
               </div>
-              
             </div>
             <div className="viideo-description-div">
               <div className="stats-meta-data">
@@ -164,8 +165,6 @@ function CoursePlayer() {
               >
                 {resource.name}
               </p>
-              
-              
             })}
               </div>
               
@@ -178,8 +177,8 @@ function CoursePlayer() {
             <p>Videos from the course</p>
           </div>
           <div className="videos-container-column">
-          {allVideos.map((video,index)=>{
-            return <VideosInCourse video={video} key={video.id}/>
+          {videos.map((video,index)=>{
+            return <VideosInCourse video={video} key={video.id} index={index} setSelectedVideo={setSelectedVideo} selectedVideoIndex={selectedVideoIndex} setSelectedVideoIndex={setSelectedVideoIndex}/>
         })}
           </div>
         </div>
@@ -189,9 +188,4 @@ function CoursePlayer() {
       </>
   );
 }
-
-// CoursePlayer.propTypes = {
-//   src: PropTypes.string.isRequired,
-// };
-
 export default CoursePlayer;

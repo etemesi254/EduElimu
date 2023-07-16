@@ -15,6 +15,7 @@ export function UserProvider({children}) {
     const [userVideos, setUserVideos] = useState([]);
     const [categories, setCategories] = useState([]);
     const [allVideos, setAllVideos] = useState([]);
+    const [userCourses,setUserCourses] = useState([]);
 
   useEffect(() => {
     getAllVideos();
@@ -44,6 +45,8 @@ export function UserProvider({children}) {
         setUser(user.data); // Update the user state
         getUserChannel(user.data.id);
         getUserVideos(user.data.id);
+        getUserCourses(user.data.id);
+
         // getVideoCategories();
       } else {
         throw new Error("Failed to fetch current user");
@@ -53,9 +56,34 @@ export function UserProvider({children}) {
     }
   }
 
-  async function getUserChannel($user_id) {
+  async function getUserCourses(user_id) {
     try {
-      const url = `http://127.0.0.1:8000/api/channels/getUserChannels/${$user_id}`;
+      const url = `http://127.0.0.1:8000/api/courses/getUserCourses/${user_id}`;
+  
+      const response = await fetch(url, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+  
+      if (response.status === 201) {
+        const courses = await response.json();
+        console.log(courses);
+        
+        setUserCourses(courses.data);
+      } else {
+        throw new Error("Failed to fetch user courses");
+      }
+    } catch (error) {
+      console.error("Error:", error.message);
+    }
+  }
+  
+
+  async function getUserChannel(user_id) {
+    try {
+      const url = `http://127.0.0.1:8000/api/channels/getUserChannels/${user_id}`;
 
       const response = await fetch(url, {
         method: "GET",
@@ -76,9 +104,9 @@ export function UserProvider({children}) {
     }
   }
 
-  async function getUserVideos($user_id) {
+  async function getUserVideos(user_id) {
     try {
-      const url = `http://127.0.0.1:8000/api/videos/${$user_id}`;
+      const url = `http://127.0.0.1:8000/api/videos/${user_id}`;
 
       const response = await fetch(url, {
         method: "GET",
@@ -346,6 +374,7 @@ export function UserProvider({children}) {
         channel,
         userVideos,
         categories,
+        userCourses,
         formatDateTime,
         getVideoChannel,
         getCategoryDetails,
