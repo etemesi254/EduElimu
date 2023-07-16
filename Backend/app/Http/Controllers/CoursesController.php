@@ -205,9 +205,9 @@ class CoursesController extends Controller
 
         } catch (\Exception $e) {
             return response()->json([
-                'status' => 422,
+                'status' => 500,
                 'message' => $e->getMessage(),
-            ], 422);
+            ], 500);
         }
     }
 

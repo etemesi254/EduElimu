@@ -21,10 +21,11 @@ function AddToCourse(){
         e.preventDefault();
         setDisabled(true);
         const formData = new FormData();
-        
+        formData.append("video_id",videoID);
+        formData.append("course_id",courseID);
 
         try {
-        const result = await fetch("http://127.0.0.1:8000/api/courses/edit", {
+        const result = await fetch("http://127.0.0.1:8000/api/courses/addVideo", {
             method: "POST",
             body: formData,
         });
@@ -32,9 +33,9 @@ function AddToCourse(){
             const response = await result.json();
             if(result.status === 201) {
                 getCurrentUser();
-                return toast.success('Your Video was successfully updated');
+                return toast.success('Video Added To Course');
             }
-            toast.error('Error updating video');
+            toast.error('Error adding video to course');
             setDisabled(false);
         } catch (error) {
             setDisabled(false);
@@ -67,7 +68,7 @@ function AddToCourse(){
                     <div className='form-group-flex'>
                         <div className="settings_input">
                             <label>Course Title</label>
-                            <select>
+                            <select onChange={handleCourseInput}>
                             {userCourses && userCourses.length > 0 ? userCourses.map((userCourses) => (
                             <option key={userCourses.id} value={userCourses.id}>{userCourses.name}</option>
                             )):<option>You dont have a Course :( Kindly create one first</option>}
@@ -75,7 +76,7 @@ function AddToCourse(){
                         </div>
                         <div className="settings_input">
                             <label>Video Title</label>
-                            <select>
+                            <select onChange={handleVideoInput}>
                                 {userVideos && userVideos.length > 0 ? userVideos.map((userVideos) => (
                                 <option key={userVideos.id} value={userVideos.id}>{userVideos.name}</option>
                                 )):<option>You dont have any videos :( Kindly upload one first</option>}
