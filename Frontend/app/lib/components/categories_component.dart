@@ -71,11 +71,13 @@ class _EduCategoriesComponentState extends State<EduCategoriesComponent> {
   }
 
   Widget createSingleCategoryComponent(VideoCategory category) {
-    var url = "${endpoint!}${category.imageUrl}";
+    var url = "${category.imageUrl}";
     CachedNetworkImage img = CachedNetworkImage(
       imageUrl: url,
       // width: 200,
-      //height: 300,
+     // height: 300,
+      fit: BoxFit.fitWidth,
+
     );
     return InkWell(
       onTap: () {
@@ -135,8 +137,9 @@ class _EduCategoriesComponentState extends State<EduCategoriesComponent> {
             const EdgeInsets.only(bottom: 10, top: 10, left: 10, right: 10),
         margin: const EdgeInsets.only(bottom: 30),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            img,
+            Center(child: img),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -151,25 +154,36 @@ class _EduCategoriesComponentState extends State<EduCategoriesComponent> {
                           style: GoogleFonts.poppins(
                               fontWeight: FontWeight.w500, fontSize: 20),
                         )),
-                    Container(
-                        padding: const EdgeInsets.only(top: 10),
-                        child: Text(
-                          category.description,
-                          textAlign: TextAlign.start,
-                          style: GoogleFonts.poppins(
-                              fontWeight: FontWeight.normal, fontSize: 14),
-                        )),
+                    // Container(
+                    //     padding: const EdgeInsets.only(top: 10),
+                    //     child: Text(
+                    //       category.description,
+                    //       textAlign: TextAlign.start,
+                    //       style: GoogleFonts.poppins(
+                    //           fontWeight: FontWeight.normal, fontSize: 14),
+                    //     )),
                   ],
                 ),
                 const Spacer(),
-                const CircleAvatar(
-                    backgroundColor: EduColors.blackColor,
-                    child: Icon(
-                      Icons.north_east,
-                      color: Colors.white,
-                    )),
+                const SizedBox(height: 10),
+                const Padding(
+                  padding:  EdgeInsets.all(8.0),
+                  child: CircleAvatar(
+                      backgroundColor: EduColors.blackColor,
+                      child: Icon(
+                        Icons.north_east,
+                        color: Colors.white,
+                      )),
+                ),
               ],
             ),
+            Text(
+              category.description,
+              maxLines: 10,
+              textAlign: TextAlign.start,
+              style: GoogleFonts.poppins(
+                  fontWeight: FontWeight.normal, fontSize: 14),
+            )
           ],
         ),
       ),

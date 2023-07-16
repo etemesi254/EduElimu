@@ -50,8 +50,8 @@ Route::prefix("videos")->group(function () {
     Route::any("/all", [VideoController::class, "getAllVideos"]);
     Route::get("/channel/{id}", [VideoController::class, "getVideoChannel"]);
     Route::any("/like", [VideoLikesController::class, "likeVideo"]);
-    Route::any("/dislike",[VideoLikesController::class,"dislikeVideo"]);
-    Route::any("/user-videos",[VideoController::class,"getFUserVideos"]);
+    Route::any("/dislike", [VideoLikesController::class, "dislikeVideo"]);
+    Route::any("/user-videos", [VideoController::class, "getFUserVideos"]);
     Route::any("/likers", [VideoLikesController::class, "getVideoLikers"]);
     // NB: Should be the last
     Route::get("/{id}", [VideoController::class, "getUserVideos"]);
@@ -104,17 +104,17 @@ Route::prefix("users")->group(function () {
 
 Route::prefix("courses")->group(
     function () {
-        Route::post("/create", [CoursesController::class,"createCourse"]);
-        Route::post("/edit", [CoursesController::class,"editCourses"]);
-        Route::get("all", [CoursesController::class,"getAllCourses"]);
-        Route::get("/getChannelCourses/{id}", [CoursesController::class,"getChannelCourses"]);
-        Route::get("/getUserCourses/{id}", [CoursesController::class,"getUserCourses"]);
-        Route::get("/getCourseChannelDeets/{id}", [CoursesController::class,"getCourseChannelDeets"]);
-        Route::post("addStudentsToCourse", [CoursesController::class,"addStudentsToCourse"]);
-        Route::get("getStudentsInCourse/{id}", [CoursesController::class,"getStudentsInCourse"]);
-        Route::post("removeStudent", [CoursesController::class,"removeStudentFromCourse"]);
-        Route::post("addVideo", [CoursesController::class,"addVideosToCourse"]);
-        Route::post("removeVideo", [CoursesController::class,"removeVideoFromCourse"]);
+        Route::post("/create", [CoursesController::class, "createCourse"]);
+        Route::post("/edit", [CoursesController::class, "editCourses"]);
+        Route::get("all", [CoursesController::class, "getAllCourses"]);
+        Route::get("/getChannelCourses/{id}", [CoursesController::class, "getChannelCourses"]);
+        Route::get("/getUserCourses/{id}", [CoursesController::class, "getUserCourses"]);
+        Route::get("/getCourseChannelDeets/{id}", [CoursesController::class, "getCourseChannelDeets"]);
+        Route::post("addStudentsToCourse", [CoursesController::class, "addStudentsToCourse"]);
+        Route::get("getStudentsInCourse/{id}", [CoursesController::class, "getStudentsInCourse"]);
+        Route::post("removeStudent", [CoursesController::class, "removeStudentFromCourse"]);
+        Route::post("addVideo", [CoursesController::class, "addVideosToCourse"]);
+        Route::post("removeVideo", [CoursesController::class, "removeVideoFromCourse"]);
         Route::get('{courseId}/videos', [CoursesController::class, 'getCourseVideos']);
 
         //progress
@@ -128,7 +128,9 @@ Route::prefix("courses")->group(
         Route::post("resources/delete", [CoursesController::class, 'deleteCourseResourse']);
         Route::get("resources/{id}", [CoursesController::class, 'getCourseResources']);
         Route::get("resources/get/all", [CoursesController::class, 'getAllResources']);
-        Route::get('resource/download/{resourceId}', [CoursesController::class,"downloadFile"]);
+        Route::get('resource/download/{resourceId}', [CoursesController::class, "downloadFile"]);
 
     }
 );
+
+Route::any("/aggregate", [\App\Http\Controllers\GraphsDataController::class, "returnGraphData"]);

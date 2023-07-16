@@ -280,7 +280,7 @@ class _NetworkBasedVideoPlayerState extends State<NetworkBasedVideoPlayer> {
 
     _initializeVideoPlayerFuture = _controller.initialize();
     //_controller.seekTo(Duration(seconds: 1));
-
+    _controller.value.
     _controller.addListener(() {
       if (showVeil) {
         // call to update values when the veil is being shown

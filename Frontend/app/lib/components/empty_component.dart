@@ -14,19 +14,21 @@ class NoItemPlaceHolder extends StatefulWidget {
 class _NoItemPlaceHolderState extends State<NoItemPlaceHolder> {
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        Lottie.asset("assets/lottie/empty-box.json", height: 300),
-        const SizedBox(height: 20),
-        Text(
-          widget.message ?? "We found the coffers empty",
-          textAlign: TextAlign.center,
-          style: GoogleFonts.poppins(
-            fontWeight: FontWeight.w500,
-          ),
-        )
-      ],
+    return Center(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Lottie.asset("assets/lottie/empty-box.json", height: 300),
+          const SizedBox(height: 20),
+          Text(
+            widget.message ?? "We found the coffers empty",
+            textAlign: TextAlign.center,
+            style: GoogleFonts.poppins(
+              fontWeight: FontWeight.w500,
+            ),
+          )
+        ],
+      ),
     );
   }
 }
