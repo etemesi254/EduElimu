@@ -195,6 +195,122 @@ export function UserProvider({children}) {
         }
     }
 
+    async function getChannelVideos(id) {
+      try {
+        const url = `http://127.0.0.1:8000/api/channels/getChannelVideos/${id}}`;
+  
+        const response = await fetch(url, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+  
+        const result = await response.json();
+        if (response.status === 200) {
+          return result.data;
+        } else {
+          throw new Error("Failed to fetch channel videos");
+        }
+      } catch (error) {
+        console.error("Error:", error.message);
+      }
+    }
+
+    async function getChannelCourses(id) {
+      try {
+        const url = `http://127.0.0.1:8000/api/courses/getChannelCourses/${id}}`;
+  
+        const response = await fetch(url, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+  
+        const result = await response.json();
+        console.log(result);
+        if (result.status === 200) {
+          return result.data;
+        } else {
+          throw new Error("Failed to fetch channel courses");
+        }
+      } catch (error) {
+        console.error("Error:", error.message);
+      }
+    }
+
+    async function getCourseChannelDetails(id) {
+      try {
+        const url = `http://127.0.0.1:8000/api/courses/getCourseChannelDeets/${id}}`;
+  
+        const response = await fetch(url, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+  
+        const result = await response.json();
+        console.log(result);
+        if (result.status === 201) {
+          return result.data;
+        } else {
+          throw new Error("Failed to fetch course's channel");
+        }
+      } catch (error) {
+        console.error("Error:", error.message);
+      }
+    }
+
+    async function getCourseVideos(id) {
+      try {
+        const url = `http://127.0.0.1:8000/api/courses/${id}/videos`;
+  
+        const response = await fetch(url, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+  
+        const result = await response.json();
+        console.log(result);
+        if (result.status === 200) {
+          return result.data;
+        } else {
+          throw new Error("Failed to fetch course's videos");
+        }
+      } catch (error) {
+        console.error("Error:", error.message);
+      }
+    }
+
+    async function getCourseResources(id) {
+      try {
+        const url = `http://127.0.0.1:8000/api/courses/resources/${id}`;
+  
+        const response = await fetch(url, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+  
+        const result = await response.json();
+        console.log(result);
+        if (result.status === 201) {
+          return result.data;
+        } else {
+          throw new Error("Failed to fetch course's videos");
+        }
+      } catch (error) {
+        console.error("Error:", error.message);
+      }
+    }
+
+
+
     function formatDateTime(datetime) {
         const currentTime = new Date();
         const timestamp = new Date(datetime);
@@ -236,7 +352,12 @@ export function UserProvider({children}) {
         getUserChannel,
         getAllVideos,
         allVideos,
-        getCurrentUser
+        getCurrentUser,
+        getChannelVideos,
+        getChannelCourses,
+        getCourseChannelDetails,
+        getCourseVideos,
+        getCourseResources
 
     };
 

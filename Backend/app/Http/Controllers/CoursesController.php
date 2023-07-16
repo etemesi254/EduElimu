@@ -317,11 +317,13 @@ class CoursesController extends Controller
         try {
             $course = Courses::findOrFail($courseId);
             $videos = $course->videos()->get();
+            $channel = $course->channel()->get();
 
             return response()->json([
                 'status' => 200,
                 'message' => "Retrieved videos in the course successfully",
                 'data' => $videos,
+                'channel' => $channel
             ], 200);
         } catch (\Exception $e) {
             return response()->json([
@@ -640,7 +642,34 @@ class CoursesController extends Controller
             'Content-Disposition' => 'attachment; filename="' . $customFileName . '"',
         ];
 
-        return Response::download(storage_path('app/public/' . $filePath), $customFileName, $headers);
+        return response()->download(storage_path('app/public/'.$filePath),$customFileName);
+
+        // return Response::download(storage_path('app/public/' . $filePath), $customFileName, $headers);
+    }
+
+    public function download($assignments){
+
+        return response()->download(public_path('assets/'.$assignments));
+    }
+
+    public function getCourseChannelDeets($course){
+        try {
+            $course = Courses::findOrFail($course);
+            $channel = $course->channel()->get();
+
+      return response()->json([
+                'status' => 201,
+                'message' => "Successfully retrieved course channel",
+                "data" => $channel,
+
+            ], 201);
+            
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 422,
+                'message' => $e->getMessage(),
+            ], 422);
+        }
     }
 
 }

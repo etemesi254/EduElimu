@@ -48,6 +48,7 @@ import VideoCategoriesTable from './Admin/Tables/VideoCategoriesTable';
 import AddVideoCategory from './Admin/Forms/addVideoCategories';
 import VideoChannelsTable from "./Admin/Tables/ChannelsTable";
 import EditVideoCategories from './Admin/Forms/editVideoCategories';
+import CoursePlayer from './main_video_display/main_course';
 
 function App() {
     const [showLogout, setShowLogout] = useState(false);
@@ -88,6 +89,7 @@ function App() {
               <Route path="/profile" element={<UserProfile showLogout={showLogout} 
               setShowLogout={setShowLogout}/>}/>
               <Route path="/create_channel" element={<CreateChannel/>}/>
+              <Route path='/course/:course' element={<CoursePlayer/>}/>
               <Route path="/edit_channel/:id/:channel" element={<EditChannel/>}/>
               <Route path="/edit_userVideos/:id/:video" element={<EditVideos/>}/>
               <Route path='/show_channel_list' element={<ViewChannelList setShowDelete={setShowDelete} showDelete = {showDelete}/>}/>
@@ -97,7 +99,7 @@ function App() {
                 <Route path="/chanel/:channel" element={<ChanelLayout/>}>
                   <Route index element={<ChanelDashboard/>}/>
                   <Route path='videos/:videos' element={<ChanelVideoPage/>}/>
-                  <Route path='courses' element={<ChanelCoursesPage/>}/>
+                  <Route path='courses/:courses' element={<ChanelCoursesPage/>}/>
                   <Route path='about/:about' element={<ChanelAbout/>}/>
                 </Route>
             </Route>
