@@ -6,6 +6,7 @@ use App\Models\VideoCategories;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use PHPUnit\Exception;
 
 class VideoCategoriesController extends Controller
@@ -62,7 +63,7 @@ class VideoCategoriesController extends Controller
     public function storeBanner(Request $request): bool|string
     {
         // store the video
-        return $request->file("banner")->store("categories_banner", "public");
+       return Storage::url(Storage::disk('s3')->put("/categories_banner",$request->file("banner"),"public"));
     }
 
     public function listAllCategories(Request $request)

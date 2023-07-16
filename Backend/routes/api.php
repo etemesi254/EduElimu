@@ -50,12 +50,13 @@ Route::prefix("videos")->group(function () {
     Route::any("/all", [VideoController::class, "getAllVideos"]);
     Route::get("/channel/{id}", [VideoController::class, "getVideoChannel"]);
     Route::any("/like", [VideoLikesController::class, "likeVideo"]);
+    Route::any("/dislike",[VideoLikesController::class,"dislikeVideo"]);
+    Route::any("/user-videos",[VideoController::class,"getFUserVideos"]);
     Route::any("/likers", [VideoLikesController::class, "getVideoLikers"]);
     // NB: Should be the last
     Route::get("/{id}", [VideoController::class, "getUserVideos"]);
 
 });
-
 
 Route::prefix("channels")->group(function () {
     Route::post("/create", [ChannelController::class, "addChannel"]);
@@ -122,8 +123,8 @@ Route::prefix("courses")->group(
 
         //resources
         Route::post("resources/add", [CoursesController::class, 'addCourseResourse']);
-        Route::post("resources/edit", [CoursesController::class, 'updateCourseResourse']); 
-        Route::post("resources/delete", [CoursesController::class, 'deleteCourseResourse']); 
+        Route::post("resources/edit", [CoursesController::class, 'updateCourseResourse']);
+        Route::post("resources/delete", [CoursesController::class, 'deleteCourseResourse']);
         Route::get("resources/{id}", [CoursesController::class, 'getCourseResources']);
         Route::get("resources/get/all", [CoursesController::class, 'getAllResources']);
         Route::get('resource/download/{resourceId}', [CoursesController::class,"downloadFile"]);

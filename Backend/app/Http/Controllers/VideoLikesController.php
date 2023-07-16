@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\VideoDislikes;
 use App\Models\VideoLikes;
 use App\Models\Videos;
 use Illuminate\Http\Request;
@@ -43,6 +44,38 @@ class VideoLikesController extends Controller
         }
     }
 
+    public function dislikeVideo(Request $request): \Illuminate\Http\JsonResponse
+    {
+
+        $rules = [
+            "video_id" => "required|exists:videos,id",
+            "user_id" => "required|exists:users,id",
+        ];
+
+        try {
+            $request->validate($rules);
+
+            // create the subscriber relationship
+            $details = VideoDislikes::create([
+                "video_id" => $request->video_id,
+                "user_id" => $request->user_id,
+            ]);
+            $video = Videos::findOrFail($request->video_id);
+            $video->dislikes += 1;
+            $video->save();
+
+            return response()->json(["status" => 200,
+                "message" => "Successfully disliked " . $video->name,
+                "data" => [$video]
+            ], status: 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 500,
+                'message' => $e->getMessage(),
+                "data" => null
+            ], 500);
+        }
+    }
     public function getVideoLikers(Request $request)
     {
         try {
