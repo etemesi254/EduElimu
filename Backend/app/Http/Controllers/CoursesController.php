@@ -36,7 +36,7 @@ class CoursesController extends Controller
                         "status" => 500,
                         "message" => "Could not store course banner",
                         "data" => null
-                    ], status: 500);
+                    ]);
             }
 
             $course = Courses::create([
