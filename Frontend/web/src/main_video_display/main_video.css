@@ -12,6 +12,11 @@
   position: relative;
   width: 100%;
 }
+.other-video.selected {
+  background-color: #f2f2f2;
+  padding: 10px;
+}
+
 .video-dis{
   display: flex;
 }
