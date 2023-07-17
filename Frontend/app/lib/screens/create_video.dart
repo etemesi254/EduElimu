@@ -388,7 +388,10 @@ class _UploadVideoScreenState extends State<UploadVideoScreen> {
                 description: videoDescriptionController.text,
                 thumbnail: imageBytes!,
                 name: videoNameController.text);
+
             String response = await uploadVideo(ctx);
+            showOverlayMessage("Successfully uploaded video");
+
             // Todo: Add dialog box on channel creation
           } on Exception catch (e) {
             if (e is NetworkException) {

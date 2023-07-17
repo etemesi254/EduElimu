@@ -8,9 +8,10 @@ import 'package:image_picker/image_picker.dart';
 import 'package:video_player/video_player.dart';
 
 import '../models/video_models.dart';
+import '../screens/single_video_screen.dart';
 
 class VideoComponent extends StatefulWidget {
-  final VideoModel model;
+  final HomeVideoModel model;
   final String endpoint;
 
   const VideoComponent(
@@ -21,6 +22,15 @@ class VideoComponent extends StatefulWidget {
 }
 
 class _VideoComponentState extends State<VideoComponent> {
+  NetworkBasedVideoPlayer? component;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    component = NetworkBasedVideoPlayer(
+        url: widget.model.videoFile);
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -33,53 +43,65 @@ class _VideoComponentState extends State<VideoComponent> {
               child: Container(
                 //height: 50,
                 //width: 50,
-                child: NetworkBasedVideoPlayer(
-                    url: '${widget.endpoint}${widget.model.videoFile}'),
+                child: component,
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8.0),
-              child: Row(
-              children: [
-                Flexible(
-                  child: Text(widget.model.videoName,
-                      style: GoogleFonts.poppins(
-                          fontWeight: FontWeight.bold, fontSize: 22)),
-                ),
-                const Spacer(),
-
-                Text(
-                  "${widget.model.videoViews} views",
-                  style: TextStyle(color: Colors.black.withOpacity(0.5)),
-                ),
-                const SizedBox(width: 20),
-                Text(
-                  "1 week ago",
-                  style: TextStyle(color: Colors.black.withOpacity(0.5)),
-                )
-              ]),
-            ),
-
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 2),
-              child: Row(
+            InkWell(
+              onTap: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (builder) => SingeVideoScreen(
+                          video: widget.model,
+                          component: component!,
+                          endpoint: widget.endpoint,
+                        )));
+              },
+              child: Column(
                 children: [
-                  ClipRRect(
-                    // backgroundColor: Colors.transparent,
-                    borderRadius: BorderRadius.circular(20),
-                    child: CachedNetworkImage(
-                        width: 30,
-                        height: 30,
-                        imageUrl:
-                            "${widget.endpoint}${widget.model.channelBanner}"),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 8.0),
+                    child: Row(children: [
+                      Flexible(
+                        child: Text(widget.model.videoName,
+                            style: GoogleFonts.poppins(
+                                fontWeight: FontWeight.bold, fontSize: 20)),
+                      ),
+                      //const Spacer(),
+                      const SizedBox(width: 10),
+                      Text(
+                        "${widget.model.videoViews} views",
+                        style: TextStyle(color: Colors.black.withOpacity(0.5),fontSize: 12),
+                      ),
+                      const SizedBox(width: 20),
+                      Text(
+                        "1 week ago",
+                        style: TextStyle(color: Colors.black.withOpacity(0.5),fontSize: 12),
+                      )
+                    ]),
                   ),
-                  const SizedBox(width: 20),
-                  Text(
-                    widget.model.channelName,
-                    style: GoogleFonts.poppins(color: EduColors.blackColor),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 2),
+                    child: Row(
+                      children: [
+                        ClipRRect(
+                          // backgroundColor: Colors.transparent,
+                          borderRadius: BorderRadius.circular(20),
+                          child: CachedNetworkImage(
+                              width: 30,
+                              height: 30,
+                              fit: BoxFit.fill,
+                              imageUrl:
+                                  widget.model.channelBanner),
+                        ),
+                        const SizedBox(width: 20),
+                        Text(
+                          widget.model.channelName,
+                          style:
+                              GoogleFonts.poppins(color: EduColors.blackColor),
+                        ),
+                        const Spacer(),
+                      ],
+                    ),
                   ),
-                  const Spacer(),
-
                 ],
               ),
             ),
@@ -92,6 +114,7 @@ class _VideoComponentState extends State<VideoComponent> {
 
 class FileBasedVideoPlayer extends StatefulWidget {
   final File file;
+
 
   const FileBasedVideoPlayer({Key? key, required this.file}) : super(key: key);
 
@@ -257,7 +280,7 @@ class _NetworkBasedVideoPlayerState extends State<NetworkBasedVideoPlayer> {
     _controller = VideoPlayerController.networkUrl(Uri.parse(widget.url));
 
     _initializeVideoPlayerFuture = _controller.initialize();
-
+    //_controller.seekTo(Duration(seconds: 1));
     _controller.addListener(() {
       if (showVeil) {
         // call to update values when the veil is being shown
@@ -384,11 +407,18 @@ class _NetworkBasedVideoPlayerState extends State<NetworkBasedVideoPlayer> {
           } else {
             // If the VideoPlayerController is still initializing, show a
             // loading spinner.
-            return const Center(
-              child: CircularProgressIndicator(),
+            return const Padding(
+              padding: EdgeInsets.all(8.0),
+              child: Center(
+                child: CircularProgressIndicator(),
+              ),
             );
           }
         });
+  }
+
+  double? ratio() {
+    return _controller.value.aspectRatio;
   }
 }
 

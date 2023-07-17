@@ -6,6 +6,7 @@ use App\Models\Channel;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use PHPUnit\Exception;
 
 
@@ -92,8 +93,9 @@ class ChannelController extends Controller
 
     public function storeChannelBanner(Request $request): bool|string
     {
+        return Storage::url(Storage::disk('s3')->put("/channel_banners", $request->file("channel_banner"), "public"));
         // store the video
-        return $request->file("channel_banner")->store("channel_banners", "public");
+        //return $request->file("channel_banner")->store("channel_banners", "public");
     }
     public function addChannelWithFirebaseId(Request $request)
     {
