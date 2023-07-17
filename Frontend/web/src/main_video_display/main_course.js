@@ -5,7 +5,7 @@ import {GiClick} from "react-icons/gi";
 import {BiLike} from "react-icons/bi";
 import {HiSaveAs} from "react-icons/hi";
 import { toast } from 'react-toastify';
-import ChanelVideos from "../Chanels/chanel_dashboard/chanel_videos";
+import {TiTick} from 'react-icons/ti';
 
 import "./main_video.css";
 import { Link, useParams } from "react-router-dom";
@@ -23,8 +23,36 @@ function CoursePlayer() {
     const [loading,setLoading] = useState(true);
     const [channel,setChannel] = useState([]);
     const [resources,setResources] = useState([]);
+    const [marked,setMarked] = useState(false);
     const [selectedVideo, setSelectedVideo] = useState("");
     const [selectedVideoIndex, setSelectedVideoIndex] = useState(0);
+
+    async function markAsDone(){
+        setMarked(true);
+        const formData = new FormData();
+        formData.append("user_id", user.id);
+        formData.append("course_id", id);
+        formData.append("video_id",selectedVideo.id);
+        try {
+            const url = `http://127.0.0.1:8000/api/courses/markAsDone`;
+        
+            const response = await fetch(url, {
+              method: "POST",
+              body: formData
+            });
+      
+            console.log(response)
+        
+            if (response.ok) {
+                return toast.success('Video Marked As Done');
+            } else {
+              return toast.error('An error has occurred');
+            }
+          } catch (error) {
+            console.error("Error:", error.message);
+            return toast.error('An error has occurred',error.message);
+          }
+    }
 
 
     useEffect(() => {
@@ -155,6 +183,19 @@ function CoursePlayer() {
                 </div>
               </div>
               <div className="actions-div">
+              <div onClick={markAsDone}
+                className="join-chanel"
+                style={{
+                    color: marked ? 'white' : 'green',
+                    backgroundColor: marked ? 'green' : 'white',
+                    outline: `2px solid ${marked ? 'green' : 'initial'}`,
+                    color: marked ? 'white' : 'green',
+                }}
+                >
+                <TiTick className="meta-icons" />
+                <p>{marked ? 'Mark Not Done' : 'Mark As Done'}</p>
+                </div>
+
                 <div className="join-chanel">
                   <GiClick className="meta-icons"/>
                   <p>Join Chanel</p>

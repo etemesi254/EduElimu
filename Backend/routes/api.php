@@ -115,6 +115,7 @@ Route::prefix("courses")->group(
         Route::post("addVideo", [CoursesController::class,"addVideosToCourse"]);
         Route::post("removeVideo", [CoursesController::class,"removeVideoFromCourse"]);
         Route::get('{courseId}/videos', [CoursesController::class, 'getCourseVideos']);
+        Route::get("getStudentCourses/{id}", [CoursesController::class,"getStudentCourses"]);
 
         //progress
         Route::post("markAsDone", [CoursesController::class, 'markAsDone']);

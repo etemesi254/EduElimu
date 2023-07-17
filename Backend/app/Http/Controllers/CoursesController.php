@@ -256,6 +256,24 @@ class CoursesController extends Controller
         }
     }
 
+    public function getStudentCourses($student_id){
+        try {
+            $student = User::findOrFail($student_id);
+            $courses = $student->coursesStudents()->get();
+
+            return response()->json([
+                'status' => 200,
+                'message' => "Retrieved users in the course successfully",
+                'data' => $courses,
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 422,
+                'message' => $e->getMessage(),
+            ], 422);
+        }
+    }
+
     public function addVideosToCourse(Request $request){
         $rules = [
             "video_id" => "required",
