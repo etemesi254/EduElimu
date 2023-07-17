@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:edu_elimu/api/categories.dart';
 import 'package:edu_elimu/components/connection_error.dart';
 import 'package:edu_elimu/components/loading_component.dart';
+import 'package:edu_elimu/screens/category_screen.dart';
 import 'package:edu_elimu/themes/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -82,6 +83,7 @@ class _EduCategoriesComponentState extends State<EduCategoriesComponent> {
     return InkWell(
       onTap: () {
         // show button to show video categories
+        Navigator.of(context).push(MaterialPageRoute(builder: (builder)=>VideoCategoryScreen(category: category)));
       },
       onLongPress: () {
         showDialog(

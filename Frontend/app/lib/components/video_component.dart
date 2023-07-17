@@ -115,6 +115,7 @@ class _VideoComponentState extends State<VideoComponent> {
 class FileBasedVideoPlayer extends StatefulWidget {
   final File file;
 
+
   const FileBasedVideoPlayer({Key? key, required this.file}) : super(key: key);
 
   @override
@@ -280,7 +281,6 @@ class _NetworkBasedVideoPlayerState extends State<NetworkBasedVideoPlayer> {
 
     _initializeVideoPlayerFuture = _controller.initialize();
     //_controller.seekTo(Duration(seconds: 1));
-    _controller.value.
     _controller.addListener(() {
       if (showVeil) {
         // call to update values when the veil is being shown
