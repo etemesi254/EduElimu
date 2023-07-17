@@ -195,6 +195,31 @@ class UsersController extends Controller
             ]
         );
     }
+
+    public function getUserDetails($id){
+        try {
+            $user = User::findOrFail($id);
+            $channels = $user->channels()->get();
+            $videos = $user->videos()->get();
+            $courses = $user->courses()->get();
+            $courseAsStudent = $user->coursesStudents()->get();
+
+            return response()->json(
+                [
+                    "status" => 200,
+                    "message" => "Successfuly fetched users",
+                    "channels" => $channels,
+                    "videos" => $videos,
+                    "courses"=>$courses,
+                    "courseAsStudent" => $courseAsStudent
+                ]
+            );
+        } catch (\Throwable $th) {
+            return response()->json([
+                'status' => 500,
+                'message' => $th->getMessage(),
+            ], 500);
+          
     public function updateStatus(Request $request)
     {
         $rules = [

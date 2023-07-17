@@ -64,8 +64,9 @@ class CoursesController extends Controller
 
     public function storeCourseBanner(Request $request): bool|string
     {
+        return Storage::url(Storage::disk('s3')->put("/course_banners", $request->file("course_banner"), "public"));
         // store the video
-        return $request->file("course_banner")->store("course_banners", "public");
+        // return $request->file("course_banner")->store("course_banners", "public");
     }
 
     function editCourses(Request $request)
@@ -89,8 +90,8 @@ class CoursesController extends Controller
                 $data["channel_id"] = $request->channel_id;
             }
 
-            if ($request->course_banner) {
-                $bannerPath = $this->storeCourseBanner($request->course_banner);
+            if($request->hasFile('course_banner')){
+                $bannerPath = $this->storeCourseBanner($request);
 
                 if (is_bool($bannerPath)) {
                     // a boolean indicates an error
@@ -100,6 +101,8 @@ class CoursesController extends Controller
                             "message" => "Could not store course banner",
                             "data" => null
                         ], status: 500);
+                }else{
+                    $data["course_banner"] = $bannerPath;
                 }
             }
 
@@ -552,9 +555,8 @@ class CoursesController extends Controller
             if ($request->course_id) {
                 $data["course_id"] = $request->course_id;
             }
-
-            if ($request->resource) {
-                $bannerPath = $this->storeCourseResourses($request->resource);
+            if($request->resource){
+                $bannerPath = $this->storeCourseResourses($request);
 
                 if (is_bool($bannerPath)) {
                     // a boolean indicates an error
@@ -565,6 +567,7 @@ class CoursesController extends Controller
                             "data" => null
                         ], status: 500);
                 }
+                $data["resource"] = $bannerPath;
             }
 
             $resource = tap(CourseResources::whereId($request->id))->update($data)->first();

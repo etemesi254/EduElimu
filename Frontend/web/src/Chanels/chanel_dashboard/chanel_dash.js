@@ -101,8 +101,8 @@ function ChanelDashboard(){
                       onMouseOver={playMovie}
                       onMouseOut={stopMovie}
                       ref={videoRef}
-                      src={`http://127.0.0.1:8000/storage/${videos[0].file_url}`}
-                      poster={`http://127.0.0.1:8000/storage/${videos[0].banner_url}`}
+                      src={videos[0].file_url}
+                      poster={videos[0].banner_url}
                       preload='none'
                       loop
                   />

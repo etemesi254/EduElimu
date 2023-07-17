@@ -9,6 +9,7 @@ import { useUserContext } from "../context/UserContext";
 function HomeContent(){
     const [videos, setVideos] = useState(videoData);
     const {allVideos} = useUserContext();
+    console.log(allVideos);
 
     console.log(allVideos);
 

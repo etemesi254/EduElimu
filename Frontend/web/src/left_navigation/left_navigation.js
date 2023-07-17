@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import {AiOutlineHeart,AiOutlineCloudDownload,AiOutlineSetting,AiOutlineLike} from 'react-icons/ai';
 import {MdOutlineBrowseGallery} from 'react-icons/md';
-import {BsBrowserEdge} from 'react-icons/bs';
+import {BsBrowserEdge,BsCheckAll} from 'react-icons/bs';
 import {TbLogout} from 'react-icons/tb';
 import {SlGameController} from 'react-icons/sl';
 import { useAuth } from '../context/AuthContext';
@@ -21,9 +21,10 @@ function LeftNavigation({showLogout,setShowLogout}){
     <h2>EduElimu.</h2>
     <ul className='section'>
         <p>Main</p>
-        <li id='active'><BsBrowserEdge className='left-icons'/><a href=''>Browse</a></li>
+        <li id='active'><BsBrowserEdge className='left-icons'/><a href='/'>Browse</a></li>
         <li> <AiOutlineHeart className='left-icons'/> <a href=''>WatchList</a></li>
-        <li> <MdOutlineBrowseGallery className='left-icons'/> <a href=''>My Courses</a>   </li>
+        <li> <MdOutlineBrowseGallery className='left-icons'/> <a href='/my_courses'>My Courses</a>   </li>
+        <li> <BsCheckAll className='left-icons'/> <a href='/all_courses'>All Courses</a>   </li>
     </ul>
     <ul className='section'>
         <p>Social</p>

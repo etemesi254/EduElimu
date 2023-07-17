@@ -55,6 +55,8 @@ import CreateCourse from './Chanels/create chanel/create_course';
 import AddToCourse from './Chanels/create chanel/add_to_course';
 import Mycourses from './my_courses/mycourses';
 import { AdminProvider } from './Admin/adminContext';
+import AllCourses from './my_courses/allCourses';
+import UploadResources from './Chanels/create chanel/uploadResources';
 
 function App() {
     const [showLogout, setShowLogout] = useState(false);
@@ -95,6 +97,7 @@ function App() {
               <Route path="/profile" element={<UserProfile showLogout={showLogout} 
               setShowLogout={setShowLogout}/>}/>
               <Route path='/my_courses' element={<Mycourses/>}/>
+              <Route path='/all_courses' element={<AllCourses/>}/>
               <Route path="/create_channel" element={<CreateChannel/>}/>
               <Route path="/create_course" element={<CreateCourse/>}/>
               <Route path="/add_to_course" element={<AddToCourse/>}/>
@@ -104,6 +107,7 @@ function App() {
               <Route path="/edit_userCourses/:id/:course" element={<EditCourses/>}/>
               <Route path='/show_channel_list' element={<ViewChannelList setShowDelete={setShowDelete} showDelete = {showDelete}/>}/>
               <Route path="/upload_videos" element={<UploadVideos/>}/>
+              <Route path="/upload_resources" element={<UploadResources/>}/>
               <Route path='/show_video_list' element={<ViewVideosList setShowDeleteVideo={setShowDeleteVideo} showDeleteVideo = {showDeleteVideo}/>}/>
               <Route path='/show_course_list' element={<ViewCourseList setShowDeleteVideo={setShowDeleteVideo} showDeleteVideo = {showDeleteVideo}/>}/>
               <Route path='video_player/:video/' element={<VideoPlayer/>}/>

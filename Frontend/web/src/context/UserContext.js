@@ -17,10 +17,12 @@ export function UserProvider({children}) {
     const [allVideos, setAllVideos] = useState([]);
     const [userCourses,setUserCourses] = useState([]);
     const [myCourses, setMyCourses] = useState([]);
+    const [allCourses,setAllCourses] = useState([]);
 
   useEffect(() => {
     getAllVideos();
     getAllVideosFunction();
+    getAllCourses();
     if(currentUser){
         getCurrentUser();
     }
@@ -44,14 +46,57 @@ export function UserProvider({children}) {
       if (response.status === 201) {
         const user = await response.json();
         setUser(user.data); // Update the user state
-        getUserChannel(user.data.id);
-        getUserVideos(user.data.id);
-        getUserCourses(user.data.id);
-        getStudentCourses(user.data.id);
-
+        getUserDetails(user.data.id);
         // getVideoCategories();
       } else {
         throw new Error("Failed to fetch current user");
+      }
+    } catch (error) {
+      console.error("Error:", error.message);
+    }
+  }
+
+  async function getUserDetails(user) {
+    try {
+      const url = `http://127.0.0.1:8000/api/user/details/${user}`;
+      const response = await fetch(url, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if(response.ok){
+        const data = await response.json();
+        setUserVideos(data.videos);
+        setMyCourses(data.courseAsStudent);
+        setChannel(data.channels);
+        setUserCourses(data.courses);
+      }
+    } catch (error) {
+      
+    }
+  }
+
+  async function getAllCourses(){
+    try {
+      const url = `http://127.0.0.1:8000/api/courses/all`;
+  
+      const response = await fetch(url, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      console.log(response)
+  
+      if (response.ok) {
+        const courses = await response.json();
+        console.log(courses);
+        setAllCourses(courses.data);
+      } else {
+        throw new Error("Failed to fetch courses");
       }
     } catch (error) {
       console.error("Error:", error.message);
@@ -427,6 +472,7 @@ export function UserProvider({children}) {
         categories,
         userCourses,
         myCourses,
+        allCourses,
         formatDateTime,
         getVideoChannel,
         getCategoryDetails,

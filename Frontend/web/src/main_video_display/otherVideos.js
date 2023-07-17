@@ -5,7 +5,7 @@ function OtherVideos({video}){
     const {formatDateTime} = useUserContext();
     return <div>
     <div className="course-poster-container">
-        <img src={`http://127.0.0.1:8000/storage/${video.video_banner}`}/>
+        <img src={video.video_banner}/>
     </div>
     <div className="chanel-course-info">
         <h3>{video.video_name}</h3>

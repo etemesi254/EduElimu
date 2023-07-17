@@ -97,6 +97,13 @@ class ChannelController extends Controller
         // store the video
         //return $request->file("channel_banner")->store("channel_banners", "public");
     }
+
+    public function updateChannelBanner(Request $request): bool|string
+    {
+        return Storage::url(Storage::disk('s3')->put("/channel_banners", $request->file("banner"), "public"));
+        // store the video
+        //return $request->file("channel_banner")->store("channel_banners", "public");
+    }
     public function addChannelWithFirebaseId(Request $request)
     {
         $rules = [
@@ -237,7 +244,7 @@ class ChannelController extends Controller
             }
 
             if($request->banner){
-                $bannerPath = $this->storeChannelBanner($request->banner);
+                $bannerPath = $this->updateChannelBanner($request);
 
                 if (is_bool($bannerPath)) {
                     // a boolean indicates an error
@@ -248,6 +255,7 @@ class ChannelController extends Controller
                             "data" => null
                         ], status: 500);
                 }
+                $data["banner"] = $bannerPath;
             }
 
             $channel = tap(Channel::whereId($request->id))->update($data)->first();

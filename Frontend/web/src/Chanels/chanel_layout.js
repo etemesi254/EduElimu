@@ -32,7 +32,7 @@ function ChanelLayout(){
     {isLoading ? (<Loading/>): (
       <>
       <div className="chanel-dashboard-img">
-    <img src={`http://127.0.0.1:8000/storage/${banner}`}/>
+    <img src={banner}/>
     </div>
     <div className="chanel-details">
         <div className="chanel-profile-pic">
