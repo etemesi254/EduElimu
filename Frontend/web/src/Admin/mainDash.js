@@ -15,14 +15,14 @@ import { PieChart ,Pie,Sector,Cell,Tooltip,XAxis,YAxis,BarChart,Bar,Legend,Carte
 const MainDash = ({setHideSidebar,hideSidebar,showLogout,setShowLogout})=>{
 	const {userCount,channelCount,categoryCount,courseEnrollmentCount} = useAdminContext();
 
-	const data = channelCount.map((channel) => {
+	const data = channelCount && channelCount.map((channel) => {
 		return { name: channel.name, value: channel.count };
 	  });
-	  const categoryData = categoryCount.map((category) => {
+	  const categoryData = categoryCount && categoryCount.map((category) => {
 		return { name: category.name, value: category.count };
 	  });
 	
-	  const enrollmentData = courseEnrollmentCount.map((enrollment) => {
+	  const enrollmentData = courseEnrollmentCount && courseEnrollmentCount.map((enrollment) => {
 		return { name: enrollment.name, value: enrollment.count };
 	  });
 	
@@ -92,7 +92,7 @@ const MainDash = ({setHideSidebar,hideSidebar,showLogout,setShowLogout})=>{
 
 			<div class="table-data">
 				<div class="order">
-					<div class="head">
+					{channelCount && channelCount.length > 0 && <><div class="head">
 						<h3>Channel Statistics</h3>
 						<i class='bx bx-search' ></i>
 						<i class='bx bx-filter' ></i>
@@ -130,8 +130,8 @@ const MainDash = ({setHideSidebar,hideSidebar,showLogout,setShowLogout})=>{
 						<CartesianGrid strokeDasharray="3 3" />
 						<Bar dataKey="value" fill="#8884d8" background={{ fill: '#eee' }} />
 					</BarChart>
-					</div>
-					<div class="head">
+					</div></>}
+					{categoryCount && categoryCount.length > 0 && <><div class="head">
 						<h3>Category Statistics</h3>
 						<i class='bx bx-search' ></i>
 						<i class='bx bx-filter' ></i>
@@ -170,7 +170,8 @@ const MainDash = ({setHideSidebar,hideSidebar,showLogout,setShowLogout})=>{
 						<Bar dataKey="value" fill="#8884d8" background={{ fill: '#eee' }} />
 					</BarChart>
 					</div>
-					<div class="head">
+					</>}
+					{courseEnrollmentCount && courseEnrollmentCount.length > 0 &&<><div class="head">
 						<h3>Course Enrollment Statistics</h3>
 						<i class='bx bx-search' ></i>
 						<i class='bx bx-filter' ></i>
@@ -208,7 +209,7 @@ const MainDash = ({setHideSidebar,hideSidebar,showLogout,setShowLogout})=>{
 						<CartesianGrid strokeDasharray="3 3" />
 						<Bar dataKey="value" fill="#8884d8" background={{ fill: '#eee' }} />
 					</BarChart>
-					</div>
+					</div></>}
 					{/* <table>
 						<thead>
 							<tr>
