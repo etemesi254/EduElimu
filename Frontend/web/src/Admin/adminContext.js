@@ -11,6 +11,9 @@ export function AdminProvider({children}){
     const [channelCount,setChannelCount] = useState('');
     const [categoryCount,setCategoryCount] = useState('');
     const [courseEnrollmentCount,setCourseEnrollmentCount] = useState('');
+    const [totalChannel,setTotalChannel] = useState('');
+    const [totalCourse,setTotalCourse] = useState('');
+    const [totalVideos,setTotalVideos] = useState('');
 
     useEffect(()=>{
         getAggregate();
@@ -34,6 +37,9 @@ export function AdminProvider({children}){
                 setChannelCount(aggregate.data.channel_count);
                 setCategoryCount(aggregate.data.category_count);
                 setCourseEnrollmentCount(aggregate.data.course_enrollment)
+                setTotalCourse(aggregate.data.total_courses[0].count)
+                setTotalChannel(aggregate.data.total_channels[0].count)
+                setTotalVideos(aggregate.data.total_videos[0].count)
             }else{
                 console.log("something went wrong");
             }
@@ -48,6 +54,9 @@ export function AdminProvider({children}){
         channelCount,
         categoryCount,
         courseEnrollmentCount,
+        totalChannel,
+        totalCourse,
+        totalVideos
     }
 
     return (

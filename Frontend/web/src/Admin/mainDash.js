@@ -13,7 +13,7 @@ import { useAdminContext } from "./adminContext";
 import { PieChart ,Pie,Sector,Cell,Tooltip,XAxis,YAxis,BarChart,Bar,Legend,CartesianGrid} from "recharts";
 
 const MainDash = ({setHideSidebar,hideSidebar,showLogout,setShowLogout})=>{
-	const {userCount,channelCount,categoryCount,courseEnrollmentCount} = useAdminContext();
+	const {userCount,channelCount,categoryCount,courseEnrollmentCount,totalChannel,totalCourse,totalVideos} = useAdminContext();
 
 	const data = channelCount && channelCount.map((channel) => {
 		return { name: channel.name, value: channel.count };
@@ -64,7 +64,7 @@ const MainDash = ({setHideSidebar,hideSidebar,showLogout,setShowLogout})=>{
 				<li>
 					<ImBooks className="bx"/>
 					<span class="text">
-						<h3>0</h3>
+						<h3>{totalCourse}</h3>
 						<p>Courses</p>
 					</span>
 				</li>
@@ -73,7 +73,7 @@ const MainDash = ({setHideSidebar,hideSidebar,showLogout,setShowLogout})=>{
 				<li>
 					<ImFilm className="bx"/>
 					<span class="text">
-						<h3>10</h3>
+						<h3>{totalVideos}</h3>
 						<p>Videos</p>
 					</span>
 				</li>
@@ -82,7 +82,7 @@ const MainDash = ({setHideSidebar,hideSidebar,showLogout,setShowLogout})=>{
 				<li>
 					<ImPlay className="bx"/>
 					<span class="text">
-						<h3>4</h3>
+						<h3>{totalChannel}</h3>
 						<p>Chanels</p>
 					</span>
 				</li>

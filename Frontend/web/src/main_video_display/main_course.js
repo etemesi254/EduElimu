@@ -113,43 +113,14 @@ function CoursePlayer() {
       }
   }
 
-  async function downloadResource(id,name) {
-    console.log("Downloading");
-    try {
-      const url = `http://127.0.0.1:8000/api/courses/resource/download/${id}`;
-    
-      const response = await fetch(url, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-  
-      if (response.ok) {
-        // Extract the filename from the response headers
-        const contentDisposition = response.headers.get('Content-Disposition');
-        const match = contentDisposition && contentDisposition.match(/filename="(.*)"/);
-        const fileName = match && match[1] ? match[1] : name;
-  
-        // Get the response blob and create a URL
-        const blob = await response.blob();
-        const url = URL.createObjectURL(blob);
-  
-        // Create a temporary link element and trigger the download
-        const link = document.createElement('a');
-        link.href = url;
-        link.download = fileName;
-        link.click();
-  
-        // Clean up the temporary URL
-        URL.revokeObjectURL(url);
-      } else {
-        console.error('Failed to download resource:', response.status);
-      }
-    } catch (error) {
-      console.error('An error occurred while downloading the resource:', error);
+  async function viewResource(resourseLink) {
+    console.log(resourseLink);
+    const newTab = window.open(resourseLink, '_blank');
+    if (newTab) {
+      newTab.focus();
     }
   }
+  
     return (
       <>
       {loading ? <Loading/> : <div className="home-image video-dis">
@@ -223,7 +194,7 @@ function CoursePlayer() {
               <div className="desc-div">
               {resources.map((resource,index)=>{
                 return <p
-                onClick={() => downloadResource(resource.id,resource.name)}
+                onClick={() => viewResource(resource.resource)}
                 style={{
                   cursor: 'pointer',
                   color: 'blue',

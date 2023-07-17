@@ -29,7 +29,7 @@ function ViewCourseDisplay({userCourses,showDeleteVideo,setShowDeleteVideo}){
     return <div className="view-channel-display-div">
         <div>
         <div className="view-channel-img-div">
-            <img src={`http://127.0.0.1:8000/${userCourses.course_banner}`}/>
+            <img src={userCourses.course_banner}/>
         </div>
         <div className="view-channel-info-div">
             <h3>{userCourses.name}</h3>
@@ -39,7 +39,6 @@ function ViewCourseDisplay({userCourses,showDeleteVideo,setShowDeleteVideo}){
             </div>
             <div className="view-channel-actions">
                 <BiEditAlt id="edit" onClick={edit}/>
-                <AiOutlineEye id="view" onClick={view}/>
                 <MdDeleteOutline id="delete" onClick={handleshowDeleteVideo}/>
                 <FiShare2 id="share"/>
                 
