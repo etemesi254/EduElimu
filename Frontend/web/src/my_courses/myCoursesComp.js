@@ -42,6 +42,7 @@ function MyCoursesComponent({course}){
                 </div>
                 <div className="plus">
                     {/* <p>+38 more</p> */}
+                    {/* <p>+38 more</p> */}
                 </div>
             </div>
         </div>

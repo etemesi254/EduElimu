@@ -534,6 +534,10 @@ td .delete-btn{
   td .edit-btn:hover{
 	cursor: pointer;
   }
+
+.chart-divs{
+	display: flex;
+}
 /* MAIN */
 /* CONTENT */
 
