@@ -144,7 +144,7 @@ class CoursesController extends Controller
         try {
             $channel = Channel::findOrFail($channel);
             $courses = $channel->courses()->get();
-            
+
             return response()->json([
                 'status' => 200,
                 'message' => "Retrieved Channel's Courses successfully",
@@ -508,7 +508,7 @@ class CoursesController extends Controller
                 "data" => $resource,
 
             ], 201);
-            
+
         } catch (\Exception $e) {
             return response()->json([
                 'status' => 422,
@@ -555,7 +555,7 @@ class CoursesController extends Controller
                 "data" => $resource,
 
             ], 201);
-            
+
         } catch (\Exception $e) {
             return response()->json([
                 'status' => 422,
@@ -578,7 +578,7 @@ class CoursesController extends Controller
                 'message' => "Successfully deleted course resource",
 
             ], 201);
-            
+
         } catch (\Exception $e) {
             return response()->json([
                 'status' => 422,
@@ -589,8 +589,10 @@ class CoursesController extends Controller
 
     public function storeCourseResourses(Request $request): bool|string
     {
+        return Storage::url(Storage::disk('s3')->put("/course_resources", $request->file("resource"), "public"));
+
         // store the video
-        return $request->file("resource")->store("course_resources", "public");
+        //return $request->file("resource")->store("course_resources", "public");
     }
 
     public function getCourseResources($id){
@@ -603,7 +605,7 @@ class CoursesController extends Controller
                 "data" => $resources,
 
             ], 201);
-            
+
         } catch (\Exception $e) {
             return response()->json([
                 'status' => 422,
@@ -622,7 +624,7 @@ class CoursesController extends Controller
                 "data" => $resources,
 
             ], 201);
-            
+
         } catch (\Exception $e) {
             return response()->json([
                 'status' => 422,
@@ -653,7 +655,7 @@ class CoursesController extends Controller
             ], 404);
         }
 
-        $customFileName = $resourceId . '_' . $originalFileName; 
+        $customFileName = $resourceId . '_' . $originalFileName;
         $headers = [
             'Content-Disposition' => 'attachment; filename="' . $customFileName . '"',
         ];

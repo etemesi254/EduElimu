@@ -1,6 +1,7 @@
 import 'package:edu_elimu/screens/account_page.dart';
 import 'package:edu_elimu/screens/create_channel_screen.dart';
 import 'package:edu_elimu/screens/my_channels_screen.dart';
+import 'package:edu_elimu/screens/my_video_screens.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -94,16 +95,16 @@ class _ProfilePageScreenState extends State<ProfilePageScreen> {
           InkWell(
             onTap: () {
               Navigator.of(context).push(MaterialPageRoute(
-                  builder: (builder) => UploadVideoScreen(user: widget.user)));
+                  builder: (builder) => MyVideosScreen(user: widget.user)));
             },
             child: Padding(
               padding:
               const EdgeInsets.symmetric(vertical: 10.0, horizontal: 15),
               child: Row(
                 children: const [
-                  Icon(Icons.create),
+                  Icon(Icons.video_settings),
                   SizedBox(width: 10),
-                  Text("Upload videos"),
+                  Text("My Videos"),
                   Spacer(),
                   Icon(Icons.keyboard_arrow_right)
                 ],

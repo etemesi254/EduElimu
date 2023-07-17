@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:edu_elimu/api/videos.dart';
 import 'package:edu_elimu/components/carousel_component.dart';
 import 'package:edu_elimu/components/error_component.dart';
@@ -18,19 +20,19 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  List<VideoModel> videos = [];
+  List<HomeVideoModel> videos = [];
   bool shouldReload = true;
   String? endpoint;
 
-  Future<List<VideoModel>> getVideos() async {
+  Future<List<HomeVideoModel>> getVideos() async {
     if (shouldReload) {
       videos = await getHomePageVideos();
       shouldReload = false;
     }
+    videos.shuffle();
     var box = Hive.box("settings");
     // default is normal localhost
-    endpoint =
-        await box.get("base_url", defaultValue: "10.0.2.2:8000") + "/storage/";
+    endpoint = "";
 
     return videos;
   }
@@ -38,19 +40,20 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return RefreshIndicator(
-      onRefresh: () async{
-        shouldReload=true;
+      onRefresh: () async {
+        shouldReload = true;
         setState(() {});
       },
-      child: FutureBuilder<List<VideoModel>>(
+      child: FutureBuilder<List<HomeVideoModel>>(
           future: getVideos(),
           builder: (context, snapshot) {
             if (snapshot.connectionState != ConnectionState.done &&
                 shouldReload) {
-              return  LoadingComponent();
+              return LoadingComponent();
             }
             if (snapshot.hasData) {
               return ListView.builder(
+                //cacheExtent: ,
                 itemCount: snapshot.data!.length,
                 itemBuilder: (BuildContext context, int index) {
                   return VideoComponent(

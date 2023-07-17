@@ -40,20 +40,40 @@ Future<String> uploadVideo(VideoUploaderCtx ctx) async {
   }
 }
 
-Future<List<VideoModel>> getHomePageVideos() async {
+Future<List<HomeVideoModel>> getHomePageVideos() async {
   var box = await Hive.box("settings");
   // default is normal localhost
   String url = await box.get("base_url", defaultValue: "10.0.2.2:8000") +
       "/api/videos/front";
-
 
   final uri = Uri.parse(url);
   var response = await http.get(uri);
   var json = jsonDecode(response.body);
 
   if (response.statusCode == 200) {
-    return (json["data"]["videos"] as List).map((e) => VideoModel.fromJson(e)).toList();
+    return (json["data"]["videos"] as List)
+        .map((e) => HomeVideoModel.fromJson(e))
+        .toList();
   }
   throw NetworkException(status: json["status"], message: json["message"]);
-
 }
+
+Future<List<HomeVideoModel>> geMyVideos(String firebaseId) async {
+  var box = await Hive.box("settings");
+  // default is normal localhost
+  String url = await box.get("base_url", defaultValue: "10.0.2.2:8000") +
+      "/api/videos/user-videos?firebase_id=${firebaseId}";
+
+  final uri = Uri.parse(url);
+  var response = await http.get(uri);
+  var json = jsonDecode(response.body);
+
+  if (response.statusCode == 200) {
+    print(response.body);
+    return (json["data"]["videos"] as List)
+        .map((e) => HomeVideoModel.fromJson(e))
+        .toList();
+  }
+  throw NetworkException(status: json["status"], message: json["message"]);
+}
+

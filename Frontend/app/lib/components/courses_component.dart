@@ -1,8 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:edu_elimu/api/categories.dart';
+import 'package:edu_elimu/api/courses.dart';
 import 'package:edu_elimu/components/connection_error.dart';
+import 'package:edu_elimu/components/error_component.dart';
 import 'package:edu_elimu/components/loading_component.dart';
-import 'package:edu_elimu/screens/category_screen.dart';
+import 'package:edu_elimu/models/courses_model.dart';
+import 'package:edu_elimu/screens/course_screen.dart';
 import 'package:edu_elimu/themes/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -11,21 +14,21 @@ import 'package:hive/hive.dart';
 
 import '../models/categories_model.dart';
 
-class EduCategoriesComponent extends StatefulWidget {
-  const EduCategoriesComponent({Key? key}) : super(key: key);
+class EduCoursesComponent extends StatefulWidget {
+  const EduCoursesComponent({Key? key}) : super(key: key);
 
   @override
-  State<EduCategoriesComponent> createState() => _EduCategoriesComponentState();
+  State<EduCoursesComponent> createState() => _EduCoursesComponentState();
 }
 
-class _EduCategoriesComponentState extends State<EduCategoriesComponent> {
-  List<VideoCategory>? category;
+class _EduCoursesComponentState extends State<EduCoursesComponent> {
+  List<CourseModel>? category;
   bool shouldRefresh = true;
   Uri? endpoint;
 
-  Future<List<VideoCategory>> getVideCategories() async {
+  Future<List<CourseModel>> getVideCategories() async {
     if (shouldRefresh) {
-      category = await getAllCategories();
+      category = await getAllCourses();
       shouldRefresh = false;
     }
     var box = Hive.box("settings");
@@ -44,7 +47,7 @@ class _EduCategoriesComponentState extends State<EduCategoriesComponent> {
         shouldRefresh = true;
         setState(() {});
       },
-      child: FutureBuilder<List<VideoCategory>>(
+      child: FutureBuilder<List<CourseModel>>(
           future: getVideCategories(),
           builder: (context, snapshot) {
             if (snapshot.connectionState != ConnectionState.done &&
@@ -59,7 +62,7 @@ class _EduCategoriesComponentState extends State<EduCategoriesComponent> {
                 ],
               );
             } else if (snapshot.hasError) {
-              return Text(snapshot.error!.toString());
+              return ErrorComponent(message:snapshot.error!.toString());
             } else {
               return ListView(
                 children: [
@@ -71,19 +74,19 @@ class _EduCategoriesComponentState extends State<EduCategoriesComponent> {
     );
   }
 
-  Widget createSingleCategoryComponent(VideoCategory category) {
-    var url = "${category.imageUrl}";
+  Widget createSingleCategoryComponent(CourseModel category) {
+    var url = "${endpoint!}${category.courseBanner}";
     CachedNetworkImage img = CachedNetworkImage(
       imageUrl: url,
       // width: 200,
-     // height: 300,
-      fit: BoxFit.fitWidth,
-
+      //height: 300,
     );
     return InkWell(
       onTap: () {
         // show button to show video categories
-        Navigator.of(context).push(MaterialPageRoute(builder: (builder)=>VideoCategoryScreen(category: category)));
+        Navigator.of(context).push(MaterialPageRoute(
+            builder: (builder) =>
+                CourseScreen(model: category, endpoint: endpoint!.toString())));
       },
       onLongPress: () {
         showDialog(
@@ -139,9 +142,8 @@ class _EduCategoriesComponentState extends State<EduCategoriesComponent> {
             const EdgeInsets.only(bottom: 10, top: 10, left: 10, right: 10),
         margin: const EdgeInsets.only(bottom: 30),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Center(child: img),
+            img,
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -156,27 +158,15 @@ class _EduCategoriesComponentState extends State<EduCategoriesComponent> {
                           style: GoogleFonts.poppins(
                               fontWeight: FontWeight.w500, fontSize: 20),
                         )),
-                    // Container(
-                    //     padding: const EdgeInsets.only(top: 10),
-                    //     child: Text(
-                    //       category.description,
-                    //       textAlign: TextAlign.start,
-                    //       style: GoogleFonts.poppins(
-                    //           fontWeight: FontWeight.normal, fontSize: 14),
-                    //     )),
                   ],
                 ),
                 const Spacer(),
-                const SizedBox(height: 10),
-                const Padding(
-                  padding:  EdgeInsets.all(8.0),
-                  child: CircleAvatar(
-                      backgroundColor: EduColors.blackColor,
-                      child: Icon(
-                        Icons.north_east,
-                        color: Colors.white,
-                      )),
-                ),
+                const CircleAvatar(
+                    backgroundColor: EduColors.blackColor,
+                    child: Icon(
+                      Icons.north_east,
+                      color: Colors.white,
+                    )),
               ],
             ),
             Text(
@@ -185,7 +175,7 @@ class _EduCategoriesComponentState extends State<EduCategoriesComponent> {
               textAlign: TextAlign.start,
               style: GoogleFonts.poppins(
                   fontWeight: FontWeight.normal, fontSize: 14),
-            )
+            ),
           ],
         ),
       ),

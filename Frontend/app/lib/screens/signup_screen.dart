@@ -282,11 +282,16 @@ class _SignupScreenState extends State<SignupScreen> {
             return;
           }
 
+          EasyLoading.show(status: "Loading");
           UserCredential user = await auth.createUserWithEmailAndPassword(
               email: emailController.text, password: passwordController.text);
 
           showOverlayMessage("Successfully created user");
+          Navigator.of(context).popUntil((route) => route.isFirst);
+
+          EasyLoading.dismiss();
         } on Exception catch (e) {
+          EasyLoading.dismiss();
           var msg = "Could not create user";
 
           if (e is FirebaseAuthException) {

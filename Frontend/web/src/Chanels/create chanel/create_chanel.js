@@ -32,8 +32,10 @@ function CreateChannel(){
         try {
             const result = await fetch(
                 "http://127.0.0.1:8000/api/channels/create",
+
                 {
                     method: "POST",
+
                     body: formData
                 }
             );

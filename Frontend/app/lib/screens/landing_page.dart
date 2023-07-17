@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:edu_elimu/components/bottom_tab.dart';
 import 'package:edu_elimu/components/categories_component.dart';
+import 'package:edu_elimu/components/courses_component.dart';
 import 'package:edu_elimu/components/local_webview.dart';
 import 'package:edu_elimu/screens/account_page.dart';
 import 'package:edu_elimu/screens/default_screen.dart';
@@ -119,8 +120,9 @@ class _LandingPageState extends State<LandingPage>
         child: TabBarView(controller: controller, children: [
           HomeScreen(),
           EduCategoriesComponent(),
-          LocalWebview(
-              url: "http://192.168.100.8:3000/interactive_games/dashboard"),
+          EduCoursesComponent(),
+          // LocalWebview(
+          //     url: "http://10.51.10.233:3000/interactive_games/dashboard"),
           LoginAndSignupBanner()
         ]),
       ),
@@ -137,7 +139,7 @@ class _LandingPageState extends State<LandingPage>
                 icon: Icon(Icons.home),
               ),
               Tab(text: "Categories", icon: Icon(Icons.category)),
-              Tab(text: "Games", icon: Icon(Icons.casino)),
+              Tab(text: "Courses", icon: Icon(Icons.cast_for_education)),
               Tab(text: "Settings", icon: Icon(Icons.settings))
             ]),
       ),
