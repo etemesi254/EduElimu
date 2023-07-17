@@ -62,7 +62,7 @@ class _EduCoursesComponentState extends State<EduCoursesComponent> {
                 ],
               );
             } else if (snapshot.hasError) {
-              return ErrorComponent(message:snapshot.error!.toString());
+              return ErrorComponent(message: snapshot.error!.toString());
             } else {
               return ListView(
                 children: [
@@ -75,7 +75,7 @@ class _EduCoursesComponentState extends State<EduCoursesComponent> {
   }
 
   Widget createSingleCategoryComponent(CourseModel category) {
-    var url = "${endpoint!}${category.courseBanner}";
+    var url = category.courseBanner;
     CachedNetworkImage img = CachedNetworkImage(
       imageUrl: url,
       // width: 200,

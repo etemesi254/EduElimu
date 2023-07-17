@@ -75,10 +75,13 @@ class _MyVideosScreenState extends State<MyVideosScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-               Padding(
-                padding: const EdgeInsets.only(top: 10,bottom: 10),
+              Padding(
+                padding: const EdgeInsets.only(top: 10, bottom: 10),
                 child: Text(
-                    "This shows your uploaded videos",style: GoogleFonts.poppins(fontSize: 20,fontWeight: FontWeight.bold),),
+                  "This shows your uploaded videos",
+                  style: GoogleFonts.poppins(
+                      fontSize: 20, fontWeight: FontWeight.bold),
+                ),
               ),
               FutureBuilder<List<HomeVideoModel>>(
                   future: getVideos(),
@@ -95,11 +98,13 @@ class _MyVideosScreenState extends State<MyVideosScreen> {
                           return VideoComponent(
                             model: snapshot.data![index],
                             endpoint: endpoint!,
+                            videos: snapshot.data!,
                           );
                         },
                       );
                     } else if (snapshot.hasError) {
-                      return ErrorComponent(message: snapshot.error!.toString());
+                      return ErrorComponent(
+                          message: snapshot.error!.toString());
                     } else {
                       return LoadingComponent();
                     }

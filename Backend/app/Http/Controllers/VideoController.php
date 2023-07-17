@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Jobs\TestJob;
 use App\Models\User;
 use App\Models\Videos;
 use Illuminate\Http\Request;
@@ -145,7 +144,7 @@ class VideoController extends Controller
 
         $file = fopen($request->file("video")->path(), "r");
         $target_url = 'http://127.0.0.1:8080/upload-file/';
-        $client = Http::timeout(600)::attach(
+        $client = Http::timeout(600)->attach(
             "uploaded_file", $file)->post($target_url, ["id" => $videoId]);
         //TestJob::dispatch($videoId, $request);
     }
@@ -329,4 +328,37 @@ class VideoController extends Controller
         }
     }
 
+    public function addSubtitles(Request $request)
+    {
+        $rules = [
+            "id" => "required|exists:videos",
+            "file" => "required",
+        ];
+
+        try {
+            $request->validate($rules);
+            $filepath = $this->storeSubtitles($request);
+            $category = Videos::findOrFail($request->id);
+            $category->video_captions = $filepath;
+            $category->save();
+            return response()->json(
+                ["message" => "Successfully uploaded subtitles",
+                    "status" => 200]
+            );
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 422,
+                'message' => $e->getMessage(),
+            ], 422);
+        }
+    }
+
+
+    public function storeSubtitles(Request $request): bool|string
+    {
+        return Storage::url(Storage::disk('s3')->put("/subtitles", $request->file("file"), "public"));
+        // store the video
+        //return $request->file("video")->store("videos", "public");
+    }
 }

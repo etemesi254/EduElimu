@@ -12,10 +12,11 @@ import '../screens/single_video_screen.dart';
 
 class VideoComponent extends StatefulWidget {
   final HomeVideoModel model;
+  final List<HomeVideoModel> videos;
   final String endpoint;
 
   const VideoComponent(
-      {super.key, required this.model, required this.endpoint});
+      {super.key, required this.model,required this.videos, required this.endpoint});
 
   @override
   State<VideoComponent> createState() => _VideoComponentState();
@@ -27,8 +28,7 @@ class _VideoComponentState extends State<VideoComponent> {
   @override
   void initState() {
     // TODO: implement initState
-    component = NetworkBasedVideoPlayer(
-        url: widget.model.videoFile);
+    component = NetworkBasedVideoPlayer(url: widget.model.videoFile);
   }
 
   @override
@@ -51,6 +51,7 @@ class _VideoComponentState extends State<VideoComponent> {
                 Navigator.of(context).push(MaterialPageRoute(
                     builder: (builder) => SingeVideoScreen(
                           video: widget.model,
+                          videos: widget.videos,
                           component: component!,
                           endpoint: widget.endpoint,
                         )));
@@ -69,12 +70,14 @@ class _VideoComponentState extends State<VideoComponent> {
                       const SizedBox(width: 10),
                       Text(
                         "${widget.model.videoViews} views",
-                        style: TextStyle(color: Colors.black.withOpacity(0.5),fontSize: 12),
+                        style: TextStyle(
+                            color: Colors.black.withOpacity(0.5), fontSize: 12),
                       ),
                       const SizedBox(width: 20),
                       Text(
                         "1 week ago",
-                        style: TextStyle(color: Colors.black.withOpacity(0.5),fontSize: 12),
+                        style: TextStyle(
+                            color: Colors.black.withOpacity(0.5), fontSize: 12),
                       )
                     ]),
                   ),
@@ -89,8 +92,7 @@ class _VideoComponentState extends State<VideoComponent> {
                               width: 30,
                               height: 30,
                               fit: BoxFit.fill,
-                              imageUrl:
-                                  widget.model.channelBanner),
+                              imageUrl: widget.model.channelBanner),
                         ),
                         const SizedBox(width: 20),
                         Text(
@@ -114,7 +116,6 @@ class _VideoComponentState extends State<VideoComponent> {
 
 class FileBasedVideoPlayer extends StatefulWidget {
   final File file;
-
 
   const FileBasedVideoPlayer({Key? key, required this.file}) : super(key: key);
 

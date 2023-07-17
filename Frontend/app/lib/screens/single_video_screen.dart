@@ -8,6 +8,7 @@ import '../themes/colors.dart';
 
 class SingeVideoScreen extends StatefulWidget {
   final HomeVideoModel video;
+  final List<HomeVideoModel> videos;
   final String endpoint;
   final NetworkBasedVideoPlayer component;
 
@@ -15,6 +16,7 @@ class SingeVideoScreen extends StatefulWidget {
       {Key? key,
       required this.video,
       required this.component,
+      required this.videos,
       required this.endpoint})
       : super(key: key);
 
@@ -83,18 +85,25 @@ class _SingeVideoScreenState extends State<SingeVideoScreen> {
                       ),
                     ),
                     const SizedBox(width: 10),
-                    
                   ],
                 ),
               ),
               const SizedBox(height: 10),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8.0,vertical: 5),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 8.0, vertical: 5),
                 child: Text(widget.video.videoDescription),
+              ),
+
+              ListView(
+                shrinkWrap: true,
+                children: [
+                  for(var video in widget.videos)
+                    VideoComponent(model: video, videos: widget.videos, endpoint: "")
+                ],
+
               )
-
             ],
-
           ),
         ),
       ),

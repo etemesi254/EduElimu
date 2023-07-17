@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Videos;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use PHPUnit\Exception;
 
 class UsersController extends Controller
 {
@@ -192,5 +194,30 @@ class UsersController extends Controller
                 "data" => $allUsers
             ]
         );
+    }
+    public function updateStatus(Request $request)
+    {
+        $rules = [
+            "status" => "required",
+            "id" => "required|exists:users"
+        ];
+        try {
+            $request->validate($rules);
+            $category = User::findOrFail($request->id);
+            $category->status = $request->status;
+            $category->save();
+            return response()->json([
+                "status" => 200,
+                "message" => "Successfully modified user status"
+            ]);
+
+        } catch (Exception $e) {
+            return response()->json(
+                [
+                    "status" => 422,
+                    "message" => $e->getMessage(),
+                    "data" => null
+                ], status: 422);
+        }
     }
 }
