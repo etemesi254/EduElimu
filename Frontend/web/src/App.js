@@ -53,6 +53,8 @@ import ViewCourseList from './Chanels/create chanel/viewCourseList';
 import EditCourses from './Chanels/create chanel/editCourse';
 import CreateCourse from './Chanels/create chanel/create_course';
 import AddToCourse from './Chanels/create chanel/add_to_course';
+import Mycourses from './my_courses/mycourses';
+import { AdminProvider } from './Admin/adminContext';
 
 function App() {
     const [showLogout, setShowLogout] = useState(false);
@@ -92,6 +94,7 @@ function App() {
               setShowLogout={setShowLogout}/>}/>
               <Route path="/profile" element={<UserProfile showLogout={showLogout} 
               setShowLogout={setShowLogout}/>}/>
+              <Route path='/my_courses' element={<Mycourses/>}/>
               <Route path="/create_channel" element={<CreateChannel/>}/>
               <Route path="/create_course" element={<CreateCourse/>}/>
               <Route path="/add_to_course" element={<AddToCourse/>}/>
@@ -123,7 +126,12 @@ function App() {
             <Route path='/forgotPassword' Component={ForgotPassword}/>
             <Route path='/signupwithphone' Component={SignInWithPhone}/>
             <Route path='/resetPassword' Component={CustomReset}/>
-            <Route path='/adminLogin' Component={LoginAdmin}/>
+            <Route path='/completeProfile' Component={CompleteProfileEmail}/>
+          </Routes>
+        </UserProvider>
+        <AdminProvider>
+          <Routes>
+          <Route path='/adminLogin' Component={LoginAdmin}/>
             <Route path='/admin' element={<AdminLayout showLogout={showLogout}
                       setShowLogout={setShowLogout}/>}>
                 <Route index  element={<MainDash showLogout={showLogout}
@@ -135,9 +143,8 @@ function App() {
                 <Route path='edit-category/:category' Component={EditVideoCategories}></Route>
                 <Route path='channel-table' Component={VideoChannelsTable}></Route>
             </Route>
-            <Route path='/completeProfile' Component={CompleteProfileEmail}/>
           </Routes>
-        </UserProvider>
+        </AdminProvider>
       </AuthProvider>
     </Router>
    

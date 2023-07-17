@@ -79,8 +79,6 @@ function ChanelDashboard(){
   }, []);
 
     const videoRef = useRef(null);
-    
-    console.log(videos.length,"length of videos")
 
   const playMovie = () => {
     videoRef.current.play();

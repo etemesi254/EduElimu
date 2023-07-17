@@ -9,8 +9,24 @@ import { AiFillDollarCircle } from "react-icons/ai";
 import LogoutConfirmationDialog from "../user_auth/logoutConfirmation";
 import { Link } from "react-router-dom";
 import UsersTable from "./Tables/usersTable";
+import { useAdminContext } from "./adminContext";
+import { PieChart ,Pie,Sector,Cell,Tooltip,XAxis,YAxis,BarChart,Bar,Legend,CartesianGrid} from "recharts";
 
 const MainDash = ({setHideSidebar,hideSidebar,showLogout,setShowLogout})=>{
+	const {userCount,channelCount,categoryCount,courseEnrollmentCount} = useAdminContext();
+
+	const data = channelCount.map((channel) => {
+		return { name: channel.name, value: channel.count };
+	  });
+	  const categoryData = categoryCount.map((category) => {
+		return { name: category.name, value: category.count };
+	  });
+	
+	  const enrollmentData = courseEnrollmentCount.map((enrollment) => {
+		return { name: enrollment.name, value: enrollment.count };
+	  });
+	
+
     return  <>
 	{showLogout &&  <LogoutConfirmationDialog
                 setShowLogout={setShowLogout}
@@ -39,7 +55,7 @@ const MainDash = ({setHideSidebar,hideSidebar,showLogout,setShowLogout})=>{
 				<li>
 					<HiUsers className="bx"/>
 					<span class="text">
-						<h3>2</h3>
+						<h3>{userCount}</h3>
 						<p>Users</p>
 					</span>
 				</li>
@@ -76,12 +92,123 @@ const MainDash = ({setHideSidebar,hideSidebar,showLogout,setShowLogout})=>{
 
 			<div class="table-data">
 				<div class="order">
-					{/* <div class="head">
-						<h3>New Users</h3>
+					<div class="head">
+						<h3>Channel Statistics</h3>
 						<i class='bx bx-search' ></i>
 						<i class='bx bx-filter' ></i>
-					</div> */}
-					<UsersTable/>
+					</div>
+					<div className="chart-divs">
+					<PieChart width={400} height={400}>
+						<Pie
+							dataKey="value"
+							isAnimationActive={false}
+							data={data}
+							cx="50%"
+							cy="50%"
+							outerRadius={80}
+							fill="#8884d8"
+							label
+						/>
+						<Tooltip />
+					</PieChart>
+					<BarChart
+						width={500}
+						height={300}
+						data={data}
+						margin={{
+							top: 5,
+							right: 30,
+							left: 20,
+							bottom: 5,
+						}}
+						barSize={20}
+						>
+						<XAxis dataKey="name" scale="point" padding={{ left: 10, right: 10 }} />
+						<YAxis />
+						<Tooltip />
+						<Legend />
+						<CartesianGrid strokeDasharray="3 3" />
+						<Bar dataKey="value" fill="#8884d8" background={{ fill: '#eee' }} />
+					</BarChart>
+					</div>
+					<div class="head">
+						<h3>Category Statistics</h3>
+						<i class='bx bx-search' ></i>
+						<i class='bx bx-filter' ></i>
+					</div>
+					<div className="chart-divs">
+					<PieChart width={400} height={400}>
+						<Pie
+							dataKey="value"
+							isAnimationActive={false}
+							data={categoryData}
+							cx="50%"
+							cy="50%"
+							outerRadius={80}
+							fill="#8884d8"
+							label
+						/>
+						<Tooltip />
+					</PieChart>
+					<BarChart
+						width={500}
+						height={300}
+						data={categoryData}
+						margin={{
+							top: 5,
+							right: 30,
+							left: 20,
+							bottom: 5,
+						}}
+						barSize={20}
+						>
+						<XAxis dataKey="name" scale="point" padding={{ left: 10, right: 10 }} />
+						<YAxis />
+						<Tooltip />
+						<Legend />
+						<CartesianGrid strokeDasharray="3 3" />
+						<Bar dataKey="value" fill="#8884d8" background={{ fill: '#eee' }} />
+					</BarChart>
+					</div>
+					<div class="head">
+						<h3>Course Enrollment Statistics</h3>
+						<i class='bx bx-search' ></i>
+						<i class='bx bx-filter' ></i>
+					</div>
+					<div className="chart-divs">
+					<PieChart width={400} height={400}>
+						<Pie
+							dataKey="value"
+							isAnimationActive={false}
+							data={enrollmentData}
+							cx="50%"
+							cy="50%"
+							outerRadius={80}
+							fill="#8884d8"
+							label
+						/>
+						<Tooltip />
+					</PieChart>
+					<BarChart
+						width={500}
+						height={300}
+						data={enrollmentData}
+						margin={{
+							top: 5,
+							right: 30,
+							left: 20,
+							bottom: 5,
+						}}
+						barSize={20}
+						>
+						<XAxis dataKey="name" scale="point" padding={{ left: 10, right: 10 }} />
+						<YAxis />
+						<Tooltip />
+						<Legend />
+						<CartesianGrid strokeDasharray="3 3" />
+						<Bar dataKey="value" fill="#8884d8" background={{ fill: '#eee' }} />
+					</BarChart>
+					</div>
 					{/* <table>
 						<thead>
 							<tr>
