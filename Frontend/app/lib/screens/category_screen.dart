@@ -64,6 +64,7 @@ class _VideoCategoryScreenState extends State<VideoCategoryScreen> {
                         return VideoComponent(
                           model: snapshot.data![index],
                           endpoint: "",
+                          videos: snapshot.data!,
                         );
                       },
                     ),

@@ -8,13 +8,14 @@ import '../themes/colors.dart';
 
 class SingeVideoScreen extends StatefulWidget {
   final HomeVideoModel video;
+  final List<HomeVideoModel> videos;
   final String endpoint;
-  final NetworkBasedVideoPlayer component;
+ // final NetworkBasedVideoPlayer component;
 
   const SingeVideoScreen(
       {Key? key,
       required this.video,
-      required this.component,
+      required this.videos,
       required this.endpoint})
       : super(key: key);
 
@@ -35,7 +36,7 @@ class _SingeVideoScreenState extends State<SingeVideoScreen> {
           child: ListView(
             children: [
               SizedBox(
-                child: widget.component,
+                child: NetworkBasedVideoPlayer(url:widget.video.videoBanner),
               ),
               // channel
               Padding(
@@ -83,19 +84,81 @@ class _SingeVideoScreenState extends State<SingeVideoScreen> {
                       ),
                     ),
                     const SizedBox(width: 10),
-                    
                   ],
                 ),
               ),
               const SizedBox(height: 10),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8.0,vertical: 5),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 8.0, vertical: 5),
                 child: Text(widget.video.videoDescription),
+              ),
+
+              ListView(
+                shrinkWrap: true,
+                children: [
+                  for(var video in widget.videos)
+                    SmallVideoComponent(model: video, videos: widget.videos, endpoint: "")
+                ],
+
               )
-
             ],
-
           ),
+        ),
+      ),
+    );
+  }
+}
+
+class SmallVideoComponent extends StatefulWidget {
+  final HomeVideoModel model;
+  final List<HomeVideoModel> videos;
+  final String endpoint;
+
+  const SmallVideoComponent(
+      {super.key, required this.model,required this.videos, required this.endpoint});
+
+  @override
+  State<SmallVideoComponent> createState() => _SmallVideoComponentState();
+}
+
+class _SmallVideoComponentState extends State<SmallVideoComponent> {
+  NetworkBasedVideoPlayer? component;
+
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    component = NetworkBasedVideoPlayer(url: widget.model.videoFile);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+      child: Container(
+        padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 0),
+        child: Row(
+          children: [
+            ClipRRect(
+              //borderRadius: BorderRadius.circular(20.0),
+              child: Container(
+                height: 200,
+                width: 300,
+                child: RatioVideoPlayer(url: widget.model.videoBanner),
+              ),
+            ),
+            InkWell(
+              onTap: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (builder) => SingeVideoScreen(
+                      video: widget.model,
+                      videos: widget.videos,
+                      endpoint: widget.endpoint,
+                    )));
+              },
+              child: Text("Hello"),
+            ),
+          ],
         ),
       ),
     );

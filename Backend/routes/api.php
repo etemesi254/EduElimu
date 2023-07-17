@@ -46,6 +46,7 @@ Route::prefix("videos")->group(function () {
     Route::post("/delete", [VideoController::class, "deleteVideo"]);
     Route::post("/update", [VideoController::class, "updateChannelDetails"]);
     Route::any("/update-status", [VideoController::class, "updateStatus"]);
+    Route::post("/upload-subtitles", [VideoController::class, "addSubtitles"]);
 
     Route::any("/front", [VideoController::class, "getFrontVideos"]);
     Route::any("/all", [VideoController::class, "getAllVideos"]);
@@ -100,6 +101,7 @@ Route::prefix("subscribers")->group(function () {
 Route::prefix("users")->group(function () {
     Route::any("/firebase_id", [UsersController::class, "getUserWithFirebaseId"]);
     Route::get("/all", [UsersController::class, "getAllUsers"]);
+    Route::any("/update-status", [UsersController::class, "updateStatus"]);
 });
 
 
@@ -117,7 +119,7 @@ Route::prefix("courses")->group(
         Route::post("addVideo", [CoursesController::class, "addVideosToCourse"]);
         Route::post("removeVideo", [CoursesController::class, "removeVideoFromCourse"]);
         Route::get('{courseId}/videos', [CoursesController::class, 'getCourseVideos']);
-        Route::get("getStudentCourses/{id}", [CoursesController::class,"getStudentCourses"]);
+        Route::get("getStudentCourses/{id}", [CoursesController::class, "getStudentCourses"]);
 
         //progress
         Route::post("markAsDone", [CoursesController::class, 'markAsDone']);
