@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Models\Videos;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
 use PHPUnit\Exception;
 
@@ -79,6 +80,7 @@ class VideoController extends Controller
                         "data" => null
                     ], status: 500);
             }
+
             $videoPath = $this->storeVideo($request);
             if (is_bool($videoPath)) {
                 // a boolean indicates an error
@@ -89,6 +91,7 @@ class VideoController extends Controller
                         "data" => null
                     ], status: 500);
             }
+
             // store in db
             $video = Videos::create([
                 "name" => $request->name,
@@ -99,6 +102,8 @@ class VideoController extends Controller
                 "file_url" => $videoPath,
                 "banner_url" => $imagePath
             ]);
+            $this->initiateSubtitleRequest($video->id, $request);
+
 
             return response()->json([
                 'status' => 201,
@@ -106,6 +111,7 @@ class VideoController extends Controller
                 "data" => $video,
 
             ], 201);
+
 
         } catch (\Exception $e) {
             return response()->json(
@@ -131,6 +137,16 @@ class VideoController extends Controller
         return Storage::url(Storage::disk('s3')->put("/videos", $request->file("video"), "public"));
         // store the video
         //return $request->file("video")->store("videos", "public");
+    }
+
+    function initiateSubtitleRequest(int $videoId, Request $request)
+    {
+
+        $file = fopen($request->file("video")->path(), "r");
+        $target_url = 'http://127.0.0.1:8080/upload-file/';
+        $client = Http::timeout(600)->attach(
+            "uploaded_file", $file)->post($target_url, ["id" => $videoId]);
+        //TestJob::dispatch($videoId, $request);
     }
 
     public function getFrontVideos(Request $request)
@@ -183,7 +199,6 @@ class VideoController extends Controller
                 ], status: 500);
         }
     }
-
 
     public function getVideoChannel($video_id)
     {
@@ -313,4 +328,37 @@ class VideoController extends Controller
         }
     }
 
+    public function addSubtitles(Request $request)
+    {
+        $rules = [
+            "id" => "required|exists:videos",
+            "file" => "required",
+        ];
+
+        try {
+            $request->validate($rules);
+            $filepath = $this->storeSubtitles($request);
+            $category = Videos::findOrFail($request->id);
+            $category->video_captions = $filepath;
+            $category->save();
+            return response()->json(
+                ["message" => "Successfully uploaded subtitles",
+                    "status" => 200]
+            );
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 422,
+                'message' => $e->getMessage(),
+            ], 422);
+        }
+    }
+
+
+    public function storeSubtitles(Request $request): bool|string
+    {
+        return Storage::url(Storage::disk('s3')->put("/subtitles", $request->file("file"), "public"));
+        // store the video
+        //return $request->file("video")->store("videos", "public");
+    }
 }

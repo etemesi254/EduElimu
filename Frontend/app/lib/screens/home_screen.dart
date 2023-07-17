@@ -59,6 +59,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   return VideoComponent(
                     model: snapshot.data![index],
                     endpoint: endpoint!,
+                    videos: snapshot.data!,
                   );
                 },
               );

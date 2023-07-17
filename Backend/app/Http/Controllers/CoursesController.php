@@ -2,20 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Courses;
 use App\Models\Channel;
 use App\Models\CourseResources;
+use App\Models\Courses;
 use App\Models\CoursesVideos;
 use App\Models\User;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Response;
 use App\Models\UsersCourses;
 use App\Models\UsersVideos;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class CoursesController extends Controller
 {
-    public function createCourse(Request $request){
+    public function createCourse(Request $request)
+    {
         $rules = [
             "name" => "required",
             "description" => "required",
@@ -78,15 +78,15 @@ class CoursesController extends Controller
         try {
             $request->validate($rules);
 
-            if($request->name){
+            if ($request->name) {
                 $data["name"] = $request->name;
             }
 
-            if($request->description){
+            if ($request->description) {
                 $data["description"] = $request->description;
             }
 
-            if($request->channel_id){
+            if ($request->channel_id) {
                 $data["channel_id"] = $request->channel_id;
             }
 
@@ -124,7 +124,8 @@ class CoursesController extends Controller
         }
     }
 
-    public function getAllCourses(){
+    public function getAllCourses()
+    {
         try {
             $courses = Courses::all();
             return response()->json([
@@ -143,7 +144,8 @@ class CoursesController extends Controller
         }
     }
 
-    public function getChannelCourses($channel){
+    public function getChannelCourses($channel)
+    {
         try {
             $channel = Channel::findOrFail($channel);
             $courses = $channel->courses()->get();
@@ -164,7 +166,8 @@ class CoursesController extends Controller
         }
     }
 
-    public function getUserCourses($user){
+    public function getUserCourses($user)
+    {
         try {
             $user = User::find($user);
             $courses = $user->courses;
@@ -185,7 +188,8 @@ class CoursesController extends Controller
         }
     }
 
-    public function addStudentsToCourse(Request $request){
+    public function addStudentsToCourse(Request $request)
+    {
         $rules = [
             "user_id" => "required",
             "course_id" => "required",
@@ -215,23 +219,24 @@ class CoursesController extends Controller
     }
 
     public function getStudentsInCourse($courseId)
-{
-    try {
-        $course = Courses::findOrFail($courseId);
-        $users = $course->usersCourses()->get();
+    {
+        try {
+            $course = Courses::findOrFail($courseId);
+            $users = $course->usersCourses()->get();
 
-        return response()->json([
-            'status' => 200,
-            'message' => "Retrieved users in the course successfully",
-            'data' => $users,
-        ], 200);
-    } catch (\Exception $e) {
-        return response()->json([
-            'status' => 422,
-            'message' => $e->getMessage(),
-        ], 422);
+            return response()->json([
+                'status' => 200,
+                'message' => "Retrieved users in the course successfully",
+                'data' => $users,
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 422,
+                'message' => $e->getMessage(),
+            ], 422);
+        }
     }
-}
+
     public function removeStudentFromCourse(Request $request)
     {
         $rules = [
@@ -244,8 +249,8 @@ class CoursesController extends Controller
             $courseId = $request->input('course_id');
 
             UsersCourses::where('user_id', $userId)
-                    ->where('course_id', $courseId)
-                    ->delete();
+                ->where('course_id', $courseId)
+                ->delete();
 
             return response()->json([
                 'status' => 200,
@@ -259,7 +264,8 @@ class CoursesController extends Controller
         }
     }
 
-    public function getStudentCourses($student_id){
+    public function getStudentCourses($student_id)
+    {
         try {
             $student = User::findOrFail($student_id);
             $courses = $student->coursesStudents()->get();
@@ -277,7 +283,8 @@ class CoursesController extends Controller
         }
     }
 
-    public function addVideosToCourse(Request $request){
+    public function addVideosToCourse(Request $request)
+    {
         $rules = [
             "video_id" => "required",
             "course_id" => "required",
@@ -318,8 +325,8 @@ class CoursesController extends Controller
             $courseId = $request->input('course_id');
 
             CoursesVideos::where('video_id', $videoId)
-                    ->where('course_id', $courseId)
-                    ->delete();
+                ->where('course_id', $courseId)
+                ->delete();
 
             return response()->json([
                 'status' => 200,
@@ -354,7 +361,8 @@ class CoursesController extends Controller
         }
     }
 
-    public function markAsDone(Request $request){
+    public function markAsDone(Request $request)
+    {
         $rules = [
             "user_id" => "required",
             "course_id" => "required",
@@ -374,19 +382,19 @@ class CoursesController extends Controller
             $total_videos = CoursesVideos::where('course_id', $request->course_id)->get()->count();
 
             $completed_videos = UsersVideos::where('course_id', $request->course_id)
-            ->where('user_id', $request->user_id)
-            ->where("completed",1)
-            ->get()->count();
+                ->where('user_id', $request->user_id)
+                ->where("completed", 1)
+                ->get()->count();
 
             $progress = intval(($completed_videos / $total_videos) * 100);
 
             UsersCourses::where('user_id', $request->user_id)
-            ->where('course_id', $request->course_id)
-            ->update([
-                "videos_total"=> $total_videos,
-                "videos_completed"=> $completed_videos,
-                "progress"=> $progress
-            ]);
+                ->where('course_id', $request->course_id)
+                ->update([
+                    "videos_total" => $total_videos,
+                    "videos_completed" => $completed_videos,
+                    "progress" => $progress
+                ]);
 
             return response()->json([
                 'status' => 200,
@@ -403,7 +411,8 @@ class CoursesController extends Controller
         }
     }
 
-    public function markNotDone(Request $request){
+    public function markNotDone(Request $request)
+    {
         $rules = [
             "video_id" => "required",
             "course_id" => "required",
@@ -416,27 +425,27 @@ class CoursesController extends Controller
             $userId = $request->input('user_id');
 
             UsersVideos::where('video_id', $videoId)
-                    ->where('course_id', $courseId)
-                    ->where('user_id', $userId)
-                    ->delete();
+                ->where('course_id', $courseId)
+                ->where('user_id', $userId)
+                ->delete();
 
             //update progress in course
             $total_videos = CoursesVideos::where('course_id', $request->course_id)->get()->count();
 
             $completed_videos = UsersVideos::where('course_id', $request->course_id)
-            ->where('user_id', $request->user_id)
-            ->where("completed",1)
-            ->get()->count();
+                ->where('user_id', $request->user_id)
+                ->where("completed", 1)
+                ->get()->count();
 
             $progress = intval(($completed_videos / $total_videos) * 100);
 
             UsersCourses::where('user_id', $request->user_id)
-            ->where('course_id', $request->course_id)
-            ->update([
-                "videos_total"=> $total_videos,
-                "videos_completed"=> $completed_videos,
-                "progress"=> $progress
-            ]);
+                ->where('course_id', $request->course_id)
+                ->update([
+                    "videos_total" => $total_videos,
+                    "videos_completed" => $completed_videos,
+                    "progress" => $progress
+                ]);
 
             return response()->json([
                 'status' => 200,
@@ -450,7 +459,8 @@ class CoursesController extends Controller
         }
     }
 
-    public function getUsersProgress(Request $request){
+    public function getUsersProgress(Request $request)
+    {
         $rules = [
             "user_id" => "required",
             "course_id" => "required",
@@ -458,8 +468,8 @@ class CoursesController extends Controller
         try {
             $request->validate($rules);
             $progressRecord = UsersCourses::where('user_id', $request->user_id)
-            ->where('course_id', $request->course_id)
-            ->first();
+                ->where('course_id', $request->course_id)
+                ->first();
             return response()->json([
                 'status' => 200,
                 'message' => "User's course progress retrieved",
@@ -476,7 +486,8 @@ class CoursesController extends Controller
         }
     }
 
-    public function addCourseResourse(Request $request){
+    public function addCourseResourse(Request $request)
+    {
         $rules = [
             "name" => "required",
             "course_id" => "required",
@@ -520,7 +531,16 @@ class CoursesController extends Controller
         }
     }
 
-    public function updateCourseResourse(Request $request){
+    public function storeCourseResourses(Request $request): bool|string
+    {
+        return Storage::url(Storage::disk('s3')->put("/course_resources", $request->file("resource"), "public"));
+
+        // store the video
+        //return $request->file("resource")->store("course_resources", "public");
+    }
+
+    public function updateCourseResourse(Request $request)
+    {
         $rules = [
             "id" => "required",
         ];
@@ -528,14 +548,13 @@ class CoursesController extends Controller
         try {
             $request->validate($rules);
 
-            if($request->name){
+            if ($request->name) {
                 $data["name"] = $request->name;
             }
 
-            if($request->course_id){
+            if ($request->course_id) {
                 $data["course_id"] = $request->course_id;
             }
-
             if($request->resource){
                 $bannerPath = $this->storeCourseResourses($request);
 
@@ -568,7 +587,8 @@ class CoursesController extends Controller
         }
     }
 
-    public function deleteCourseResourse(Request $request){
+    public function deleteCourseResourse(Request $request)
+    {
         $rules = [
             "id" => "required",
         ];
@@ -576,7 +596,7 @@ class CoursesController extends Controller
         try {
             $request->validate($rules);
             CourseResources::whereId($request->id)
-                    ->delete();
+                ->delete();
             return response()->json([
                 'status' => 201,
                 'message' => "Successfully deleted course resource",
@@ -591,17 +611,10 @@ class CoursesController extends Controller
         }
     }
 
-    public function storeCourseResourses(Request $request): bool|string
+    public function getCourseResources($id)
     {
-        return Storage::url(Storage::disk('s3')->put("/course_resources", $request->file("resource"), "public"));
-
-        // store the video
-        //return $request->file("resource")->store("course_resources", "public");
-    }
-
-    public function getCourseResources($id){
         try {
-            $resources = CourseResources::where("course_id",$id)->get();
+            $resources = CourseResources::where("course_id", $id)->get();
 
             return response()->json([
                 'status' => 201,
@@ -618,7 +631,8 @@ class CoursesController extends Controller
         }
     }
 
-    public function getAllResources() {
+    public function getAllResources()
+    {
         try {
             $resources = CourseResources::all();
 
@@ -652,7 +666,7 @@ class CoursesController extends Controller
         $filePath = $resource->resource;
         $originalFileName = $resource->name;
 
-        if (!Storage::exists('public/' . $filePath)) {
+        if (!Storage::disk("s3")->exists($filePath)) {
             return response()->json([
                 'status' => 404,
                 'message' => 'File not found',
@@ -664,28 +678,31 @@ class CoursesController extends Controller
             'Content-Disposition' => 'attachment; filename="' . $customFileName . '"',
         ];
 
-        return response()->download(storage_path('app/public/'.$filePath),$customFileName);
+        //return response()->download(storage_path('app/public/'.$filePath),$customFileName);
 
+        return Storage::disk("s3")->download($filePath,$originalFileName,$headers);
         // return Response::download(storage_path('app/public/' . $filePath), $customFileName, $headers);
     }
 
-    public function download($assignments){
+    public function download($assignments)
+    {
 
-        return response()->download(public_path('assets/'.$assignments));
+        return response()->download(public_path('assets/' . $assignments));
     }
 
-    public function getCourseChannelDeets($course){
+    public function getCourseChannelDeets($course)
+    {
         try {
             $course = Courses::findOrFail($course);
             $channel = $course->channel()->get();
 
-      return response()->json([
+            return response()->json([
                 'status' => 201,
                 'message' => "Successfully retrieved course channel",
                 "data" => $channel,
 
             ], 201);
-            
+
         } catch (\Exception $e) {
             return response()->json([
                 'status' => 422,
