@@ -219,7 +219,9 @@ class UsersController extends Controller
                 'status' => 500,
                 'message' => $th->getMessage(),
             ], 500);
-          
+        }
+    }
+    
     public function updateStatus(Request $request)
     {
         $rules = [
