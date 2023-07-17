@@ -45,10 +45,10 @@ function VideoPlayer() {
           <div className="video-container">
             <div className="video-play-container">
               <video
-                src={src}
+                src={videoData.video_file}
                 controls
                 autoPlay
-                poster={posterImage}
+                poster={videoData.video_banner}
                 preload="metadata"
                 loop
               />

@@ -26,7 +26,7 @@ function MyCoursesComponent({course}){
     return <div className="course_div" onClick={handleCourseClick}>
     <div className="course">
         <div className="course_img">
-            <img src="./assets/home (2).jpg" className=""/>
+            <img src={course.course_banner} className=""/>
         </div>
         <div className="course_info">
             <h3>{course.name}</h3>

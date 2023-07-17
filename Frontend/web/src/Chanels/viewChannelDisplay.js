@@ -25,7 +25,7 @@ function ViewChannelDisplay({channel,showDelete,setShowDelete}){
     return <div className="view-channel-display-div">
         <div>
         <div className="view-channel-img-div">
-            <img src={`http://127.0.0.1:8000/storage/${channel.banner}`}/>
+            <img src={channel.banner}/>
         </div>
         <div className="view-channel-info-div">
             <h3>{channel.name}</h3>

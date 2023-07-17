@@ -55,11 +55,12 @@ function EditCourses(){
         });
 
             const response = await result.json();
-            if(result.status === 201) {
+            console.log(response);
+            if(result.ok) {
                 getCurrentUser();
-                return toast.success('Your Video was successfully updated');
+                return toast.success('Your course was successfully updated');
             }
-            toast.error('Error updating video');
+            toast.error('Error updating course');
             setDisabled(false);
         } catch (error) {
             setDisabled(false);

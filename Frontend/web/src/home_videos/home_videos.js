@@ -26,8 +26,6 @@ const Video = ({video}) => {
     videoRef.current.currentTime = 0;
   }
 
-
-
   function onVideoClick(){
     navigate(`/video_player/${encodeURIComponent(JSON.stringify(video))}`);
   }
@@ -40,15 +38,16 @@ const Video = ({video}) => {
           onMouseOver={playMovie}
           onMouseOut={stopMovie}
           ref={videoRef}
-          src={videoSource}
-          poster={posterImage}
+          src={video.video_file}
+          poster={video.video_banner}
           preload='none'
           loop
         />
       </div>
+      <div>{console.log(video.video_banner)}</div>
       <div className="video_info">
         <div className='creator-img'>
-          <img src={`http://127.0.0.1:8000/storage/${video.channel_banner}`} alt='creator-profile'/>
+          <img src={video.channel_banner}alt='creator-profile'/>
         </div>
         <div className="video_details">
           <h3 className="video_title">{video.video_name}</h3>

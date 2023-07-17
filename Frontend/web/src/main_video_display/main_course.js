@@ -157,10 +157,10 @@ function CoursePlayer() {
           <div className="video-container">
             <div className="video-play-container">
               <video
-                src={`http://127.0.0.1:8000/storage/${selectedVideo.file_url}`}
+                src={selectedVideo.file_url}
                 controls
                 autoPlay
-                poster={`http://127.0.0.1:8000/storage/${selectedVideo.banner_url}`}
+                poster={selectedVideo.banner_url}
                 preload="metadata"
                 loop
               />
@@ -171,7 +171,7 @@ function CoursePlayer() {
             <div className="video-meta-data">
               <div className="meta-description">
                 <div className="meta-chanel-pic">
-                  <img src={`http://127.0.0.1:8000/storage/${channel[0].banner}`}/>
+                  <img src={channel[0].banner}/>
                 </div>
                 <div className="meta-chanel-info">
                   <div className="meta-chanel-name">

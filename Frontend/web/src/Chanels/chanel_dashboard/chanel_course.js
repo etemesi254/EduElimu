@@ -21,7 +21,7 @@ function ChanelCourse({course}){
 
     return <div>
     <div className="course-poster-container">
-        <img src={`http://127.0.0.1:8000/storage/${course.course_banner}`}/>
+        <img src={course.course_banner}/>
         <div className="course-video-info">
         {noOfVideos === 0 && <p>0 videos</p>}
         {noOfVideos === 1 && <p>1 video</p>}

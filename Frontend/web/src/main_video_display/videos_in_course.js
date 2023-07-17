@@ -8,7 +8,7 @@ function VideosInCourse({ video, index, setSelectedVideo, selectedVideoIndex, se
         setSelectedVideoIndex(index);
       }} className={`other-video ${index === selectedVideoIndex ? 'selected' : ''}`}>
     <div className="course-poster-container">
-        <img src={`http://127.0.0.1:8000/storage/${video.banner_url}`}/>
+        <img src={video.banner_url}/>
     </div>
     <div className="chanel-course-info">
         <h3>{video.name}</h3>

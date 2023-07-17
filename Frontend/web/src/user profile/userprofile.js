@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import {FiUploadCloud} from "react-icons/fi";
 import {GrFormNext} from "react-icons/gr";
 import {BiAddToQueue} from "react-icons/bi";
+import {BsDatabaseAdd} from "react-icons/bs";
 import {MdOutlineSwitchAccount,MdOutlineCreate} from "react-icons/md";
 import { toast } from 'react-toastify';
 import {GrDocumentUpload} from "react-icons/gr";
@@ -101,6 +102,15 @@ function UserProfile({showLogout,setShowLogout}){
               <div>
                   <GrDocumentUpload className="prof-icons"/>
                   <span>Add Videos To Course</span>
+              </div>
+              <GrFormNext className="prof-icons"/>
+          </div>
+        </Link>
+        <Link to="/upload_resources">
+          <div className="videos">
+              <div>
+                  <BsDatabaseAdd className="prof-icons"/>
+                  <span>Add Course Resources</span>
               </div>
               <GrFormNext className="prof-icons"/>
           </div>

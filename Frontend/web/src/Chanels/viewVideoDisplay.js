@@ -24,7 +24,7 @@ function ViewVideoDisplay({userVideos,showDeleteVideo,setShowDeleteVideo}){
     return <div className="view-channel-display-div">
         <div>
         <div className="view-channel-img-div">
-            <img src={`http://127.0.0.1:8000/storage/${userVideos.banner_url}`}/>
+            <img src={userVideos.banner_url}/>
         </div>
         <div className="view-channel-info-div">
             <h3>{userVideos.name}</h3>

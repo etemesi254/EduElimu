@@ -38,6 +38,7 @@ Route::post('/registerUser', [UsersController::class, 'register']);
 Route::put("/updateUserWithNo/{number}", [UsersController::class, 'updateUserWithPhone']);
 Route::get("/getCurrentUser", [UsersController::class, 'getCurrentUser']);
 Route::delete('/deleteUser/{user}', [UsersController::class, 'deleteUser']);
+Route::get("/user/details/{id}", [UsersController::class, 'getUserDetails']);
 
 Route::post("/uploads/upload_video", [VideoController::class, "addVideo"]);
 
