@@ -100,7 +100,7 @@ Route::prefix("subscribers")->group(function () {
 Route::prefix("users")->group(function () {
     Route::any("/firebase_id", [UsersController::class, "getUserWithFirebaseId"]);
     Route::get("/all", [UsersController::class, "getAllUsers"]);
-    Route::any("/update-status",[UsersController::class,"updateStatus"]);
+    Route::any("/update-status", [UsersController::class, "updateStatus"]);
 });
 
 

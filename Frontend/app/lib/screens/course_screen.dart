@@ -101,7 +101,7 @@ class _SingleCourseVideoComponentState
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          NetworkBasedVideoPlayer(url: widget.endpoint + widget.model.fileUrl),
+          RatioVideoPlayer(url: widget.endpoint + widget.model.fileUrl),
           Row(
             children: [
               Text(widget.model.name, style: GoogleFonts.poppins()),
