@@ -16,6 +16,7 @@ export function UserProvider({children}) {
     const [categories, setCategories] = useState([]);
     const [allVideos, setAllVideos] = useState([]);
     const [userCourses,setUserCourses] = useState([]);
+    const [myCourses, setMyCourses] = useState([]);
 
   useEffect(() => {
     getAllVideos();
@@ -46,10 +47,36 @@ export function UserProvider({children}) {
         getUserChannel(user.data.id);
         getUserVideos(user.data.id);
         getUserCourses(user.data.id);
+        getStudentCourses(user.data.id);
 
         // getVideoCategories();
       } else {
         throw new Error("Failed to fetch current user");
+      }
+    } catch (error) {
+      console.error("Error:", error.message);
+    }
+  }
+
+  async function getStudentCourses(user_id) {
+    try {
+      const url = `http://127.0.0.1:8000/api/courses/getStudentCourses/${user_id}`;
+  
+      const response = await fetch(url, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      console.log(response)
+  
+      if (response.ok) {
+        const courses = await response.json();
+        console.log(courses);
+        setMyCourses(courses.data);
+      } else {
+        throw new Error("Failed to fetch student courses");
       }
     } catch (error) {
       console.error("Error:", error.message);
@@ -337,6 +364,30 @@ export function UserProvider({children}) {
       }
     }
 
+    async function getUserProgress(user_id, course_id) {
+      const formData = new FormData();
+      formData.append("course_id", course_id);
+      formData.append("user_id", user_id);
+      try {
+        const url = `http://127.0.0.1:8000/api/courses/getUsersProgress`;
+  
+        const response = await fetch(url, {
+          method: "POST",
+          body: formData,
+        });
+  
+        const result = await response.json();
+        console.log(result);
+        if (result.status === 200) {
+          return result.data.progress;
+        } else {
+          throw new Error("Failed to fetch course's progress");
+        }
+      } catch (error) {
+        console.error("Error:", error.message);
+      }
+    }
+
 
 
     function formatDateTime(datetime) {
@@ -375,6 +426,7 @@ export function UserProvider({children}) {
         userVideos,
         categories,
         userCourses,
+        myCourses,
         formatDateTime,
         getVideoChannel,
         getCategoryDetails,
@@ -386,7 +438,8 @@ export function UserProvider({children}) {
         getChannelCourses,
         getCourseChannelDetails,
         getCourseVideos,
-        getCourseResources
+        getCourseResources,
+        getUserProgress
 
     };
 
