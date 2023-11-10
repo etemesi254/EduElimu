@@ -10,7 +10,7 @@ function DeleteConfirmation ({setShowDelete}){
     
     async function onConfirm(){
         try {
-            const url = `http://127.0.0.1:8000/api/channels/delete`;
+            const url = `https://api.gimply.org/channels/delete`;
 
             const response = await fetch(url, {
             // mode: 'no-cors',

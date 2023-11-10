@@ -60,7 +60,7 @@ function RegisterUser ({setCompleteProfile}){
         }
         setShowSpinner(true);
         try {
-            const response = await fetch('http://127.0.0.1:8000/api/registerUser', {
+            const response = await fetch('https://api.gimply.org/registerUser', {
                 // mode: 'no-cors',
               method: 'POST',
               headers: {

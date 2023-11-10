@@ -34,7 +34,7 @@ function CreateCourse(){
         console.log(formData);
         try {
             const result = await fetch(
-              "http://127.0.0.1:8000/api/courses/create",
+              "https://api.gimply.org/courses/create",
               {
                 method: "POST",
                 body: formData

@@ -46,7 +46,7 @@ function LoginAdmin (){
         e.preventDefault();
         try{
             setLoading(true);
-            const response = await fetch('http://127.0.0.1:8000/api/loginUser', {
+            const response = await fetch('https://api.gimply.org/loginUser', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

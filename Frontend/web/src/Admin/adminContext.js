@@ -22,7 +22,7 @@ export function AdminProvider({children}){
 
     async function getAggregate(){
         try {
-            const url = `http://127.0.0.1:8000/api/aggregate`;
+            const url = `https://api.gimply.org/aggregate`;
 
             const response = await fetch(url, {
                 // mode: 'no-cors',

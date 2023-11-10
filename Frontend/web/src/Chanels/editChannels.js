@@ -32,7 +32,7 @@ function EditChannel(){
     
         try {
             const result = await fetch(
-                "http://127.0.0.1:8000/api/channels/update",
+                "https://api.gimply.org/channels/update",
                 {
                     method: "POST",
                     body: formData

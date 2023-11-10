@@ -9,7 +9,7 @@ const HOST = "http://127.0.0.1:8000"
 
 
 async function setStatus(id, status) {
-    const url = `http://127.0.0.1:8000/api/categories/update-status?id=` + id + "&status=" + status;
+    const url = `https://api.gimply.org/categories/update-status?id=` + id + "&status=" + status;
     const response = await fetch(url, {
         method: "GET",
         headers: {
@@ -105,7 +105,7 @@ const tableColumns = [
 
 //get category deetails
 async function getVideoCategories() {
-    const url = `http://127.0.0.1:8000/api/categories/all`;
+    const url = `https://api.gimply.org/categories/all`;
 
     const response = await fetch(url, {
         method: "GET",

@@ -38,7 +38,7 @@ function AddVideoCategory(){
 
         try {
             const result = await fetch(
-                "http://127.0.0.1:8000/api/categories/create",
+                "https://api.gimply.org/categories/create",
                 {
                     method: "POST",
                     body: formData

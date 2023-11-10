@@ -25,7 +25,7 @@ function AddToCourse(){
         formData.append("course_id",courseID);
 
         try {
-        const result = await fetch("http://127.0.0.1:8000/api/courses/addVideo", {
+        const result = await fetch("https://api.gimply.org/courses/addVideo", {
             method: "POST",
             body: formData,
         });

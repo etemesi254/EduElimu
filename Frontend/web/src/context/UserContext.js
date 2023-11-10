@@ -33,7 +33,7 @@ export function UserProvider({children}) {
       const email = encodeURIComponent(currentUser.email);
       const phoneNumber = currentUser.phoneNumber;
 
-        const url = `http://127.0.0.1:8000/api/getCurrentUser?email=${email}&phone_number=${phoneNumber}`;
+        const url = `https://api.gimply.org/getCurrentUser?email=${email}&phone_number=${phoneNumber}`;
 
         const response = await fetch(url, {
           // mode: 'no-cors',
@@ -58,7 +58,7 @@ export function UserProvider({children}) {
 
   async function getUserDetails(user) {
     try {
-      const url = `http://127.0.0.1:8000/api/user/details/${user}`;
+      const url = `https://api.gimply.org/user/details/${user}`;
       const response = await fetch(url, {
         method: "GET",
         headers: {
@@ -80,7 +80,7 @@ export function UserProvider({children}) {
 
   async function getAllCourses(){
     try {
-      const url = `http://127.0.0.1:8000/api/courses/all`;
+      const url = `https://api.gimply.org/courses/all`;
   
       const response = await fetch(url, {
         method: "GET",
@@ -105,7 +105,7 @@ export function UserProvider({children}) {
 
   async function getStudentCourses(user_id) {
     try {
-      const url = `http://127.0.0.1:8000/api/courses/getStudentCourses/${user_id}`;
+      const url = `https://api.gimply.org/courses/getStudentCourses/${user_id}`;
   
       const response = await fetch(url, {
         method: "GET",
@@ -130,7 +130,7 @@ export function UserProvider({children}) {
 
   async function getUserCourses(user_id) {
     try {
-      const url = `http://127.0.0.1:8000/api/courses/getUserCourses/${user_id}`;
+      const url = `https://api.gimply.org/courses/getUserCourses/${user_id}`;
   
       const response = await fetch(url, {
         method: "GET",
@@ -155,7 +155,7 @@ export function UserProvider({children}) {
 
   async function getUserChannel(user_id) {
     try {
-      const url = `http://127.0.0.1:8000/api/channels/getUserChannels/${user_id}`;
+      const url = `https://api.gimply.org/channels/getUserChannels/${user_id}`;
 
       const response = await fetch(url, {
         method: "GET",
@@ -178,7 +178,7 @@ export function UserProvider({children}) {
 
   async function getUserVideos(user_id) {
     try {
-      const url = `http://127.0.0.1:8000/api/videos/${user_id}`;
+      const url = `https://api.gimply.org/videos/${user_id}`;
 
       const response = await fetch(url, {
         method: "GET",
@@ -201,7 +201,7 @@ export function UserProvider({children}) {
 
     async function getVideoChannel(channel_id) {
         try {
-            const url = `http://127.0.0.1:8000/api/videos/channel/${channel_id}`;
+            const url = `https://api.gimply.org/videos/channel/${channel_id}`;
 
             const response = await fetch(url, {
                 method: "GET",
@@ -225,7 +225,7 @@ export function UserProvider({children}) {
 
     async function getCategoryDetails(category_id) {
         try {
-            const url = `http://127.0.0.1:8000/api/categories/categoryDetails/${category_id}`;
+            const url = `https://api.gimply.org/categories/categoryDetails/${category_id}`;
 
             const response = await fetch(url, {
                 method: "GET",
@@ -249,7 +249,7 @@ export function UserProvider({children}) {
     }
 
     async function getAllVideosFunction() {
-      const url = `http://127.0.0.1:8000/api/videos/front`;
+      const url = `https://api.gimply.org/videos/front`;
       const response = await fetch(url, {
           method: "GET",
           headers: {
@@ -275,7 +275,7 @@ export function UserProvider({children}) {
 
 
     async function getAllVideos() {
-        const url = `http://127.0.0.1:8000/api/videos/all`;
+        const url = `https://api.gimply.org/videos/all`;
         const response = await fetch(url, {
             method: "GET",
             headers: {
@@ -297,7 +297,7 @@ export function UserProvider({children}) {
 
     async function getChannelVideos(id) {
       try {
-        const url = `http://127.0.0.1:8000/api/channels/getChannelVideos/${id}}`;
+        const url = `https://api.gimply.org/channels/getChannelVideos/${id}}`;
   
         const response = await fetch(url, {
           method: "GET",
@@ -319,7 +319,7 @@ export function UserProvider({children}) {
 
     async function getChannelCourses(id) {
       try {
-        const url = `http://127.0.0.1:8000/api/courses/getChannelCourses/${id}}`;
+        const url = `https://api.gimply.org/courses/getChannelCourses/${id}}`;
   
         const response = await fetch(url, {
           method: "GET",
@@ -342,7 +342,7 @@ export function UserProvider({children}) {
 
     async function getCourseChannelDetails(id) {
       try {
-        const url = `http://127.0.0.1:8000/api/courses/getCourseChannelDeets/${id}}`;
+        const url = `https://api.gimply.org/courses/getCourseChannelDeets/${id}}`;
   
         const response = await fetch(url, {
           method: "GET",
@@ -365,7 +365,7 @@ export function UserProvider({children}) {
 
     async function getCourseVideos(id) {
       try {
-        const url = `http://127.0.0.1:8000/api/courses/${id}/videos`;
+        const url = `https://api.gimply.org/courses/${id}/videos`;
   
         const response = await fetch(url, {
           method: "GET",
@@ -388,7 +388,7 @@ export function UserProvider({children}) {
 
     async function getCourseResources(id) {
       try {
-        const url = `http://127.0.0.1:8000/api/courses/resources/${id}`;
+        const url = `https://api.gimply.org/courses/resources/${id}`;
   
         const response = await fetch(url, {
           method: "GET",
@@ -414,7 +414,7 @@ export function UserProvider({children}) {
       formData.append("course_id", course_id);
       formData.append("user_id", user_id);
       try {
-        const url = `http://127.0.0.1:8000/api/courses/getUsersProgress`;
+        const url = `https://api.gimply.org/courses/getUsersProgress`;
   
         const response = await fetch(url, {
           method: "POST",

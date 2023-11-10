@@ -26,7 +26,7 @@ export function AuthProvider({children}) {
 
     async function loginLaravel(email, password) {
       try {
-        const response = await fetch('http://127.0.0.1:8000/api/loginUser', {
+        const response = await fetch('https://api.gimply.org/loginUser', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -52,7 +52,7 @@ export function AuthProvider({children}) {
 
     async function registerUserLaravel(email,firebase_id,profile_image) {
         try {
-          const response = await fetch('http://127.0.0.1:8000/api/registerUser', {
+          const response = await fetch('https://api.gimply.org/registerUser', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',

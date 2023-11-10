@@ -34,7 +34,7 @@ function CoursePlayer() {
         formData.append("course_id", id);
         formData.append("video_id",selectedVideo.id);
         try {
-            const url = `http://127.0.0.1:8000/api/courses/markAsDone`;
+            const url = `https://api.gimply.org/courses/markAsDone`;
         
             const response = await fetch(url, {
               method: "POST",
@@ -91,7 +91,7 @@ function CoursePlayer() {
     formData.append("course_id",id);
     console.log(user.id,id);
     try {
-        const url = `http://127.0.0.1:8000/api/courses/addStudentsToCourse`;
+        const url = `https://api.gimply.org/courses/addStudentsToCourse`;
       
         const response = await fetch(url, {
           method: "POST",

@@ -9,7 +9,7 @@ function DeleteConfirmation ({setShowDeleteVideo}){
     const {getCurrentUser} = useUserContext();
     async function onConfirm(){
         try {
-            const url = `http://127.0.0.1:8000/api/videos/delete`;
+            const url = `https://api.gimply.org/videos/delete`;
 
             const response = await fetch(url, {
             // mode: 'no-cors',

@@ -58,7 +58,7 @@ const data = JSON.parse(decodeURIComponent(video));
         formData.append("id",data.id);
 
         try {
-        const result = await fetch("http://127.0.0.1:8000/api/videos/update", {
+        const result = await fetch("https://api.gimply.org/videos/update", {
             method: "POST",
             body: formData,
         });

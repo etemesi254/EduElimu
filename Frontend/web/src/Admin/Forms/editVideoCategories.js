@@ -41,7 +41,7 @@ const data = JSON.parse(decodeURIComponent(category));
 
         try {
             const result = await fetch(
-                "http://127.0.0.1:8000/api/categories/update",
+                "https://api.gimply.org/categories/update",
                 {
                     method: "POST",
                     body: formData

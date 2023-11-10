@@ -8,7 +8,7 @@ import {downloadCSV, customStyles, FilterComponent} from './tableUtils';
 
 
 async function setStatus(id, status) {
-    const url = `http://127.0.0.1:8000/api/videos/update-status?id=` + id + "&status=" + status;
+    const url = `https://api.gimply.org/videos/update-status?id=` + id + "&status=" + status;
     const response = await fetch(url, {
         method: "GET",
         headers: {

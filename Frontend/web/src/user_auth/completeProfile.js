@@ -39,7 +39,7 @@ function CompleteProfileEmail (){
         e.preventDefault();
         try{
             setLoading(true);
-            const response = await fetch('http://127.0.0.1:8000/api/updateUserWithEmail/'+ currentUser.email, {
+            const response = await fetch('https://api.gimply.org/updateUserWithEmail/'+ currentUser.email, {
               method: 'PUT',
               headers: {
                 'Content-Type': 'application/json',

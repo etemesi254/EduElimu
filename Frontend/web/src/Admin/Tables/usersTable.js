@@ -63,7 +63,7 @@ const handleDelete = (userId) => {
 
 
 async function getAllUsers() {
-    const url = `http://127.0.0.1:8000/api/users/all`;
+    const url = `https://api.gimply.org/users/all`;
     const response = await fetch(url, {
         method: "GET",
         headers: {

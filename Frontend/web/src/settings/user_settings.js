@@ -57,7 +57,7 @@ function UserSettings({showLogout,setShowLogout}){
         formData.append('phone_number', phone_number);
         formData.append('DOB', DOB);
     
-        const response = await fetch('http://127.0.0.1:8000/api/updateUserWithEmail/' + user.email, {
+        const response = await fetch('https://api.gimply.org/updateUserWithEmail/' + user.email, {
           method: 'POST',
           body: formData,
           // headers: {

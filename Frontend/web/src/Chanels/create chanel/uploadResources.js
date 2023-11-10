@@ -28,7 +28,7 @@ function UploadResources(){
         formData.append("course_id",courseID);
 
         try {
-        const result = await fetch("http://127.0.0.1:8000/api/courses/resources/add", {
+        const result = await fetch("https://api.gimply.org/courses/resources/add", {
             method: "POST",
             body: formData,
         });

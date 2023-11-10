@@ -33,7 +33,7 @@ function UploadVideos(){
         formData.append('channel_id', userChannel);
 
         try {
-        const result = await fetch("http://127.0.0.1:8000/api/uploads/upload_video", {
+        const result = await fetch("https://api.gimply.org/uploads/upload_video", {
             method: "POST",
             body: formData,
         });

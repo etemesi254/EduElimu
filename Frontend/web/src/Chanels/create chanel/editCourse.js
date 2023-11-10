@@ -49,7 +49,7 @@ function EditCourses(){
         formData.append("id",data.id);
 
         try {
-        const result = await fetch("http://127.0.0.1:8000/api/courses/edit", {
+        const result = await fetch("https://api.gimply.org/courses/edit", {
             method: "POST",
             body: formData,
         });
